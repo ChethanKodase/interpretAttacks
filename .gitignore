@@ -4,3 +4,5 @@ gemma_attack/conditioningAnalysis/
 gemma_attack/dataSamplesForQuant/
 gemma_attack/extras/
 gemma_attack/outputsStorageImagenet/
+gemma_attack/extraCode/
+gemma_attack/imagenet/
