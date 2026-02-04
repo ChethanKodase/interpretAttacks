@@ -1,1 +1,6 @@
 gemma_attack/AllPlots/
+gemma_attack/ImageNetDataPrepInstructions.txt
+gemma_attack/conditioningAnalysis/
+gemma_attack/dataSamplesForQuant/
+gemma_attack/extras/
+gemma_attack/outputsStorageImagenet/
