@@ -1,0 +1,45 @@
+conda create -n llava15 python=3.10 -y
+conda activate llava15
+
+conda install -y pytorch torchvision pytorch-cuda=12.1 -c pytorch -c nvidia
+
+
+python -m pip install -U pip
+
+# Pin HF stack to a stable set that supports LlavaForConditionalGeneration
+python -m pip install \
+  "transformers==4.38.2" \
+  "accelerate==0.27.2" \
+  "tokenizers==0.15.2" \
+  "huggingface_hub==0.24.7" \
+  "safetensors>=0.4.2" \
+  pillow
+
+
+
+python -m pip uninstall -y trl datasets peft
+python -m pip install -U "httpx<1.0.0"
+
+python -m pip install sentencepiece
+
+
+python -m pip install -U "transformers==4.41.2" "tokenizers==0.19.1"
+
+
+
+Downloading Imagenett dataset from drama: 
+wget --no-check-certificate link https://drama.code.unibw-muenchen.de/file/fQ1KzRSWSLWC27c8/SCH3jzxAq5vTm8C5/imagenet.tar.gz
+
+
+
+To create the .sh file
+nano run_llava_attacks.sh
+
+THen paste your commands in it 
+
+Make it executable using the command : 
+
+chmod +x run_llava_attacks_gpu0.sh
+chmod +x run_llava_attacks_gpu1.sh
+chmod +x run_llava_attacks_gpu2.sh
+chmod +x run_llava_attacks_gpu3.sh

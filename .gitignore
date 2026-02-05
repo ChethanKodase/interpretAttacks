@@ -6,3 +6,5 @@ gemma_attack/extras/
 gemma_attack/outputsStorageImagenet/
 gemma_attack/extraCode/
 gemma_attack/imagenet/
+llava_attack/dataSamplesForQuant/
+llava_attack/outputsStorage/
