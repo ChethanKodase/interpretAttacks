@@ -6,6 +6,10 @@ export CUDA_VISIBLE_DEVICES=3
 cd interpretAttacks/
 conda activate llava15
 python llava_attack/llavaAttackInferenceImagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1
+python llava_attack/llavaAttackInferenceImagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer 1 --numLayerstAtAtime 1
+python llava_attack/llavaAttackInferenceImagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer 2 --numLayerstAtAtime 1
+python llava_attack/llavaAttackInferenceImagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer 3 --numLayerstAtAtime 1
+python llava_attack/llavaAttackInferenceImagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer 4 --numLayerstAtAtime 1
 
 
 
@@ -154,6 +158,13 @@ def run_generation_with_pixel_values(model, tokenizer, template_inputs, pixel_va
     return tokenizer.decode(gen_only[0], skip_special_tokens=True)
 
 
+def tensor01_to_pil(t01: torch.Tensor) -> Image.Image:
+    if t01.dim() == 4:
+        t01 = t01[0]
+    t01 = t01.detach().cpu().clamp(0, 1)
+    arr = (t01.permute(1, 2, 0).numpy() * 255.0).round().clip(0, 255).astype(np.uint8)
+    return Image.fromarray(arr)
+
 def main():
     parser = argparse.ArgumentParser(description="LLaVA-1.5 ORIGINAL-image-space adversarial attack (no squeeze)")
     parser.add_argument("--attck_type", type=str, default="grill_wass",
@@ -225,9 +236,9 @@ def main():
 
     # Load original image (keep original resolution)
     pil = Image.open(adv_img_path).convert("RGB")
-    x_orig01 = pil_to_tensor01(pil).to(device)
+    x_advImage = pil_to_tensor01(pil).to(device)
     template_inputs = build_template_inputs(tokenizer, QUESTION, device)
-    pv_clean = llava_preprocess_differentiable(x_orig01, image_processor)
+    pv_clean = llava_preprocess_differentiable(x_advImage, image_processor)
     print("\n=== SAVED ADV IMAGE OUTPUT ===")
     clean_text = run_generation_with_pixel_values(model, tokenizer, template_inputs, pv_clean, max_new_tokens=MAX_NEW_TOKENS)
     print(clean_text)
@@ -250,8 +261,9 @@ def main():
     x_adv01_final = torch.max(torch.min(x_adv01_final, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
 
 
+    template_inputs = build_template_inputs(tokenizer, QUESTION, device)
     pv_adv = llava_preprocess_differentiable(x_adv01_final, image_processor)
-    print("\n=== ADVERSARIAL OUTPUT RELOADED FROM NOISE ===")
+    print("\n=== ADVERSARIAL OUTPUT RELOADED FROM NOISE and ADDED to THE IMAGE===")
     adv_text = run_generation_with_pixel_values(model, tokenizer, template_inputs, pv_adv, max_new_tokens=MAX_NEW_TOKENS)
     print(adv_text)
 
