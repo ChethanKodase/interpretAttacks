@@ -7,72 +7,51 @@
 
 ##########################################################################################################################################################################################################################################################################################
 
-export CUDA_VISIBLE_DEVICES=4
+export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 0 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 1 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 2 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 3 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 4 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 5 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 6 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 7 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 8 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 0 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 1 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 2 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 3 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 4 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 5 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 6 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 7 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 8 --numLayerstAtAtime 1
 
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 9 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 10 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 11 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 12 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 13 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 14 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 15 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 16 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 9 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 10 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 11 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 12 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 13 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 14 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 15 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 16 --numLayerstAtAtime 1
 
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 17 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 18 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 19 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 20 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 21 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 22 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 23 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 24 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 17 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 18 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 19 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 20 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 21 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 22 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 23 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 24 --numLayerstAtAtime 1
 
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 25 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 26 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 27 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 28 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 29 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 30 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 31 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 32 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 33 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 34 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 35 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 25 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 26 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 27 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 28 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 29 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 30 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 31 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 32 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 33 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 34 --numLayerstAtAtime 1
+python gemma_attack/gemma3HiddenStateConditioningAnalysis.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 35 --numLayerstAtAtime 1
 
 
 
-chmod +x run_gemma_attacks_gpu0.sh
-chmod +x run_gemma_attacks_gpu1.sh
-chmod +x run_gemma_attacks_gpu2.sh
-chmod +x run_gemma_attacks_gpu3.sh
-
-chmod +x run_gemma_attacks_gpu4.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu0.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu1.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu2.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu3.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu4.sh
 
 '''
 
@@ -111,15 +90,6 @@ set_seed(42)
 
 
 
-criterion = nn.MSELoss()
-
-
-def cos(a, b):
-    a = a.view(-1)
-    b = b.view(-1)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
-    return (a * b).sum()
 
 def wasserstein_distance(tensor_a, tensor_b):
     tensor_a_flat = torch.flatten(tensor_a)
@@ -129,40 +99,7 @@ def wasserstein_distance(tensor_a, tensor_b):
     wasserstein_dist = torch.mean(torch.abs(tensor_a_sorted - tensor_b_sorted))
     return wasserstein_dist
 
-# ----------------------------
-# Losses: GRILL + OA
-# ----------------------------
-def get_grill_l2(outputs, outputsN):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
-        loss = loss + criterion(h, hn)
-    return loss * criterion(h, hn)
 
-
-def get_grill_wass(outputs, outputsN, startPos, endPos):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states[startPos:endPos], outputsN.hidden_states[startPos:endPos]):
-        loss = loss + wasserstein_distance(h, hn)
-    return loss #* wasserstein_distance(h, hn)
-
-
-def get_grill_cos(outputs, outputsN):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
-        loss = loss + (1.0 - cos(h, hn)) ** 2
-    return loss * (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
-
-
-def get_oa_l2(outputs, outputsN):
-    return criterion(outputs.logits, outputsN.logits)
-
-
-def get_oa_wass(outputs, outputsN):
-    return wasserstein_distance(outputs.logits, outputsN.logits)
-
-
-def get_oa_cos(outputs, outputsN):
-    return (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
 
 
 # ----------------------------
@@ -373,7 +310,7 @@ def adam_attack_original_space(
             )
             
 
-    for step in range(num_steps):
+    for step in range(1):
         # original-space adv image with L_inf constraint
         x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
         x_adv01 = torch.max(torch.min(x_adv01, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
@@ -392,42 +329,24 @@ def adam_attack_original_space(
         clean_inputs["use_cache"] = False
 
         outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
+        vision_model = model.vision_tower.vision_model
+        vision_out = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+        vision_hidden_states = vision_out.hidden_states
+        print("len(vision_hidden_states)", len(vision_hidden_states))
+
         with torch.no_grad():
             outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
 
     
-        loss = get_grill_wass(outputs, outputsN, startPos, endPos)
+        loss = 0.0
+        for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+            print("h.shape", h.shape)
+            print("hn.shape", hn.shape)
+            
+            loss = loss + wasserstein_distance(h, hn)
 
-        attack_loss = -loss  # maximize loss
 
-        opt.zero_grad(set_to_none=True)
-        attack_loss.backward()
-        opt.step()
-
-        # keep delta inside [-epsilon, epsilon]
-        with torch.no_grad():
-            delta.data.clamp_(-epsilon, epsilon)
-
-        lv = float(loss.item())
-        if (step + 1) % 10 == 0 or step == 0:
-            print(f"[step {step+1}/{num_steps}] loss={lv:.6f}")
-
-        if lv > best_loss:
-            best_loss = lv
-            best_delta = delta.detach().clone()
-            losses_list.append(lv)
-            np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
-        #print("delta.grad", delta.grad.shape)
-        # cleanup
-        del outputs, outputsN, loss, attack_loss, pv_adv, adv_inputs, clean_inputs
-        if device.type == "cuda":
-            torch.cuda.empty_cache()
-
-    with torch.no_grad():
-        x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
-        x_adv01_final = torch.max(torch.min(x_adv01_final, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
-
-    return x_adv01_final, best_delta
+    return x_orig01, x_orig01
 
 
 # ----------------------------
@@ -527,37 +446,6 @@ def main():
         numLayerstAtAtime = numLayerstAtAtime
     )
 
-    # Save ORIGINAL-resolution adversarial image (no squeeze)
-    adv_img_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.png"
-
-    adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.pt"
-
-
-    tensor01_to_pil(x_adv01).save(adv_img_path)
-    print(f"\nSaved ORIGINAL-resolution adversarial image to: {adv_img_path}")
-
-
-    torch.save(best_pert.detach().cpu(), adv_noise_path)
-
-
-    # Adv output (preprocess adv then generate)
-    pv_adv = gemma_preprocess_differentiable(x_adv01, processor)
-    print("\n=== ADVERSARIAL OUTPUT ===")
-    adv_text = run_generation_with_pixel_values(model, processor, template_inputs, pv_adv, max_new_tokens=MAX_NEW_TOKENS)
-    print(adv_text)
-
-    # Save text outputs
-    cleanOutTxt = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/cleanOutput.txt"
-    with open(cleanOutTxt, "w") as f:
-        f.write(clean_text + "\n\n")
-
-
-    advOutTxt = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.txt"
-    with open(advOutTxt, "w") as f:
-        f.write(adv_text + "\n")
-
-    print(f"\nSaved outputs to: {advOutTxt}")
-    print(f"Saved convergence to: {conv_path}")
 
 
 if __name__ == "__main__":

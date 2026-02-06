@@ -4,7 +4,7 @@
 export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3QuantitativeEval.py  --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer 0 --numLayerstAtAtime 1
+python gemma_attack/gemma3QuantitativeEval.py  --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1
 
 '''
 
@@ -15,6 +15,17 @@ import argparse
 import matplotlib.pyplot as plt
 import numpy as np
 
+
+plt.rcParams.update({
+    "font.size": 8,
+    "axes.labelsize": 9,
+    "axes.titlesize": 10,
+    "xtick.labelsize": 8,
+    "ytick.labelsize": 8,
+    "legend.fontsize": 8,
+    "lines.linewidth": 1.5,
+})
+
 parser = argparse.ArgumentParser(description="Gemma-3 ORIGINAL-image-space adversarial attack (no squeeze)")
 parser.add_argument("--attck_type", type=str, default="grill_l2",
                     help="grill_l2 | grill_cos | OA_l2 | OA_cos")
@@ -24,8 +35,6 @@ parser.add_argument("--learningRate", type=float, default=1e-3,
                     help="Adam learning rate")
 parser.add_argument("--num_steps", type=int, default=2000,
                     help="Number of Adam steps")
-parser.add_argument("--attackSample", type=str, default="nature",
-                help="which sample")
 parser.add_argument("--AttackStartLayer", type=int, default=0,
                     help="From which layer do you start attack")
 parser.add_argument("--numLayerstAtAtime", type=int, default=2,
@@ -39,7 +48,6 @@ attck_type = args.attck_type
 epsilon = float(args.desired_norm_l_inf)
 lr = float(args.learningRate)
 num_steps = int(args.num_steps)
-attackSample = str(args.attackSample)
 AttackStartLayer = int(args.AttackStartLayer)
 numLayerstAtAtime = int(args.numLayerstAtAtime)
 
@@ -58,19 +66,20 @@ for AttackStartLayer in range(35):
     sampleAggP = []
     sampleAggR = []
     samleAggF1 = []
-    for attackSample in range(1,5):
+    for attackSample in range(1,15):
         advOutputPath = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.txt"
 
 
         with open(advOutputPath, "r") as f:
             advOutput = [f.read().strip()]
-
+            print("advOutput", advOutput)
 
         #cleanOutputPath = "/data1/chethan/interpretAttacks/gemma_attack/outputsStorageImagenet/advOutputs/1/cleanOutput.txt"
         cleanOutputPath = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/cleanOutput.txt"
 
         with open(cleanOutputPath, "r") as f:
             cleanOutput = [f.read().strip()]
+            print("cleanOutput", cleanOutput)
 
 
         P, R, F1 = score(
@@ -84,6 +93,8 @@ for AttackStartLayer in range(35):
         print("Precision:", P.item())
         print("Recall:", R.item())
         print("F1:", F1.item())
+
+
 
         sampleAggP.append(P.item())
         sampleAggR.append(R.item())
@@ -114,7 +125,7 @@ for AttackStartLayer in range(35):
 ConsideredEndPts = [k+1 for k in range(numHiddenStates)]
 
 
-plt.figure()
+plt.figure(figsize=(3.4, 2.6))
 
 PmeanArr = np.array(PmeanList)
 PstdArr  = np.array(PstdList)
@@ -130,19 +141,23 @@ plt.fill_between(
 
 plt.xlabel("Hidden state index")
 plt.ylabel("Precision")
-plt.title("Precision vs Hidden State")
-plt.legend()
+#plt.yscale("symlog", linthresh=0.9, linscale=50.0)
+#yticks = [-0.1, 0, 0.1, 0.2, 0.5, 0.8]
+#plt.yticks(yticks, [f"{y:g}" for y in yticks])
+
+#plt.title("Precision vs Hidden State")
+#plt.legend()
 plt.grid(True)
 
 plt.savefig(
-    "gemma_attack/AllPlots/bertScores/sampleSpecific/MeanStdPrecision_vs_hiddenstate.png",
+    "gemma_attack/AllPlots/bertScores/sampleSpecific/Precision_vs_hiddenstate.png",
     dpi=300,
     bbox_inches="tight"
 )
 plt.close()
 
 
-plt.figure()
+plt.figure(figsize=(3.4, 2.6))
 
 RmeanArr = np.array(RmeanList)
 RstdArr  = np.array(RstdList)
@@ -158,8 +173,10 @@ plt.fill_between(
 
 plt.xlabel("Hidden state index")
 plt.ylabel("Recall")
-plt.title("Recall vs Hidden State")
-plt.legend()
+#plt.yscale("symlog", linthresh=0.1, linscale=1.0)
+
+#plt.title("Recall vs Hidden State")
+#plt.legend()
 plt.grid(True)
 
 plt.savefig(
@@ -170,7 +187,7 @@ plt.savefig(
 plt.close()
 
 
-plt.figure()
+plt.figure(figsize=(3.4, 2.6))
 
 F1meanArr = np.array(F1meanList)
 F1stdArr  = np.array(F1stdList)
@@ -186,8 +203,10 @@ plt.fill_between(
 
 plt.xlabel("Hidden state index")
 plt.ylabel("F1 score")
-plt.title("F1 vs Hidden State")
-plt.legend()
+#plt.yscale("symlog", linthresh=0.1, linscale=1.0)
+
+#plt.title("F1 vs Hidden State")
+#plt.legend()
 plt.grid(True)
 
 plt.savefig(

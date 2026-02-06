@@ -4,9 +4,9 @@
 
 '''
 
-export CUDA_VISIBLE_DEVICES=4
+export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
-cd illcond
+cd interpretAttacks
 python gemma_attack/gemma3Conditioning.py 
 
 
@@ -51,7 +51,7 @@ set_seed(42)
 
 
 def main():
-    MODEL_PATH = "gemma_attack/Gemma3-4b"
+    MODEL_PATH = "../illcond/gemma_attack/Gemma3-4b"
 
     os.makedirs("outputsStorage", exist_ok=True)
     os.makedirs("outputsStorage/convergence", exist_ok=True)
@@ -74,9 +74,11 @@ def main():
     allCondNums = []
     allSmallSingvals = []
     alllargestSingVal = []
+    countMlp = 0
     for name, param in model.named_parameters():
         print(f"{name:60s} {tuple(param.shape)}")
-
+        if 'mlp' in name:
+            countMlp+=1
         if 'weight' in name and len(param.shape)>1:
             print("param.shape", param.shape)
             print("len(param.shape)", len(param.shape))
@@ -98,7 +100,7 @@ def main():
 
     ####################################### minimum condition numbers
     #####################----------------------------------
-
+    print("countMlp", countMlp)
 
 
     vals = np.array(allSmallSingvals, dtype=float)
