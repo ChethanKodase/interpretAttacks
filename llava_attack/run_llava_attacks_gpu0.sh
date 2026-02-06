@@ -26,13 +26,13 @@ conda activate llava15
 # -----------------------
 
 for LAYER in $(seq 0 32); do
-    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LAYER --numLayerstAtAtime 1
+    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 11 --AttackStartLayer $LAYER --numLayerstAtAtime 1
 done
 
 for LAYER in $(seq 0 32); do
-    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LAYER --numLayerstAtAtime 1
+    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 12 --AttackStartLayer $LAYER --numLayerstAtAtime 1
 done
 
 for LAYER in $(seq 0 32); do
-    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LAYER --numLayerstAtAtime 1
+    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 13 --AttackStartLayer $LAYER --numLayerstAtAtime 1
 done
