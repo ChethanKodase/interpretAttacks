@@ -25,14 +25,9 @@ conda activate llava15
 # Sequential attacks
 # -----------------------
 
-for LAYER in $(seq 0 32); do
-    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 17 --AttackStartLayer $LAYER --numLayerstAtAtime 1
-done
 
-for LAYER in $(seq 0 32); do
-    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 18 --AttackStartLayer $LAYER --numLayerstAtAtime 1
-done
-
-for LAYER in $(seq 0 32); do
-    python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 19 --AttackStartLayer $LAYER --numLayerstAtAtime 1
+for ATTACK_SAMPLE in $(seq 41 500); do
+    for LAYER in $(seq 0 24); do
+        python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
+    done
 done

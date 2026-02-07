@@ -5,45 +5,46 @@
 export CUDA_VISIBLE_DEVICES=3
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 0 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 1 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 2 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 3 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 4 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 5 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 6 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 7 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 8 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 2 --attackSample 8 --AttackStartLayer 0 --numLayerstAtAtime 1
 
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 9 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 10 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 11 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 12 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 13 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 14 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 15 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 16 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 1 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 2 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 3 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 4 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 5 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 6 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 7 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 8 --numLayerstAtAtime 1
 
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 17 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 18 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 19 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 20 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 21 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 22 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 23 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 24 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 9 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 10 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 11 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 12 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 13 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 14 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 15 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 16 --numLayerstAtAtime 1
 
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 25 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 26 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 27 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 28 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 29 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 30 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 31 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 32 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 33 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 34 --numLayerstAtAtime 1
-python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 35 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 17 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 18 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 19 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 20 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 21 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 22 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 23 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 24 --numLayerstAtAtime 1
+
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 25 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 26 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 27 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 28 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 29 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 30 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 31 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 32 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 33 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 34 --numLayerstAtAtime 1
+python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 8 --AttackStartLayer 35 --numLayerstAtAtime 1
 
 
 
@@ -308,9 +309,12 @@ def adam_attack_original_space(
         clean_inputs["labels"] = template_inputs["input_ids"]
         clean_inputs["use_cache"] = False
 
-        outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
+        #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
 
-        hiddStateLen = len(outputsN.hidden_states)
+        vision_model = model.vision_tower.vision_model
+        vision_out = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+
+        hiddStateLen = len(vision_out.hidden_states)
         print(" Number of hidden states is: ", hiddStateLen)
 
         startPos = AttackStartLayer
@@ -333,17 +337,19 @@ def adam_attack_original_space(
         adv_inputs["labels"] = template_inputs["input_ids"]
         adv_inputs["use_cache"] = False
 
-        outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
+        #outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
+        vision_out = vision_model(pixel_values=adv_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
 
         with torch.no_grad():
             clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
             clean_inputs["pixel_values"] = pv_clean_fixed
             clean_inputs["labels"] = template_inputs["input_ids"]
             clean_inputs["use_cache"] = False
-            outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
+            #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
+            vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
 
 
-        loss = get_grill_wass(outputs, outputsN, startPos, endPos)
+        loss = get_grill_wass(vision_out, vision_outN, startPos, endPos)
 
 
         attack_loss = -loss  # maximize loss
@@ -365,7 +371,7 @@ def adam_attack_original_space(
             losses_list.append(lv)
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
 
-        del outputs, outputsN, loss, attack_loss, pv_adv, adv_inputs
+        del vision_out, vision_outN, loss, attack_loss, pv_adv, adv_inputs
         if device.type == "cuda":
             torch.cuda.empty_cache()
 
@@ -412,8 +418,8 @@ def main():
     MAX_NEW_TOKENS = 128
 
     os.makedirs("llava_attack/outputsStorage", exist_ok=True)
-    os.makedirs(f"llava_attack/outputsStorage/advOutputs/{attackSample}", exist_ok=True)
-    os.makedirs(f"llava_attack/outputsStorage/convergence/{attackSample}", exist_ok=True)
+    os.makedirs(f"llava_attack/outputsStorage/advOutputsVis/{attackSample}", exist_ok=True)
+    os.makedirs(f"llava_attack/outputsStorage/convergenceVis/{attackSample}", exist_ok=True)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     dtype = torch.float16 if device.type == "cuda" else torch.float32
@@ -452,7 +458,7 @@ def main():
 
     # Attack
     conv_path = (
-        f"llava_attack/outputsStorage/convergence/{attackSample}/"
+        f"llava_attack/outputsStorage/convergenceVis/{attackSample}/"
         f"llava_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_.npy"
@@ -476,14 +482,14 @@ def main():
 
     # Save ORIGINAL-resolution adversarial image
     adv_img_path = (
-        f"llava_attack/outputsStorage/advOutputs/{attackSample}/"
+        f"llava_attack/outputsStorage/advOutputsVis/{attackSample}/"
         f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_.png"
     )
 
     adv_noise_path = (
-        f"llava_attack/outputsStorage/advOutputs/{attackSample}/"
+        f"llava_attack/outputsStorage/advOutputsVis/{attackSample}/"
         f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_.pt"
@@ -500,12 +506,12 @@ def main():
     print(adv_text)
 
     # Save text outputs
-    cleanOutTxt = f"llava_attack/outputsStorage/advOutputs/{attackSample}/cleanOutput.txt"
+    cleanOutTxt = f"llava_attack/outputsStorage/advOutputsVis/{attackSample}/cleanOutput.txt"
     with open(cleanOutTxt, "w") as f:
         f.write(clean_text + "\n\n")
 
     advOutTxt = (
-        f"llava_attack/outputsStorage/advOutputs/{attackSample}/"
+        f"llava_attack/outputsStorage/advOutputsVis/{attackSample}/"
         f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_.txt"
