@@ -1,7 +1,7 @@
 
 '''
 
-export CUDA_VISIBLE_DEVICES=5
+export CUDA_VISIBLE_DEVICES=3
 conda activate gemma3
 cd interpretAttacks
 python gemma_attack/gemma3QuantitativeEval.py  --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1
@@ -66,7 +66,7 @@ for AttackStartLayer in range(35):
     sampleAggP = []
     sampleAggR = []
     samleAggF1 = []
-    for attackSample in range(1,15):
+    for attackSample in range(1,29):
         advOutputPath = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.txt"
 
 
