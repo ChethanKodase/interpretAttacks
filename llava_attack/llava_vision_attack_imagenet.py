@@ -312,9 +312,9 @@ def adam_attack_original_space(
         #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
 
         vision_model = model.vision_tower.vision_model
-        vision_out = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+        vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
 
-        hiddStateLen = len(vision_out.hidden_states)
+        hiddStateLen = len(vision_outN.hidden_states)
         print(" Number of hidden states is: ", hiddStateLen)
 
         startPos = AttackStartLayer
@@ -325,6 +325,10 @@ def adam_attack_original_space(
         if endPos > hiddStateLen:
             raise ValueError(f"endPos ({endPos}) exceeds number of hidden states ({hiddStateLen})")
 
+
+    adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+    adv_inputs["labels"] = template_inputs["input_ids"]
+    adv_inputs["use_cache"] = False
     for step in range(num_steps):
         # original-space constraint
         x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
@@ -332,21 +336,18 @@ def adam_attack_original_space(
 
         pv_adv = llava_preprocess_differentiable(x_adv01, image_processor)
 
-        adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
         adv_inputs["pixel_values"] = pv_adv
-        adv_inputs["labels"] = template_inputs["input_ids"]
-        adv_inputs["use_cache"] = False
 
         #outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
         vision_out = vision_model(pixel_values=adv_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
 
-        with torch.no_grad():
+        '''with torch.no_grad():
             clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
             clean_inputs["pixel_values"] = pv_clean_fixed
             clean_inputs["labels"] = template_inputs["input_ids"]
             clean_inputs["use_cache"] = False
             #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
-            vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+            vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)'''
 
 
         loss = get_grill_wass(vision_out, vision_outN, startPos, endPos)
@@ -371,9 +372,9 @@ def adam_attack_original_space(
             losses_list.append(lv)
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
 
-        del vision_out, vision_outN, loss, attack_loss, pv_adv, adv_inputs
-        if device.type == "cuda":
-            torch.cuda.empty_cache()
+        del vision_out, loss, attack_loss, pv_adv
+        '''if device.type == "cuda":
+            torch.cuda.empty_cache()'''
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)

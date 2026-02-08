@@ -321,6 +321,10 @@ def adam_attack_original_space(
         if endPos > hiddStateLen:
             raise ValueError(f"endPos ({endPos}) exceeds number of hidden states ({hiddStateLen})")
 
+
+    adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+    adv_inputs["labels"] = template_inputs["input_ids"]
+    adv_inputs["use_cache"] = False
     for step in range(num_steps):
         # original-space constraint
         x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
@@ -328,19 +332,16 @@ def adam_attack_original_space(
 
         pv_adv = llava_preprocess_differentiable(x_adv01, image_processor)
 
-        adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
         adv_inputs["pixel_values"] = pv_adv
-        adv_inputs["labels"] = template_inputs["input_ids"]
-        adv_inputs["use_cache"] = False
 
         outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
 
-        with torch.no_grad():
+        '''with torch.no_grad():
             clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
             clean_inputs["pixel_values"] = pv_clean_fixed
             clean_inputs["labels"] = template_inputs["input_ids"]
             clean_inputs["use_cache"] = False
-            outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
+            outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)'''
 
 
         loss = get_grill_wass(outputs, outputsN, startPos, endPos)
@@ -365,9 +366,9 @@ def adam_attack_original_space(
             losses_list.append(lv)
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
 
-        del outputs, outputsN, loss, attack_loss, pv_adv, adv_inputs
-        if device.type == "cuda":
-            torch.cuda.empty_cache()
+        del outputs, loss, attack_loss, pv_adv
+        '''if device.type == "cuda":
+            torch.cuda.empty_cache()'''
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
