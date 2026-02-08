@@ -7,10 +7,10 @@
 
 ##########################################################################################################################################################################################################################################################################################
 
-export CUDA_VISIBLE_DEVICES=5
+export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 0 --numLayerstAtAtime 1
+python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 5 --numLayerstAtAtime 1
 python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 1 --numLayerstAtAtime 1
 python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 2 --numLayerstAtAtime 1
 python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 3 --numLayerstAtAtime 1
@@ -366,10 +366,10 @@ def adam_attack_original_space(
         #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
 
         vision_model = model.vision_tower.vision_model
-        vision_out = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+        vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
         #vision_hidden_states = vision_out.hidden_states
 
-        hiddStateLen = len(vision_out.hidden_states)
+        hiddStateLen = len(vision_outN.hidden_states)
         print(" Number of hidden states is: ", hiddStateLen)
 
         startPos = AttackStartLayer
@@ -381,6 +381,7 @@ def adam_attack_original_space(
                 f"endPos ({endPos}) exceeds number of hidden states ({hiddStateLen})"
             )
             
+    adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
 
     for step in range(num_steps):
         # original-space adv image with L_inf constraint
@@ -390,21 +391,21 @@ def adam_attack_original_space(
         # preprocess adv (must be differentiable)
         pv_adv = gemma_preprocess_differentiable(x_adv01, processor)
 
-        adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+        
         adv_inputs["pixel_values"] = pv_adv
-        adv_inputs["labels"] = template_inputs["input_ids"]
-        adv_inputs["use_cache"] = False
+        #adv_inputs["labels"] = template_inputs["input_ids"]
+        #adv_inputs["use_cache"] = False
 
-        clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
-        clean_inputs["pixel_values"] = pv_clean_fixed
-        clean_inputs["labels"] = template_inputs["input_ids"]
-        clean_inputs["use_cache"] = False
+        #clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+        #clean_inputs["pixel_values"] = pv_clean_fixed
+        #clean_inputs["labels"] = template_inputs["input_ids"]
+        #clean_inputs["use_cache"] = False
 
         #outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
         vision_out = vision_model(pixel_values=adv_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
-        with torch.no_grad():
+        #with torch.no_grad():
             #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
-            vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+            #vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
             #vision_hidden_states = vision_out.hidden_states
 
     
@@ -431,7 +432,7 @@ def adam_attack_original_space(
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
         #print("delta.grad", delta.grad.shape)
         # cleanup
-        del vision_out, vision_outN, loss, attack_loss, pv_adv, adv_inputs, clean_inputs
+        del vision_out, loss, attack_loss, pv_adv
         if device.type == "cuda":
             torch.cuda.empty_cache()
 

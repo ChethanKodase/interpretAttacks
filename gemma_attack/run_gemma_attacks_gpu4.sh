@@ -24,7 +24,12 @@ conda activate gemma3
 # -----------------------
 # Sequential attacks
 # -----------------------
-for ATTACK_SAMPLE in $(seq 11 250); do
+
+for LAYER in $(seq 26 27); do
+    python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 22 --AttackStartLayer $LAYER --numLayerstAtAtime 1
+done
+
+for ATTACK_SAMPLE in $(seq 23 250); do
     for LAYER in $(seq 0 27); do
         python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
     done

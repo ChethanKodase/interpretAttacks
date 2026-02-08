@@ -10,7 +10,7 @@
 export CUDA_VISIBLE_DEVICES=4
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 0 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1
 python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 1 --numLayerstAtAtime 1
 python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 2 --numLayerstAtAtime 1
 python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 3 --numLayerstAtAtime 1
@@ -373,6 +373,9 @@ def adam_attack_original_space(
             )
             
 
+    adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+    adv_inputs["labels"] = template_inputs["input_ids"]
+    adv_inputs["use_cache"] = False
     for step in range(num_steps):
         # original-space adv image with L_inf constraint
         x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
@@ -381,19 +384,17 @@ def adam_attack_original_space(
         # preprocess adv (must be differentiable)
         pv_adv = gemma_preprocess_differentiable(x_adv01, processor)
 
-        adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
         adv_inputs["pixel_values"] = pv_adv
-        adv_inputs["labels"] = template_inputs["input_ids"]
-        adv_inputs["use_cache"] = False
 
-        clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
-        clean_inputs["pixel_values"] = pv_clean_fixed
-        clean_inputs["labels"] = template_inputs["input_ids"]
-        clean_inputs["use_cache"] = False
+
+        #clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+        #clean_inputs["pixel_values"] = pv_clean_fixed
+        #clean_inputs["labels"] = template_inputs["input_ids"]
+        #clean_inputs["use_cache"] = False
 
         outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
-        with torch.no_grad():
-            outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
+        #with torch.no_grad():
+            #outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
 
     
         loss = get_grill_wass(outputs, outputsN, startPos, endPos)
@@ -419,9 +420,9 @@ def adam_attack_original_space(
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
         #print("delta.grad", delta.grad.shape)
         # cleanup
-        del outputs, outputsN, loss, attack_loss, pv_adv, adv_inputs, clean_inputs
-        if device.type == "cuda":
-            torch.cuda.empty_cache()
+        del outputs, loss, attack_loss, pv_adv
+        '''if device.type == "cuda":
+            torch.cuda.empty_cache()'''
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
