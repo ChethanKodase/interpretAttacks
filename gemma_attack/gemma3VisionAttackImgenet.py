@@ -433,8 +433,8 @@ def adam_attack_original_space(
         #print("delta.grad", delta.grad.shape)
         # cleanup
         del vision_out, loss, attack_loss, pv_adv
-        if device.type == "cuda":
-            torch.cuda.empty_cache()
+        '''if device.type == "cuda":
+            torch.cuda.empty_cache()'''
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
