@@ -9,3 +9,8 @@ gemma_attack/imagenet/
 llava_attack/dataSamplesForQuant/
 llava_attack/outputsStorage/
 gemma_attack/tracker/
+imagenet.tar.gz
+qwen/dataSamplesForQuant.tar.gz
+qwen/dataSamplesForQuant/
+qwen/outputsStorage/
+qwen/outputsStorageImagenet/
