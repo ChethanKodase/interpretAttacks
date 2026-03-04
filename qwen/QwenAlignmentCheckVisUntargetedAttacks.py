@@ -18,7 +18,7 @@ conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 500); do
     for LAYER in $(seq 0 30); do
-        python qwen/QwenAlignmentCheckVisUntargetedAttacks.py --attck_type grill_wass --desired_norm_l_inf 0.03 --learningRate 0.001 --numSteps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
+        python qwen/QwenAlignmentCheckVisUntargetedAttacks.py --attck_type grill_wass --desired_norm_l_inf 0.04 --learningRate 0.001 --numSteps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
     done
 done
 
