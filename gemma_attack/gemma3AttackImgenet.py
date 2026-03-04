@@ -74,6 +74,28 @@ bash run_gemma_attacks_gpu3.sh
 cd interpretAttacks/gemma_attack
 bash run_gemma_attacks_gpu4.sh
 
+
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 34
+done
+
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3VisionAttackImgenet.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 27
+done
+
+
+
+
+
 '''
 
 
