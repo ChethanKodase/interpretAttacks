@@ -67,7 +67,7 @@ cd interpretAttacks/llava_attack
 export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
 conda activate llava15
-for ATTACK_SAMPLE in $(seq 1 250); do
+for ATTACK_SAMPLE in $(seq 23 250); do
     for LAYER in $(seq 0 32); do
         python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
     done
@@ -76,7 +76,7 @@ done
 export CUDA_VISIBLE_DEVICES=1
 cd interpretAttacks/
 conda activate llava15
-for ATTACK_SAMPLE in $(seq 251 500); do
+for ATTACK_SAMPLE in $(seq 273 500); do
     for LAYER in $(seq 0 32); do
         python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
     done
@@ -85,12 +85,22 @@ done
 export CUDA_VISIBLE_DEVICES=2
 cd interpretAttacks/
 conda activate llava15
-for ATTACK_SAMPLE in $(seq 1 500); do
+for ATTACK_SAMPLE in $(seq 94 500); do
     for LAYER in $(seq 0 24); do
         python llava_attack/llava_vision_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
     done
 done
 
+
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 201 500); do
+    for LAYER in $(seq 0 32); do
+        python llava_attack/llava_attack_imagenet.py --attck_type grill_wass --desired_norm_l_inf 0.01 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer $LAYER --numLayerstAtAtime 1
+    done
+done
 
 '''
 
