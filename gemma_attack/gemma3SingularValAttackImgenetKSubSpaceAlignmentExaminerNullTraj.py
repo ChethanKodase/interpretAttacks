@@ -7,228 +7,181 @@
 
 ##########################################################################################################################################################################################################################################################################################
 
-export CUDA_VISIBLE_DEVICES=3
-conda activate gemma3
-cd interpretAttacks
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack -1 --LanLayerTrack -1 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack -1 --LanLayerTrack -1 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack -2 --LanLayerTrack -2 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack -2 --LanLayerTrack -2 --kthSingVec -1
-
-
-# primary importance configurations: 
-Which layer to attack ? Language last layer
-Which singular vectors to examine : Top and the bottom
-what perturbation budget 0.02
-which samples : samples after 550
-number of steps : 10000
-
-How many VisionLayerTrack : 26
-
-How many LanLayerTrack : 33
-
-
-export CUDA_VISIBLE_DEVICES=7
-conda activate gemma3
-cd interpretAttacks
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1
-
-
-
-export CUDA_VISIBLE_DEVICES=7
-conda activate gemma3
-cd interpretAttacks
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 1 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 1 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 2 --LanLayerTrack 2 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 2 --LanLayerTrack 2 --kthSingVec -1
-
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 3 --numLayerstAtAtime 1 --VisionLayerTrack 3 --LanLayerTrack 3 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 3 --numLayerstAtAtime 1 --VisionLayerTrack 3 --LanLayerTrack 3 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 4 --numLayerstAtAtime 1 --VisionLayerTrack 4 --LanLayerTrack 4 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 4 --numLayerstAtAtime 1 --VisionLayerTrack 4 --LanLayerTrack 4 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 25 --numLayerstAtAtime 1 --VisionLayerTrack 25 --LanLayerTrack 25 --kthSingVec 0  --attackMode vis
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 25 --numLayerstAtAtime 1 --VisionLayerTrack 25 --LanLayerTrack 25 --kthSingVec -1 --attackMode vis
-
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 25 --numLayerstAtAtime 1 --VisionLayerTrack 25 --LanLayerTrack 25 --kthSingVec 0  --attackMode lan
-python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 25 --numLayerstAtAtime 1 --VisionLayerTrack 25 --LanLayerTrack 25 --kthSingVec -1 --attackMode lan
-
 
 # 2, 5, 10
 
-export CUDA_VISIBLE_DEVICES=7
+export CUDA_VISIBLE_DEVICES=3
 conda activate gemma3
 cd interpretAttacks
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 1 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -1 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 1 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -1 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 1 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -1 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 1 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -1 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 1 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -1 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 1 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -1 --attackMode lan
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 3 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -3 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 3 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -3 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 3 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -3 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 3 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -3 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 3 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -3 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 3 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -3 --attackMode lan
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 4 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -4 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 4 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -4 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 4 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -4 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 4 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -4 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 4 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -4 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 4 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -4 --attackMode lan
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 6 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -6 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 6 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -6 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 6 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -6 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 6 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -6 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 6 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -6 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 6 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -6 --attackMode lan
 done
 
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 7 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -7 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 7 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -7 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 7 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -7 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 7 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -7 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 7 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -7 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 7 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -7 --attackMode lan
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 8 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -8 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 8 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -8 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 8 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -8 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 8 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -8 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 8 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -8 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 8 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -8 --attackMode lan
 done
 
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode lan
 done
 
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 2 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -2 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 2 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -2 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 2 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -2 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 2 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -2 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 2 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -2 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 2 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -2 --attackMode lan
 done
 
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 5 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -5 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 5 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -5 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 5 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -5 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 5 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -5 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 5 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -5 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 5 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -5 --attackMode lan
 done
 
 
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 10 --attackMode vis
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -10 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 10 --attackMode vis
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -10 --attackMode vis
 done
 
 for StudyLayer in $(seq 0 26); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 10 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -10 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 10 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -10 --attackMode lan
 done
 
 for StudyLayer in $(seq 26 33); do
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 10 --attackMode lan
-    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminer.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -10 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec 10 --attackMode lan
+    python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $StudyLayer --kthSingVec -10 --attackMode lan
 done
+
+
+
+
+python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec 1 --attackMode vis
+
+
+
+python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1 --attackMode vis
+python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -5 --attackMode vis
+python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -4 --attackMode vis
+python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -3 --attackMode vis
+python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerNullTraj.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -2 --attackMode vis
+
 
 '''
 
@@ -246,6 +199,9 @@ import torch.nn.functional as F
 
 from PIL import Image
 from transformers import AutoProcessor, Gemma3ForConditionalGeneration
+
+
+import matplotlib.pyplot as plt
 
 
 # ----------------------------
@@ -1215,151 +1171,177 @@ def main():
     "key proj\n(lan)", "value proj\n(lan)", "MLP gate\nproj(lan)", "MLP up\nproj (lan)",
     "MLP down\nproj (lan)"
     ]
+    if attackMode == "vis":
+        point_labels = point_labels[:7]
+        NumHidStates = 27
+    else:
+        point_labels = point_labels[6:]
+        NumHidStates = 34
+
     PostAttackAlignments = []
     PreAttackAlignments = []
     AlignmnetIncreases = []
-    for attackSample in range(1,50):
-        IMAGE_PATH = f"gemma_attack/dataSamplesForQuant/{attackSample}.JPEG"
-        pil = Image.open(IMAGE_PATH).convert("RGB")
-        x_orig01 = pil_to_tensor01(pil).to(device)
+    AlignmentMeanAcrossLayersPost = []
+    AlignmentVarAcrossLayersPost = []
+    AlignmentMeanAcrossLayersPre = []
+    AlignmentVarAcrossLayersPre = []
+    for AttackStartLayer in range(NumHidStates):
+        for attackSample in range(1,100):
+            IMAGE_PATH = f"gemma_attack/dataSamplesForQuant/{attackSample}.JPEG"
+            pil = Image.open(IMAGE_PATH).convert("RGB")
+            x_orig01 = pil_to_tensor01(pil).to(device)
 
-        # Build template inputs ONCE (inserts image tokens in input_ids)
-        template_inputs = build_template_inputs(processor, QUESTION, pil, device)
+            # Build template inputs ONCE (inserts image tokens in input_ids)
+            template_inputs = build_template_inputs(processor, QUESTION, pil, device)
 
-        # Clean output: preprocess original (differentiable) then generate
-        '''pv_clean = gemma_preprocess_differentiable(x_orig01, processor)
+            # Clean output: preprocess original (differentiable) then generate
+            '''pv_clean = gemma_preprocess_differentiable(x_orig01, processor)
 
-        print("\n=== CLEAN OUTPUT ===")
-        clean_text = run_generation_with_pixel_values(model, processor, template_inputs, pv_clean, max_new_tokens=MAX_NEW_TOKENS)
-        print(clean_text)'''
+            print("\n=== CLEAN OUTPUT ===")
+            clean_text = run_generation_with_pixel_values(model, processor, template_inputs, pv_clean, max_new_tokens=MAX_NEW_TOKENS)
+            print(clean_text)'''
 
-        if device.type == "cuda":
-            torch.cuda.empty_cache()
+            if device.type == "cuda":
+                torch.cuda.empty_cache()
 
-        # Attack
-        conv_path = f"gemma_attack/outputsStorageImagenet/convergence/{attackSample}/gemma_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.npy"
+            # Attack
+            conv_path = f"gemma_attack/outputsStorageImagenet/convergence/{attackSample}/gemma_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.npy"
 
-        if attackMode == "lan":
-            adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.pt"
-        else:
-            adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputsVis/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.pt"
+            if attackMode == "lan":
+                adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.pt"
+            else:
+                adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputsVis/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.pt"
 
 
-        best_delta = torch.load(adv_noise_path).to(device)
+            best_delta = torch.load(adv_noise_path).to(device)
 
-        x_adv01, best_pert, RightSingularInputAlignmentAgainstAdversary = adam_attack_original_space(
-            model=model,
-            processor=processor,
-            template_inputs=template_inputs,
-            x_orig01=x_orig01,
-            attck_type=attck_type,
-            num_steps=num_steps,
-            lr=lr,
-            epsilon=epsilon,
-            device=device,
-            save_conv_path=conv_path,
-            AttackStartLayer = AttackStartLayer,
-            numLayerstAtAtime = numLayerstAtAtime,
-            allTopRightSingularVectors = allTopRightSingularVectors,
-            best_delta = best_delta
-        )
+            x_adv01, best_pert, RightSingularInputAlignmentAgainstAdversary = adam_attack_original_space(
+                model=model,
+                processor=processor,
+                template_inputs=template_inputs,
+                x_orig01=x_orig01,
+                attck_type=attck_type,
+                num_steps=num_steps,
+                lr=lr,
+                epsilon=epsilon,
+                device=device,
+                save_conv_path=conv_path,
+                AttackStartLayer = AttackStartLayer,
+                numLayerstAtAtime = numLayerstAtAtime,
+                allTopRightSingularVectors = allTopRightSingularVectors,
+                best_delta = best_delta
+            )
+            if attackMode == "vis":
+                RightSingularInputAlignmentAgainstAdversary = RightSingularInputAlignmentAgainstAdversary[:7]
+            else:
+                RightSingularInputAlignmentAgainstAdversary = RightSingularInputAlignmentAgainstAdversary[6:]
 
-        final = RightSingularInputAlignmentAgainstAdversary
-        PostAttackAlignments.append(RightSingularInputAlignmentAgainstAdversary)
-        #print("final", final)
+            final = RightSingularInputAlignmentAgainstAdversary
+            PostAttackAlignments.append(RightSingularInputAlignmentAgainstAdversary)
+            #print("final", final)
 
-        #------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        x_adv01, best_pert, RightSingularInputAlignmentAgainstOriginal = adam_attack_original_space(
-            model=model,
-            processor=processor,
-            template_inputs=template_inputs,
-            x_orig01=x_orig01,
-            attck_type=attck_type,
-            num_steps=num_steps,
-            lr=lr,
-            epsilon=epsilon,
-            device=device,
-            save_conv_path=conv_path,
-            AttackStartLayer = AttackStartLayer,
-            numLayerstAtAtime = numLayerstAtAtime,
-            allTopRightSingularVectors = allTopRightSingularVectors,
-            best_delta = best_delta*0
-        )
+            #------------------------------------------------------------------------------------------------------------------------------------------------------------------
+            x_adv01, best_pert, RightSingularInputAlignmentAgainstOriginal = adam_attack_original_space(
+                model=model,
+                processor=processor,
+                template_inputs=template_inputs,
+                x_orig01=x_orig01,
+                attck_type=attck_type,
+                num_steps=num_steps,
+                lr=lr,
+                epsilon=epsilon,
+                device=device,
+                save_conv_path=conv_path,
+                AttackStartLayer = AttackStartLayer,
+                numLayerstAtAtime = numLayerstAtAtime,
+                allTopRightSingularVectors = allTopRightSingularVectors,
+                best_delta = best_delta*0
+            )
 
-        init = RightSingularInputAlignmentAgainstOriginal
-        PreAttackAlignments.append(RightSingularInputAlignmentAgainstOriginal)
-        #print("init", init)
+            if attackMode == "vis":
+                RightSingularInputAlignmentAgainstOriginal = RightSingularInputAlignmentAgainstOriginal[:7]
+            else:
+                RightSingularInputAlignmentAgainstOriginal = RightSingularInputAlignmentAgainstOriginal[6:]
+            init = RightSingularInputAlignmentAgainstOriginal
+            PreAttackAlignments.append(RightSingularInputAlignmentAgainstOriginal)
+            #print("init", init)
 
+            
+            AlignmentIncreasePercent =  ((final-init)/init)*100
+            AlignmnetIncreases.append(AlignmentIncreasePercent)
+            #print("AlignmnetIncreases", AlignmnetIncreases)
+
+
+        # Convert to numpy arrays
+        pre = np.array(PreAttackAlignments)    # shape (9, 13)
+        post = np.array(PostAttackAlignments)  # shape (9, 13)
+
+        meanPost = post.mean(axis=0)
+        varPost  = post.var(axis=0)
+
+        meanPre = pre.mean(axis=0)
+        varPre  = pre.var(axis=0)
+
+        AlignmentMeanAcrossLayersPost.append(meanPost)
+        AlignmentVarAcrossLayersPost.append(varPost)
+
+        AlignmentMeanAcrossLayersPre.append(meanPre)
+        AlignmentVarAcrossLayersPre.append(varPre)
+
+    MeanAliArrayPost = np.array(AlignmentMeanAcrossLayersPost)
+    VarAliArrayPost = np.array(AlignmentMeanAcrossLayersPost)
+
+    print("MeanAliArrayPost.shape", MeanAliArrayPost.shape)
+    print("VarAliArrayPost.shape", VarAliArrayPost.shape)
+
+    MeanAliArrayPre = np.array(AlignmentMeanAcrossLayersPre)
+    VarAliArrayPre = np.array(AlignmentVarAcrossLayersPre)
+
+    print("MeanAliArrayPre.shape", MeanAliArrayPre.shape)
+    print("VarAliArrayPre.shape", VarAliArrayPre.shape)
+
+
+    #-------------------------Plotting---------------------------------
+
+
+    time = np.arange(MeanAliArrayPost.shape[0])  # 0..33
+
+    plt.figure(figsize=(8,6))
+
+    for obj in range(MeanAliArrayPost.shape[1]):  # 7 objects
         
-        AlignmentIncreasePercent =  ((final-init)/init)*100
-        AlignmnetIncreases.append(AlignmentIncreasePercent)
-        #print("AlignmnetIncreases", AlignmnetIncreases)
+        mean_curve = MeanAliArrayPost[:, obj]
+        std_curve  = np.sqrt(VarAliArrayPost[:, obj])  # variance → std
+        
+        plt.plot(time, mean_curve, linewidth=2, label=f'Object {point_labels[obj]}')
+        
+        plt.fill_between(
+            time,
+            mean_curve - std_curve,
+            mean_curve + std_curve,
+            alpha=0.2
+        )
 
+    plt.xlabel("Time")
+    plt.ylabel("Alignment")
+    plt.title("Mean ± Std over Time")
+    plt.legend()
+    plt.grid(True)
 
-        '''pv_adv = gemma_preprocess_differentiable(x_adv01, processor)
-        print("\n=== ADVERSARIAL OUTPUT ===")
-        adv_text = run_generation_with_pixel_values(model, processor, template_inputs, pv_adv, max_new_tokens=MAX_NEW_TOKENS)
-        print(adv_text)'''
-    #print("PostAttackAlignments", PostAttackAlignments)
-    #print("PreAttackAlignments", PreAttackAlignments)
-
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    # Convert to numpy arrays
-    pre = np.array(PreAttackAlignments)    # shape (9, 13)
-    post = np.array(PostAttackAlignments)  # shape (9, 13)
-
-    n_cols = pre.shape[1]
-
-    data = []
-    positions = []
-
-    # Create side-by-side positions
-    for i in range(n_cols):
-        # Pre
-        data.append(pre[:, i])
-        positions.append(i * 3 + 1)
-
-        # Post
-        data.append(post[:, i])
-        positions.append(i * 3 + 2)
-
-    plt.figure(figsize=(8, 4))
-
-    box = plt.boxplot(data, positions=positions, widths=0.6, patch_artist=True)
-
-    # Color them alternately
-    for i, patch in enumerate(box['boxes']):
-        if i % 2 == 0:
-            patch.set_facecolor("lightblue")   # Pre
-        else:
-            patch.set_facecolor("green")      # Post
-
-    # X-axis labels centered between each pair
-    centers = [i * 3 + 1.5 for i in range(n_cols)]
-    #plt.xticks(centers, [f"Col {i+1}" for i in range(n_cols)], rotation=45)
-    plt.xticks(centers, point_labels, rotation=45, ha="right")
-
-
-    plt.xlabel("Layer type")
-    plt.ylabel("Subspace energy")
-    #plt.title("Pre vs Post Attack Alignment Distributions")
-
-    plt.legend([box["boxes"][0], box["boxes"][1]], ["Original", "Attacked"])
-
-    plt.tight_layout()
-    # ---- Save figure ----
-    save_dir = "/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentsQuantitativeKsubSpace"
+    # -------- SAVE FIGURE --------
+    save_dir = "/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentsQuantitativeKsubSpaceNullTraj"
     os.makedirs(save_dir, exist_ok=True)
 
-    save_path = os.path.join(save_dir, f"Pre_vs_Post_Boxplot_attackMode_{attackMode}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_VisionLayerTrack_{VisionLayerTrack}_LanLayerTrack_{LanLayerTrack}_kthSingVec_{kthSingVec}.png")
+    filename = f"NullTraj_attackMode_{attackMode}_kthSingVec_{kthSingVec}.png"
+    save_path = os.path.join(save_dir, filename)
+
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    print(f"Saved figure to: {save_path}")
 
     plt.show()
 
-    print(f"Figure saved to: {save_path}")
+
+
 if __name__ == "__main__":
     main()
 

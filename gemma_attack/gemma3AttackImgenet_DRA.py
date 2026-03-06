@@ -7,19 +7,49 @@
 
 ##########################################################################################################################################################################################################################################################################################
 
-export CUDA_VISIBLE_DEVICES=7
+export CUDA_VISIBLE_DEVICES=4
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3AttackImgenet_SAA.py --attck_type saa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 0 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 0 --numLayerstAtAtime 34
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 1 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 2 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 3 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 4 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 5 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 6 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 7 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 8 --numLayerstAtAtime 1
 
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 9 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 10 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 11 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 12 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 13 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 14 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 15 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 16 --numLayerstAtAtime 1
 
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 17 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 18 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 19 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 20 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 21 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 22 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 23 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 24 --numLayerstAtAtime 1
 
-export CUDA_VISIBLE_DEVICES=6
-conda activate gemma3
-cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 250 500); do
-    python gemma_attack/gemma3SingularValAttackImgenet.py --attck_type saa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1
-done
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 25 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 26 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 27 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 28 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 29 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 30 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 31 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 32 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 33 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 34 --numLayerstAtAtime 1
+python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 35 --numLayerstAtAtime 1
+
 
 
 chmod +x run_gemma_attacks_gpu0.sh
@@ -43,6 +73,15 @@ bash run_gemma_attacks_gpu3.sh
 
 cd interpretAttacks/gemma_attack
 bash run_gemma_attacks_gpu4.sh
+
+
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
 
 '''
 
@@ -114,6 +153,9 @@ def get_grill_wass(outputs, outputsN, startPos, endPos):
     for h, hn in zip(outputs.hidden_states[startPos:endPos], outputsN.hidden_states[startPos:endPos]):
         loss = loss + wasserstein_distance(h, hn)
     return loss #* wasserstein_distance(h, hn)
+
+
+
 
 
 def get_grill_cos(outputs, outputsN):
@@ -280,24 +322,6 @@ def run_generation_with_pixel_values(model, processor, template_inputs, pixel_va
     return processor.batch_decode(gen_only, skip_special_tokens=True, clean_up_tokenization_spaces=True)[0]
 
 
-# ---------------- hook ----------------------
-up_proj_activations = {}
-def up_proj_hook(module, input, output):
-    # output shape: (batch, seq_len, d_ff)
-    up_proj_activations["value"] = output
-
-
-layer_inputs = {}
-
-def down_proj_pre_hook(module, inputs):
-    # inputs is a tuple; for Linear it's (hidden_tensor,)
-    # hidden_tensor shape: (batch, seq_len, d_ff)
-    layer_inputs["down_in"] = inputs[0]
-
-# ---------------- hook ----------------------
-
-
-
 # ----------------------------
 # ORIGINAL-SPACE Adam attack
 # ----------------------------
@@ -311,9 +335,7 @@ def adam_attack_original_space(
     lr: float,
     epsilon: float,         # L_inf bound in ORIGINAL pixel space [0,1]
     device,
-    save_conv_path: str,
-    AttackStartLayer: int,
-    numLayerstAtAtime: int
+    save_conv_path: str
 ):
     """
     Optimize delta in ORIGINAL image pixel space (no squeeze):
@@ -334,35 +356,40 @@ def adam_attack_original_space(
     opt = torch.optim.Adam([delta], lr=lr)
 
     losses_list = [0.0]
-    best_loss = 1e5
+    best_loss = -1e18
     best_delta = delta.detach().clone()
 
-    model.eval()
+    model.train()
+
+    if attck_type=="dra":
+        def get_bsa_lan_loss(outputs, outputsN):
+            loss = 0.0
+            for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+                cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
+                total_cosine = cos_per_token.sum()
+                loss = loss + total_cosine
+            return loss #* wasserstein_distance(h, hn)
+
+
+        def get_dr_loss(outputs):
+            """
+            Dispersion Reduction (DR) style loss for transformer hidden states.
+            Uses only ADV outputs (no outputsN needed).
+
+            For each layer hidden state h: [B, T, D]
+            dispersion = mean over D of Var over tokens T
+            Return sum over layers of dispersion.
+            """
+            loss = 0.0
+            for h in outputs.hidden_states:
+                # h: [B, T, D]
+                # variance across tokens (dim=1), then average across embedding dims
+                disp = h.var(dim=1, unbiased=False).mean()
+                loss = loss + disp
+            return loss
+
 
     # Precompute clean pixel_values once (no grads needed)
-
-    paramWt = model.language_model.model.layers[0].mlp.down_proj.weight
-    print("paramWt.shape", paramWt.shape)
-    U, S, Vh = torch.linalg.svd(paramWt.to(torch.float32))
-    print("S.shape", S.shape)
-    print("Vh.shape", Vh.shape)
-
-    #topRightSingularVector = Vh[-1]
-    #print("topRightSingularVector.shape", topRightSingularVector.shape)
-
-    #gated_hidden = layer_inputs.get("down_in")
-    #v = topRightSingularVector.to(device=device, dtype=torch.float32)
-    #v = topRightSingularVector.to(gated_hidden)
-
-
-    with torch.no_grad():
-        # detach so SVD is NOT part of autograd graph
-        U, S, Vh = torch.linalg.svd(paramWt.detach().to(torch.float32), full_matrices=False)
-        topRightSingularVector = Vh[-1].contiguous()  # constant tensor now
-        #print("topRightSingularVector", topRightSingularVector)
-
-    #v_hat = v / v.norm()
-
     with torch.no_grad():
         pv_clean_fixed = gemma_preprocess_differentiable(x_orig01, processor)
 
@@ -374,21 +401,27 @@ def adam_attack_original_space(
         hiddStateLen = len(outputsN.hidden_states)
         print(" Number of hidden states is: ", hiddStateLen)
 
-        startPos = AttackStartLayer
+        vision_model = model.vision_tower.vision_model
+        vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+
+        hiddStateLenVis = len(vision_outN.hidden_states)
+        print(" Number of vision hidden states is: ", hiddStateLenVis)
+
+        '''startPos = AttackStartLayer
         endPos = startPos + numLayerstAtAtime
         print("endPos", endPos)
         print("startPos", startPos)
         if endPos > hiddStateLen:
             raise ValueError(
                 f"endPos ({endPos}) exceeds number of hidden states ({hiddStateLen})"
-            )
+            )'''
             
+
 
     adv_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
     adv_inputs["labels"] = template_inputs["input_ids"]
     adv_inputs["use_cache"] = False
     for step in range(num_steps):
-        layer_inputs.clear() 
         # original-space adv image with L_inf constraint
         x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
         x_adv01 = torch.max(torch.min(x_adv01, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
@@ -399,28 +432,22 @@ def adam_attack_original_space(
         adv_inputs["pixel_values"] = pv_adv
 
 
-        outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
+        #clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+        #clean_inputs["pixel_values"] = pv_clean_fixed
+        #clean_inputs["labels"] = template_inputs["input_ids"]
+        #clean_inputs["use_cache"] = False
 
+        #outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
+        vision_out = vision_model(pixel_values=adv_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
 
-        gated_hidden = layer_inputs["down_in"]  # must exist now
+        h = vision_out.last_hidden_state 
+        mu = h.mean(dim=1, keepdim=True)        
+        loss = ((h - mu) ** 2).mean()
 
-
-        # compute loss from THIS gated_hidden only
-        h = gated_hidden[0]  # (276, 10240) if batch=1
-        h_hat = h / (h.norm(dim=-1, keepdim=True) + 1e-12)
-
-        v = topRightSingularVector.to(h)      # match dtype/device
-        v_hat = v / (v.norm() + 1e-12)
-
-        dots = h_hat @ v_hat               # (276,)
-        loss = ((1 - dots)**2).mean()
-
-
-
-        attack_loss = loss  # maximize loss
+        #attack_loss = -loss  # maximize loss
 
         opt.zero_grad(set_to_none=True)
-        attack_loss.backward()
+        loss.backward()
         opt.step()
 
         # keep delta inside [-epsilon, epsilon]
@@ -431,18 +458,14 @@ def adam_attack_original_space(
         if (step + 1) % 10 == 0 or step == 0:
             print(f"[step {step+1}/{num_steps}] loss={lv:.6f}")
 
-            #print("dots.shape", dots.shape)
-            #print("dots", dots)
-
-        if lv < best_loss:
+        if lv > best_loss:
             best_loss = lv
             best_delta = delta.detach().clone()
             losses_list.append(lv)
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
         #print("delta.grad", delta.grad.shape)
         # cleanup
-        #best_delta = delta.detach().clone()
-        del outputs, loss, attack_loss, pv_adv
+        del loss, pv_adv
         '''if device.type == "cuda":
             torch.cuda.empty_cache()'''
 
@@ -468,10 +491,7 @@ def main():
                         help="Number of Adam steps")
     parser.add_argument("--attackSample", type=str, default="nature",
                     help="which sample")
-    parser.add_argument("--AttackStartLayer", type=int, default=0,
-                        help="From which layer do you start attack")
-    parser.add_argument("--numLayerstAtAtime", type=int, default=2,
-                        help="Number of layers taken at a time to attack")
+
 
 
 
@@ -482,8 +502,7 @@ def main():
     lr = float(args.learningRate)
     num_steps = int(args.num_steps)
     attackSample = str(args.attackSample)
-    AttackStartLayer = int(args.AttackStartLayer)
-    numLayerstAtAtime = int(args.numLayerstAtAtime)
+
 
     #LayersMaskStart = 0
     #LayersMaskEnd = 0.5
@@ -516,20 +535,6 @@ def main():
     model.eval()
     model.config.use_cache = False
 
-    # ---------------- hook ----------------------
-    '''up_proj_activations = {}
-    def up_proj_hook(module, input, output):
-        # output shape: (batch, seq_len, d_ff)
-        up_proj_activations["value"] = output'''
-    #up_proj_layer = model.language_model.model.layers[0].mlp.up_proj
-    #hook_handle = up_proj_layer.register_forward_hook(up_proj_hook)
-
-
-    down_proj = model.language_model.model.layers[0].mlp.down_proj
-    hook_handle = down_proj.register_forward_pre_hook(down_proj_pre_hook)
-
-    # ---------------- hook ----------------------
-
     # Load original image (keep original resolution)
     pil = Image.open(IMAGE_PATH).convert("RGB")
     x_orig01 = pil_to_tensor01(pil).to(device)
@@ -548,7 +553,7 @@ def main():
         torch.cuda.empty_cache()
 
     # Attack
-    conv_path = f"gemma_attack/outputsStorageImagenet/convergence/{attackSample}/gemma_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.npy"
+    conv_path = f"gemma_attack/outputsStorageImagenet/convergence/{attackSample}/gemma_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.npy"
     x_adv01, best_pert = adam_attack_original_space(
         model=model,
         processor=processor,
@@ -559,15 +564,13 @@ def main():
         lr=lr,
         epsilon=epsilon,
         device=device,
-        save_conv_path=conv_path,
-        AttackStartLayer = AttackStartLayer,
-        numLayerstAtAtime = numLayerstAtAtime
+        save_conv_path=conv_path
     )
 
     # Save ORIGINAL-resolution adversarial image (no squeeze)
-    adv_img_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.png"
+    adv_img_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.png"
 
-    adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.pt"
+    adv_noise_path = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.pt"
 
 
     tensor01_to_pil(x_adv01).save(adv_img_path)
@@ -589,7 +592,7 @@ def main():
         f.write(clean_text + "\n\n")
 
 
-    advOutTxt = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_num_steps_{num_steps}_.txt"
+    advOutTxt = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.txt"
     with open(advOutTxt, "w") as f:
         f.write(adv_text + "\n")
 

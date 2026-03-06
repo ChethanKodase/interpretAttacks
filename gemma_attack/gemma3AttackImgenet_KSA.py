@@ -18,33 +18,30 @@ python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l
 
 
 
-export CUDA_VISIBLE_DEVICES=7
-conda activate gemma3
-cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 500); do
-    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 1.0
-done
-
-export CUDA_VISIBLE_DEVICES=6
-conda activate gemma3
-cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 500); do
-    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0
-done
-
 export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 500); do
-    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5
 done
+
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 1.0
+done
+
 
 export CUDA_VISIBLE_DEVICES=4
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 500); do
-    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0
 done
+
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_KSA.py --attck_type saa --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1
+done
+
+
 
 
 

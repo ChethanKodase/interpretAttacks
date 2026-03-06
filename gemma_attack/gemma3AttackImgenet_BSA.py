@@ -78,10 +78,14 @@ bash run_gemma_attacks_gpu4.sh
 export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 250 500); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
+
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
 '''
 

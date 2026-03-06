@@ -78,8 +78,8 @@ bash run_gemma_attacks_gpu4.sh
 export CUDA_VISIBLE_DEVICES=4
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 500); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 250); do
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
