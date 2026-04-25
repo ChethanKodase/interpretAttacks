@@ -11,7 +11,7 @@ python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRat
 export CUDA_VISIBLE_DEVICES=0
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 100 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
 
 
 '''
