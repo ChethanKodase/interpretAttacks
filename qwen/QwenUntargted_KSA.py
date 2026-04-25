@@ -10,8 +10,8 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 100 200); do
-    python qwen/QwenUntargted_KSA.py --attck_type saa --desired_norm_l_inf 0.05 --learningRate 0.001 --numSteps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0 --AlignLayer 1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA.py --attck_type saa --desired_norm_l_inf 0.005 --learningRate 0.001 --numSteps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.5 --AlignLayer 1
 done
 
 export CUDA_VISIBLE_DEVICES=6
@@ -19,8 +19,8 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 100 200); do
-    python qwen/QwenUntargted_KSA.py --attck_type saa --desired_norm_l_inf 0.05 --learningRate 0.001 --numSteps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.5 --AlignLayer 1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA.py --attck_type saa --desired_norm_l_inf 0.005 --learningRate 0.001 --numSteps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --AlignLayer 1
 done
 
 
