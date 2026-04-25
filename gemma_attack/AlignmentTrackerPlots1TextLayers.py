@@ -11,8 +11,8 @@ export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
 for LayerTrackNum in $(seq 0 20); do
-    python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
-    python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
 done
 
 
@@ -68,9 +68,13 @@ RightAlignMentTrackerPath = (
 )
 
 test = np.load(RightAlignMentTrackerPath)
+
+test = test[:,6:]
 steps, n_points = test.shape
 
-save_dir = "/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentPlots"
+#print(" test.shape",  test.shape)
+
+save_dir = "/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentPlots/textLayers"
 os.makedirs(save_dir, exist_ok=True)
 save_path = os.path.join(
     save_dir,
@@ -95,10 +99,14 @@ drop_end = True
 
 point_labels = [
     "query proj (vis)", "key proj (vis)", "value proj (vis)", "att output proj (vis)",
-    "MLP exp (vis)", "MLP out proj (vis)", "Vis-to-lan proj", "query proj (lan)",
-    "key proj (lan)", "value proj (lan)", "MLP gate proj (lan)", "MLP up proj (lan)",
-    "MLP down proj (lan)"
+    "MLP exp (vis)", "MLP out proj (vis)", "Vis-to-lan proj", "query proj",
+    "key proj", "value proj", "MLP gate proj", "MLP up proj",
+    "MLP down proj"
 ]
+
+point_labels = point_labels[6:]
+#print("point_labels", point_labels)
+
 
 plt.style.use("default")
 #fig = plt.figure(figsize=(18, 13))
@@ -141,7 +149,6 @@ ax.set_ylabel("Layer type", labelpad=30)
 ax.set_zlabel("Alignment")
 
 ax.set_zlim(0, 1)
-
 # Extend axis so the back plane is in view
 ax.set_ylim(-0.5, y_plane + 0.5)
 

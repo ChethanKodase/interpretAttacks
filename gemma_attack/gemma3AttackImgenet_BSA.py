@@ -7,85 +7,32 @@
 
 ##########################################################################################################################################################################################################################################################################################
 
-export CUDA_VISIBLE_DEVICES=4
+---------------------------------------------------------------------------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=0
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 0 --numLayerstAtAtime 34
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 1 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 2 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 3 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 4 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 5 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 6 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 7 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 8 --numLayerstAtAtime 1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 9 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 10 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 11 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 12 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 13 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 14 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 15 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 16 --numLayerstAtAtime 1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 17 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 18 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 19 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 20 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 21 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 22 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 23 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 24 --numLayerstAtAtime 1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 25 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 26 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 27 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 28 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 29 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 30 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 31 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 32 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 33 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 34 --numLayerstAtAtime 1
-python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 10 --AttackStartLayer 35 --numLayerstAtAtime 1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
-
-
-chmod +x run_gemma_attacks_gpu0.sh
-chmod +x run_gemma_attacks_gpu1.sh
-chmod +x run_gemma_attacks_gpu2.sh
-chmod +x run_gemma_attacks_gpu3.sh
-
-chmod +x run_gemma_attacks_gpu4.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu0.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu1.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu2.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu3.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu4.sh
-
-
-export CUDA_VISIBLE_DEVICES=6
-conda activate gemma3
-cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 250); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
-for ATTACK_SAMPLE in $(seq 1 250); do
-    python gemma_attack/gemma3AttackImgenet_DRA.py --attck_type dra --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
 
 '''
 
@@ -130,6 +77,13 @@ criterion = nn.MSELoss()
 def cos(a, b):
     a = a.view(-1)
     b = b.view(-1)
+    a = F.normalize(a, dim=0)
+    b = F.normalize(b, dim=0)
+    return (a * b).sum()
+
+def cosVis(a, b):
+    a = torch.flatten(a)
+    b = torch.flatten(b)
     a = F.normalize(a, dim=0)
     b = F.normalize(b, dim=0)
     return (a * b).sum()
@@ -360,20 +314,47 @@ def adam_attack_original_space(
     opt = torch.optim.Adam([delta], lr=lr)
 
     losses_list = [0.0]
-    best_loss = -1e18
+    best_loss = 1e18
     best_delta = delta.detach().clone()
 
     model.train()
 
     if attck_type=="bsa":
-        def get_bsa_lan_loss(outputs, outputsN):
+        def get_bsa_loss(outputs, outputsN):
             loss = 0.0
             for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
                 cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
                 total_cosine = cos_per_token.sum()
                 loss = loss + total_cosine
             return loss #* wasserstein_distance(h, hn)
+        
+    if attck_type=="bsa_flat":
+        def get_bsa_loss(outputs, outputsN):
+            loss = 0.0
+            for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+                loss = loss + (1.0 - cos(h, hn)) ** 2
+            return -1 * loss #* (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
 
+        def get_bsaVis_loss(outputs, outputsN):
+            loss = 0.0
+            for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+                loss = loss + (1.0 - cosVis(h, hn)) ** 2
+            return -1 * loss #* (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
+        
+    if attck_type=="bsa_flat_lan":
+        def get_bsa_loss(outputs, outputsN):
+            loss = 0.0
+            for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+                loss = loss + (1.0 - cos(h, hn)) ** 2
+            return -1 * loss #* (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
+
+    if attck_type=="bsa_flat_vis":
+
+        def get_bsaVis_loss(outputs, outputsN):
+            loss = 0.0
+            for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+                loss = loss + (1.0 - cosVis(h, hn)) ** 2
+            return -1 * loss #* (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
 
     # Precompute clean pixel_values once (no grads needed)
     with torch.no_grad():
@@ -431,9 +412,14 @@ def adam_attack_original_space(
 
     
         #loss = get_bsa_lan_loss(outputs, outputsN)
-        loss = get_bsa_lan_loss(outputs, outputsN) + get_bsa_lan_loss(vision_out, vision_outN)
-
-
+        if attck_type=="bsa_flat":
+            loss = get_bsa_loss(outputs, outputsN) + get_bsaVis_loss(vision_out, vision_outN)
+        elif attck_type=="bsa":
+            loss = get_bsa_loss(outputs, outputsN) + get_bsa_loss(vision_out, vision_outN)
+        elif attck_type=="bsa_flat_lan":
+            loss = get_bsa_loss(outputs, outputsN) 
+        elif attck_type=="bsa_flat_vis":
+            loss = get_bsaVis_loss(outputs, outputsN) 
         #attack_loss = -loss  # maximize loss
 
         opt.zero_grad(set_to_none=True)
@@ -448,7 +434,7 @@ def adam_attack_original_space(
         if (step + 1) % 10 == 0 or step == 0:
             print(f"[step {step+1}/{num_steps}] loss={lv:.6f}")
 
-        if lv > best_loss:
+        if lv < best_loss:
             best_loss = lv
             best_delta = delta.detach().clone()
             losses_list.append(lv)

@@ -105,6 +105,11 @@ for StudyLayer in $(seq 26 33); do
 done
 
 
+##########################################################################################################################################################################################################################################################################################
+
+export CUDA_VISIBLE_DEVICES=4
+conda activate gemma3
+cd interpretAttacks
 for StudyLayer in $(seq 0 26); do
     python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerAllBars.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec 9 --attackMode vis
     python gemma_attack/gemma3SingularValAttackImgenetKSubSpaceAlignmentExaminerAllBars.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --AttackStartLayer $StudyLayer --numLayerstAtAtime 1 --VisionLayerTrack $StudyLayer --LanLayerTrack $StudyLayer --kthSingVec -9 --attackMode vis
@@ -1148,12 +1153,21 @@ def main():
     # ---------------- hook ----------------------
 
     # Load original image (keep original resolution)
-    point_labels = [
+    '''point_labels = [
     "query proj\n(vis)", "key proj\n(vis)", "value proj\n(vis)", "att output\nproj (vis)",
     "MLP exp\n(vis)", "MLP out\nproj (vis)", "Vis-to-lan\nproj", "query proj\n(lan)",
     "key proj\n(lan)", "value proj\n(lan)", "MLP gate\nproj(lan)", "MLP up\nproj (lan)",
     "MLP down\nproj (lan)"
+    ]'''
+
+    point_labels = [
+    "query proj", "key proj", "value proj", "att output\nproj",
+    "MLP exp", "MLP out\nproj", "Vis-to-lan\nproj", "query proj\n",
+    "key proj\n", "value proj\n", "MLP gate\nproj", "MLP up\nproj",
+    "MLP down\nproj"
     ]
+
+
     if attackMode == "vis":
         point_labels = point_labels[:7]
     else:
