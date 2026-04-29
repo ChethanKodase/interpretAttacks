@@ -25,8 +25,6 @@ done
 
 
 
-48 0.02
-
 '''
 
 #!/usr/bin/env python
