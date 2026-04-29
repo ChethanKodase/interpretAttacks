@@ -8,7 +8,7 @@ python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRat
 
 
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
 python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
@@ -116,13 +116,18 @@ ega_ratio = 0.2
 
 #allEpsilons = [0.01, 0.02, 0.03, 0.04, 0.05]
 
-epsilonTypes = "tiny"
+#epsilonTypes = "tiny"
+epsilonTypes = "tinyTiny"
 #epsilonTypes = "moderate"
 
 
 if epsilonTypes == "tiny":
     allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
     all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saav", "saa", "saa_loop"]
+elif epsilonTypes == "tinyTiny":
+    allEpsilons = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
+    all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saav", "saa", "saa_loop"]
+
 else:
     allEpsilons = [0.01, 0.02, 0.03, 0.04, 0.05]
     all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saav", "saa", "saa_loop"]

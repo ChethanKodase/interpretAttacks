@@ -71,45 +71,45 @@ export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
+    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
+    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
+    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
+    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
+    python gemma_attack/gemma3AttackImgenet_KSAmv.py --attck_type saav --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 11 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP fc2
 done
 
 
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 

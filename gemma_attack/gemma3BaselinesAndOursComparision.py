@@ -35,7 +35,7 @@ python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --des
 
 
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
 python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
@@ -43,6 +43,17 @@ python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --des
 python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
 python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
 python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+
+
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+
 
 
 '''
