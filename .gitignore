@@ -16,3 +16,4 @@ qwen/outputsStorage/
 qwen/outputsStorageImagenet/
 llava_attack/dataSamplesForQuant.tar.gz
 llava_attack/extras/
+qwen/AllPlots/

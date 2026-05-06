@@ -4,25 +4,415 @@
 '''
 
 
-export CUDA_VISIBLE_DEVICES=7
+export CUDA_VISIBLE_DEVICES=1
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargted_KSA.py \
-      --attck_type saa_loop \
-      --desired_norm_l_inf 0.0005 \
-      --learningRate 0.001 \
-      --num_steps 1000 \
-      --attackSample $ATTACK_SAMPLE \
-      --AttackStartLayer 0 \
-      --numLayerstAtAtime 1 \
-      --towardsNull 0.1 \
-      --whichMLP gate_proj \
-      --chosenLanLayers 0 \
-      --chosenVisLayers 11
+    for CHOSEN_LAN_LAYER
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.05 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --chosenLanLayers 0 --chosenVisLayers 11
 done
+
+
+
+python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.05 --learningRate 0.001 --num_steps 100 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --chosenLanLayers 0 --chosenVisLayers 11
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=0
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis up_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis up_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis down_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis down_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP up_proj --whichMLPVis up_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis up_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP down_proj --whichMLPVis up_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP down_proj --whichMLPVis up_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+---------
+Pending Hyper parameter search
+---------
+export CUDA_VISIBLE_DEVICES=0
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis gate_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP down_proj --whichMLPVis gate_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    for CHOSEN_LAN_LAYER in $(seq 0 4); do
+        for CHOSEN_VIS_LAYER in $(seq 0 31); do
+            python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP down_proj --whichMLPVis down_proj --chosenLanLayers $CHOSEN_LAN_LAYER --chosenVisLayers $CHOSEN_VIS_LAYER
+        done
+    done
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis gate_proj --chosenLanLayers 1 --chosenVisLayers 7
+done
+----
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 5); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis gate_proj --chosenLanLayers 0 --chosenVisLayers 3
+done
+
+-------------
+
+-------------------
+gate gate, experimenting for 100 steps. try later for 1000 steps
+-------------------
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 2 50); do
+    for CHOSEN_VIS_LAYER in 0 1 2 4 5 6 7 8 9 14 24; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    for CHOSEN_VIS_LAYER in 0 1 2 4 5 6 7 8 9 14 24; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    for CHOSEN_VIS_LAYER in 0 1 2 4 5 6 7 8 9 14 24; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    for CHOSEN_VIS_LAYER in 0 1 2 4 5 6 7 8 9 14 24; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    for CHOSEN_VIS_LAYER in 0 1 2 4 5 6 7 8 9 14 24; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    for CHOSEN_VIS_LAYER in 0 1 2 4 5 6 7 8 9 14 24; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=0
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+
+
+export CUDA_VISIBLE_DEVICES=0
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+
+sample 1
+------------------
+up , up, 1, 20
+
+up. up, 3, 20 : looks like a chinese font
+
+up, up, 3 16
+
+up, up, 3, 12 : empty output
+
+up, up, 3, 6, random output like some math
+
+up, up, 3, 5 : chinese and english
+
+up, up, 3, 4, : says boolean...
+
+up, up, 3, 2 : ```
+----------------------------------------
+up, down, 3, 29 : random
+
+up, down, 3, 26 : random
+
+up, down, 3, 23, 
+
+up, down, 3, 19: random
+
+up, down, 3, 15: says all
+
+up, down, 3, 14: lost context
+
+up, down 3, 11 : rando chinese
+
+up, down, 3, 3 : chinese
+
+----------------------------------------
+
+gate, up, 2, 25 : chinese
+
+gate, up, 2, 19, chinese
+
+gate, up, 2, 1
+
+----------------------------------------
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 21 50); do
+    for CHOSEN_VIS_LAYER in 3 11 14 15 19 23 26 29; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers 3 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+
+----------------------------------------
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 6 20); do
+    for CHOSEN_VIS_LAYER in 2 4 5 6 12 16 20; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis up_proj --chosenLanLayers 3 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+
+
+----------------------------------------
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 6 20); do
+    for CHOSEN_VIS_LAYER in 1 19 25; do
+        python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis up_proj --chosenLanLayers 2 --chosenVisLayers $CHOSEN_VIS_LAYER
+    done
+done
+
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis up_proj --chosenLanLayers 2 --chosenVisLayers 1 19
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers 3 --chosenVisLayers 3 11 23 26 29
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=0
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers 3 --chosenVisLayers 3 11 14 15 19 23 26 29
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers 3 --chosenVisLayers 3 11 14 15 19 23 26 29
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.9 --learningRate 0.001 --num_steps 10 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers 3 --chosenVisLayers 3 11 14 15 19 23 26 29
+done
+
+
+
 
 
 '''
@@ -215,7 +605,9 @@ def qwen_preprocess_differentiable(x01: torch.Tensor, processor):
 
     target_h, target_w = _get_qwen_resize_hw(ip, H, W)
 
-    x = F.interpolate(x01, size=(target_h, target_w), mode="bicubic", align_corners=False, antialias=True)
+    #x = F.interpolate(x01, size=(target_h, target_w), mode="bicubic", align_corners=False, antialias=True)
+
+    x = F.interpolate(x01, size=(target_h, target_w), mode="bilinear", align_corners=False)
 
     mean = torch.tensor(ip.image_mean, dtype=x.dtype, device=x.device).view(1, 3, 1, 1)
     std = torch.tensor(ip.image_std, dtype=x.dtype, device=x.device).view(1, 3, 1, 1)
@@ -357,7 +749,37 @@ def is_language_target(name: str, chosen_lan_layers_set=None, whichMLP="gate_pro
     return name.endswith(suffix)
 
 
-def is_vision_target(name: str, chosen_vis_layers_set=None) -> bool:
+def is_vision_target(name: str, chosen_vis_layers_set=None, whichMLPVis="gate_proj") -> bool:
+
+    if "visual" not in name and "vision" not in name:
+
+        return False
+
+    layer_idx = extract_vision_layer_idx(name)
+
+    if layer_idx is None:
+
+        return False
+
+    if chosen_vis_layers_set is not None and layer_idx not in chosen_vis_layers_set:
+
+        return False
+
+    valid_suffixes = {
+
+        "gate_proj": ".mlp.gate_proj",
+
+        "up_proj": ".mlp.up_proj",
+
+        "down_proj": ".mlp.down_proj",
+
+    }
+
+    suffix = valid_suffixes.get(whichMLPVis, ".mlp.gate_proj")
+
+    return name.endswith(suffix)
+
+'''def is_vision_target(name: str, chosen_vis_layers_set=None) -> bool:
     # Qwen2.5-VL visual modules usually live under visual.blocks.*.
     if "visual" not in name and "vision" not in name:
         return False
@@ -377,10 +799,10 @@ def is_vision_target(name: str, chosen_vis_layers_set=None) -> bool:
     if name.endswith(".mlp.down_proj"):
         return True
 
-    return False
+    return False'''
 
 
-def collect_target_modules(model, chosen_lan_layers=None, chosen_vis_layers=None, whichMLP="gate_proj"):
+def collect_target_modules(model, chosen_lan_layers=None, chosen_vis_layers=None, whichMLP="gate_proj", whichMLPVis="down_proj"):
     """
     Returns list of dicts:
       {
@@ -409,7 +831,7 @@ def collect_target_modules(model, chosen_lan_layers=None, chosen_vis_layers=None
                 "kind": "language",
                 "layer_idx": extract_language_layer_idx(name),
             })
-        elif is_vision_target(name, chosen_vis_layers_set=chosen_vis_layers_set):
+        elif is_vision_target(name, chosen_vis_layers_set=chosen_vis_layers_set, whichMLPVis=whichMLPVis):
             targets.append({
                 "name": name,
                 "module": module,
@@ -484,12 +906,13 @@ def register_all_hooks(targets):
     return handles
 
 
-def build_target_specs_with_subspaces(model, towardsNull: float, chosen_lan_layers=None, chosen_vis_layers=None, whichMLP="gate_proj"):
+def build_target_specs_with_subspaces(model, towardsNull: float, chosen_lan_layers=None, chosen_vis_layers=None, whichMLP="gate_proj", whichMLPVis="down_proj"):
     targets = collect_target_modules(
         model,
         chosen_lan_layers=chosen_lan_layers,
         chosen_vis_layers=chosen_vis_layers,
         whichMLP=whichMLP,
+        whichMLPVis=whichMLPVis,
     )
     specs = []
 
@@ -578,6 +1001,7 @@ def adam_attack_original_space(
     numLayerstAtAtime: int,
     towardsNull: float,
     whichMLP: str,
+    whichMLPVis: str,
     chosenLanLayers=None,
     chosenVisLayers=None,
 ):
@@ -601,12 +1025,14 @@ def adam_attack_original_space(
 
     model.eval()
 
+
     target_specs = build_target_specs_with_subspaces(
         model,
         towardsNull=towardsNull,
         chosen_lan_layers=chosenLanLayers,
         chosen_vis_layers=chosenVisLayers,
         whichMLP=whichMLP,
+        whichMLPVis=whichMLPVis
     )
 
     if len(target_specs) == 0:
@@ -693,6 +1119,7 @@ def main():
     parser.add_argument("--numLayerstAtAtime", type=int, default=2, help="kept for compatibility")
     parser.add_argument("--towardsNull", type=float, default=0.1, help="same bottom-k selection logic as Gemma attack")
     parser.add_argument("--whichMLP", type=str, default="gate_proj", choices=["gate_proj", "up_proj", "down_proj"], help="language MLP projection to target")
+    parser.add_argument("--whichMLPVis", type=str, default="gate_proj", choices=["gate_proj", "up_proj", "down_proj"], help="language MLP projection to target")
 
     # Backward-compatible single-layer arg from old Qwen script.
     parser.add_argument("--AlignLayer", type=int, default=None, help="old Qwen arg; used as chosenLanLayers if --chosenLanLayers is omitted")
@@ -722,11 +1149,13 @@ def main():
         num_steps = 2000
     num_steps = int(num_steps)
 
+
     attackSample = str(args.attackSample)
     AttackStartLayer = int(args.AttackStartLayer)
     numLayerstAtAtime = int(args.numLayerstAtAtime)
     towardsNull = float(args.towardsNull)
     whichMLP = str(args.whichMLP)
+    whichMLPVis = str(args.whichMLPVis)
 
     chosenLanLayers = args.chosenLanLayers
     if chosenLanLayers is None and args.AlignLayer is not None:
@@ -736,7 +1165,7 @@ def main():
 
     # Preserve Qwen paths.
     MODEL_PATH = "../illcond/QwenAttack/Qwen2.5-VL-7B-Instruct"
-    IMAGE_PATH = f"qwen/dataSamplesForQuant/{attackSample}.JPEG"
+    IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
     QUESTION = "What is shown in this image?"
     MAX_NEW_TOKENS = 128
 
@@ -765,6 +1194,7 @@ def main():
     print(f"[INFO] chosenLanLayers={chosenLanLayers}")
     print(f"[INFO] chosenVisLayers={chosenVisLayers}")
     print(f"[INFO] whichMLP={whichMLP}")
+    print(f"[INFO] whichMLPVis={whichMLPVis}")
     print(f"[INFO] towardsNull={towardsNull} uses the same bottom-k selection logic as Gemma attack.\n")
 
     pil = Image.open(IMAGE_PATH).convert("RGB")
@@ -793,7 +1223,7 @@ def main():
         f"qwen/outputsStorageImagenet/convergence/{attackSample}/"
         f"qwen_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
-        f"num_steps_{num_steps}_towardsNull_{towardsNull}.npy"
+        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.npy"
     )
 
     x_adv01, best_pert = adam_attack_original_space(
@@ -811,6 +1241,7 @@ def main():
         numLayerstAtAtime=numLayerstAtAtime,
         towardsNull=towardsNull,
         whichMLP=whichMLP,
+        whichMLPVis=whichMLPVis,
         chosenLanLayers=chosenLanLayers,
         chosenVisLayers=chosenVisLayers,
     )
@@ -819,14 +1250,14 @@ def main():
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
         f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
-        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{chosenLanLayers}_{chosenVisLayers}.png"
+        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.png"
     )
 
     adv_noise_path = (
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
         f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
-        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{chosenLanLayers}_{chosenVisLayers}.pt"
+        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.pt"
     )
 
     tensor01_to_pil(x_adv01).save(adv_img_path)
@@ -854,7 +1285,7 @@ def main():
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
         f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
-        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{chosenLanLayers}_{chosenVisLayers}.txt"
+        f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.txt"
     )
     with open(advOutTxt, "w") as f:
         f.write(adv_text + "\n")
