@@ -77,7 +77,7 @@ python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.001 --lear
 ------------------------------------------------------------------------------------
 budget 0.005, 0.004, 0.003, 50 samples, 100 steps, gate gate large vis
 ------------------------------------------------------------------------------------
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate gemma3
