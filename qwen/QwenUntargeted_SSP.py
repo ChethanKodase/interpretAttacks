@@ -1,52 +1,32 @@
-
 '''
-export CUDA_VISIBLE_DEVICES=2
+
+
+
+export CUDA_VISIBLE_DEVICES=1
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 8 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
 
-export CUDA_VISIBLE_DEVICES=3
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-
-
-
-
-export CUDA_VISIBLE_DEVICES=0
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 14 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_SSP.py --attck_type ssp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_SSP.py --attck_type ssp --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_SSP.py --attck_type ssp --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_SSP.py --attck_type ssp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_SSP.py --attck_type ssp --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
 
 '''
 
@@ -60,14 +40,10 @@ import numpy as np
 from PIL import Image
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
 
-# ----------------------------
-# Reproducibility
-# ----------------------------
 def set_seed(seed: int = 42):
     random.seed(seed)
     np.random.seed(seed)
@@ -85,8 +61,6 @@ def set_seed(seed: int = 42):
 set_seed(42)
 
 torch.use_deterministic_algorithms(True)
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
 
 if torch.cuda.is_available():
     torch.backends.cuda.matmul.allow_tf32 = False
@@ -96,69 +70,6 @@ if torch.cuda.is_available():
     torch.backends.cuda.enable_math_sdp(True)
 
 
-criterion = nn.MSELoss()
-
-
-# ----------------------------
-# Loss utilities
-# ----------------------------
-def cos(a, b):
-    a = a.reshape(-1)
-    b = b.reshape(-1)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
-    return (a * b).sum()
-
-
-def cosVis(a, b):
-    a = torch.flatten(a)
-    b = torch.flatten(b)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
-    return (a * b).sum()
-
-
-def wasserstein_distance(tensor_a, tensor_b):
-    a = torch.flatten(tensor_a)
-    b = torch.flatten(tensor_b)
-    a_sorted, _ = torch.sort(a)
-    b_sorted, _ = torch.sort(b)
-    return torch.mean(torch.abs(a_sorted - b_sorted))
-
-
-def get_bsa_loss(outputs, outputsN):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
-        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
-        loss = loss + cos_per_token.sum()
-    return loss
-
-
-def get_bsa_flat_loss(outputs, outputsN):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
-        loss = loss + (1.0 - cos(h, hn)) ** 2
-    return -1.0 * loss
-
-
-def get_bsa_vision_loss(acts, actsN):
-    loss = 0.0
-    for h, hn in zip(acts, actsN):
-        cos_per_token = F.cosine_similarity(h, hn, dim=-1)
-        loss = loss + cos_per_token.sum()
-    return loss
-
-
-def get_bsa_flat_vision_loss(acts, actsN):
-    loss = 0.0
-    for h, hn in zip(acts, actsN):
-        loss = loss + (1.0 - cosVis(h, hn)) ** 2
-    return -1.0 * loss
-
-
-# ----------------------------
-# PIL / tensor helpers
-# ----------------------------
 def pil_to_tensor01(pil_img):
     arr = np.array(pil_img.convert("RGB"), dtype=np.float32) / 255.0
     return torch.from_numpy(arr).permute(2, 0, 1).unsqueeze(0)
@@ -174,9 +85,6 @@ def tensor01_to_pil(t01):
     return Image.fromarray(arr)
 
 
-# ----------------------------
-# Differentiable Qwen preprocessing
-# ----------------------------
 def _get_qwen_resize_hw(image_processor, H, W):
     patch_size = int(getattr(image_processor, "patch_size", 14))
     merge_size = int(getattr(image_processor, "merge_size", 2))
@@ -265,9 +173,6 @@ def qwen_preprocess_differentiable(x01, processor):
     return pixel_values, image_grid_thw
 
 
-# ----------------------------
-# Qwen inputs
-# ----------------------------
 def build_template_inputs(processor, question, pil_image, device):
     messages = [
         {
@@ -332,19 +237,18 @@ def run_generation_with_pixel_values(
     )[0]
 
 
-# ----------------------------
-# Vision hooks: this is the important part
-# ----------------------------
+def get_qwen_vision_blocks(model):
+    if hasattr(model, "model") and hasattr(model.model, "visual") and hasattr(model.model.visual, "blocks"):
+        return model.model.visual.blocks
+    if hasattr(model, "visual") and hasattr(model.visual, "blocks"):
+        return model.visual.blocks
+    raise RuntimeError("Could not find Qwen vision blocks.")
+
+
 def run_get_image_features_with_vision_hooks(model, pixel_values, image_grid_thw):
     acts = []
     handles = []
-
-    if hasattr(model, "model") and hasattr(model.model, "visual") and hasattr(model.model.visual, "blocks"):
-        blocks = model.model.visual.blocks
-    elif hasattr(model, "visual") and hasattr(model.visual, "blocks"):
-        blocks = model.visual.blocks
-    else:
-        raise RuntimeError("Could not find Qwen vision blocks.")
+    blocks = get_qwen_vision_blocks(model)
 
     def hook_fn(module, inp, out):
         if isinstance(out, tuple):
@@ -369,13 +273,20 @@ def run_get_image_features_with_vision_hooks(model, pixel_values, image_grid_thw
     return feat, acts
 
 
-# ----------------------------
-# ORIGINAL-image-space BSA attack
-# ----------------------------
-def adam_attack_original_space(
+def get_ssp_vision_loss(acts_adv, acts_clean, use_last_only=True):
+    if use_last_only:
+        return -F.mse_loss(acts_adv[-1].float(), acts_clean[-1].float())
+
+    loss = 0.0
+    for h_adv, h_clean in zip(acts_adv, acts_clean):
+        loss = loss + F.mse_loss(h_adv.float(), h_clean.float())
+
+    return -loss
+
+
+def adam_attack_original_space_ssp(
     model,
     processor,
-    template_inputs,
     x_orig01,
     attck_type,
     num_steps,
@@ -383,10 +294,14 @@ def adam_attack_original_space(
     epsilon,
     device,
     save_conv_path,
+    use_last_only=True,
 ):
-    x_orig01 = x_orig01.detach().to(device)
+    if attck_type.lower() != "ssp":
+        raise ValueError(f"Only --attck_type ssp is supported, got: {attck_type}")
 
-    delta = 0.001 * torch.randn_like(x_orig01, device=device)
+    x_orig01 = x_orig01.detach().to(device=device, dtype=torch.float32)
+
+    delta = 0.001 * torch.randn_like(x_orig01, device=device, dtype=torch.float32)
     delta.requires_grad_(True)
 
     optimizer = torch.optim.Adam([delta], lr=lr)
@@ -395,46 +310,26 @@ def adam_attack_original_space(
     best_loss = 1e18
     best_delta = delta.detach().clone()
 
-    model.train()
+    model.eval()
     model.config.use_cache = False
-    model.config.output_hidden_states = True
-    model.config.return_dict = True
 
     with torch.no_grad():
         pv_clean, grid_clean = qwen_preprocess_differentiable(x_orig01, processor)
+        pv_clean = pv_clean.to(device=device, dtype=next(model.parameters()).dtype)
 
-        clean_inputs = {
-            k: v.clone() if torch.is_tensor(v) else v
-            for k, v in template_inputs.items()
-        }
-
-        clean_inputs["pixel_values"] = pv_clean
-        clean_inputs["image_grid_thw"] = grid_clean
-        clean_inputs["labels"] = template_inputs["input_ids"]
-        clean_inputs["use_cache"] = False
-
-        outputsN = model(
-            **clean_inputs,
-            output_hidden_states=True,
-            return_dict=True,
-        )
-
-        _, actsN = run_get_image_features_with_vision_hooks(
+        _, acts_clean = run_get_image_features_with_vision_hooks(
             model,
             pv_clean,
             grid_clean,
         )
 
-        print("Number of language hidden states:", len(outputsN.hidden_states))
-        print("Number of vision hidden states:", len(actsN))
+        acts_clean = [a.detach() for a in acts_clean]
 
-    adv_inputs = {
-        k: v.clone() if torch.is_tensor(v) else v
-        for k, v in template_inputs.items()
-    }
+        print("Number of Qwen vision block activations:", len(acts_clean))
+        print("SSP objective:", "last vision block only" if use_last_only else "all vision blocks")
 
-    adv_inputs["labels"] = template_inputs["input_ids"]
-    adv_inputs["use_cache"] = False
+        if len(acts_clean) == 0:
+            raise RuntimeError("No Qwen vision activations found.")
 
     for step in range(num_steps):
         x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
@@ -444,35 +339,19 @@ def adam_attack_original_space(
         ).clamp(0.0, 1.0)
 
         pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
+        pv_adv = pv_adv.to(device=device, dtype=next(model.parameters()).dtype)
 
-        adv_inputs["pixel_values"] = pv_adv
-        adv_inputs["image_grid_thw"] = grid_adv
-
-        outputs = model(
-            **adv_inputs,
-            output_hidden_states=True,
-            return_dict=True,
-        )
-
-        _, acts = run_get_image_features_with_vision_hooks(
+        _, acts_adv = run_get_image_features_with_vision_hooks(
             model,
             pv_adv,
             grid_adv,
         )
 
-        if attck_type == "bsa":
-            loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
-        elif attck_type == "bsa_flat":
-            loss = get_bsa_flat_loss(outputs, outputsN) + get_bsa_flat_vision_loss(acts, actsN)
-        elif attck_type == "bsa_flat_lan":
-            loss = get_bsa_flat_loss(outputs, outputsN)
-        elif attck_type == "bsa_flat_vis":
-            loss = get_bsa_flat_vision_loss(acts, actsN)
-        else:
-            raise ValueError(
-                f"Unknown attck_type={attck_type}. "
-                "Use bsa | bsa_flat | bsa_flat_lan | bsa_flat_vis"
-            )
+        loss = get_ssp_vision_loss(
+            acts_adv=acts_adv,
+            acts_clean=acts_clean,
+            use_last_only=use_last_only,
+        )
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
@@ -484,7 +363,7 @@ def adam_attack_original_space(
         lv = float(loss.item())
 
         if step == 0 or (step + 1) % 10 == 0:
-            print(f"[Adam step {step + 1}/{num_steps}] loss={lv:.6f}")
+            print(f"[step {step + 1}/{num_steps}] loss={lv:.6f}")
 
         if lv < best_loss:
             best_loss = lv
@@ -492,7 +371,7 @@ def adam_attack_original_space(
             losses_list.append(lv)
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
 
-        del outputs, acts, loss, pv_adv, grid_adv
+        del acts_adv, loss, pv_adv, grid_adv
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
@@ -504,20 +383,23 @@ def adam_attack_original_space(
     return x_adv01_final, best_delta
 
 
-# ----------------------------
-# Main
-# ----------------------------
 def main():
     parser = argparse.ArgumentParser(
-        description="Qwen2.5-VL original-image-space BSA attack"
+        description="Qwen2.5-VL original-image-space SSP attack"
     )
 
-    parser.add_argument("--attck_type", type=str, default="bsa")
-    parser.add_argument("--desired_norm_l_inf", type=float, default=0.005)
+    parser.add_argument("--attck_type", type=str, default="ssp")
+    parser.add_argument("--desired_norm_l_inf", type=float, default=0.0005)
     parser.add_argument("--learningRate", type=float, default=0.001)
-    parser.add_argument("--num_steps", type=int, default=100)
+    parser.add_argument("--num_steps", type=int, default=1000)
     parser.add_argument("--numSteps", type=int, default=None)
-    parser.add_argument("--attackSample", type=str, default="nature")
+    parser.add_argument("--attackSample", type=str, default="1")
+
+    parser.add_argument(
+        "--use_all_vision_blocks",
+        action="store_true",
+        help="Use all Qwen vision blocks instead of only the last block.",
+    )
 
     args = parser.parse_args()
 
@@ -526,6 +408,7 @@ def main():
     lr = float(args.learningRate)
     num_steps = int(args.numSteps) if args.numSteps is not None else int(args.num_steps)
     attackSample = str(args.attackSample)
+    use_last_only = not bool(args.use_all_vision_blocks)
 
     MODEL_PATH = "../illcond/QwenAttack/Qwen2.5-VL-7B-Instruct"
     IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
@@ -563,7 +446,7 @@ def main():
     print("Loading model...")
     model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
         MODEL_PATH,
-        dtype=dtype,
+        torch_dtype=dtype,
         device_map=None,
     ).to(device)
 
@@ -571,7 +454,7 @@ def main():
     model.config.use_cache = False
 
     pil = Image.open(IMAGE_PATH).convert("RGB")
-    x_orig01 = pil_to_tensor01(pil).to(device)
+    x_orig01 = pil_to_tensor01(pil).to(device=device, dtype=torch.float32)
 
     template_inputs = build_template_inputs(
         processor,
@@ -581,6 +464,7 @@ def main():
     )
 
     pv_clean, grid_clean = qwen_preprocess_differentiable(x_orig01, processor)
+    pv_clean = pv_clean.to(device=device, dtype=dtype)
 
     print("\n=== CLEAN OUTPUT ===")
     clean_text = run_generation_with_pixel_values(
@@ -596,11 +480,10 @@ def main():
     if device.type == "cuda":
         torch.cuda.empty_cache()
 
-    print("\nRunning BSA attack...")
-    x_adv01, best_pert = adam_attack_original_space(
+    print("\nRunning SSP attack...")
+    x_adv01, best_pert = adam_attack_original_space_ssp(
         model=model,
         processor=processor,
-        template_inputs=template_inputs,
         x_orig01=x_orig01,
         attck_type=attck_type,
         num_steps=num_steps,
@@ -608,6 +491,7 @@ def main():
         epsilon=epsilon,
         device=device,
         save_conv_path=conv_path,
+        use_last_only=use_last_only,
     )
 
     tensor01_to_pil(x_adv01).save(adv_img_path)
@@ -617,6 +501,7 @@ def main():
     print(f"Saved perturbation to: {adv_noise_path}")
 
     pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
+    pv_adv = pv_adv.to(device=device, dtype=dtype)
 
     print("\n=== ADVERSARIAL OUTPUT ===")
     adv_text = run_generation_with_pixel_values(
@@ -629,10 +514,7 @@ def main():
     )
     print(adv_text)
 
-    cleanOutTxt = (
-        f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/cleanOutput.txt"
-    )
-
+    cleanOutTxt = f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/cleanOutput.txt"
     with open(cleanOutTxt, "w") as f:
         f.write(clean_text + "\n\n")
 

@@ -86,7 +86,7 @@ python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.004 --lear
 python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers  0 1 2 4 5 6 7 8 9 14 24 --numSamplesConsidered 38
 python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers  0 1 2 4 5 6 7 8 9 14 24 --numSamplesConsidered 38
 
-python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers  0 1 2 4 5 6 7 8 9 14 24 --numSamplesConsidered 38
+python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers  0 1 2 4 5 6 7 8 9 14 24 --numSamplesConsidered 17
 
 
 python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 100 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis up_proj --chosenLanLayers 2 --chosenVisLayers 1 19 --numSamplesConsidered 30
@@ -106,6 +106,13 @@ python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.002 --lear
 python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP up_proj --whichMLPVis down_proj --chosenLanLayers 3 --chosenVisLayers  3 11 14 15 19 23 26 29 --numSamplesConsidered 24
 
 
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate gemma3
+
+python qwen/QwenBaselinesAndOursComparision.py --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers  0 1 2 4 5 6 7 8 9 14 24 --numSamplesConsidered 17
 
 '''
 
@@ -219,8 +226,9 @@ towardsNull = 0.5
 
 #all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saav", "saa", "saa_loop"]
 
-all_attck_types = ["bsa", "saa_loop"]
+#all_attck_types = ["bsa", "dra", "ega", "fdam", "saa_loop"]
 
+all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
 
 type_sampleAggP = []
 type_sampleAggR = []
@@ -243,7 +251,12 @@ for attck_type in all_attck_types:
                 f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.txt"
             )
 
-            
+        elif attck_type == "ega":    
+            advOutputPath = (
+                f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
+                f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_ratio_{ega_ratio}.txt"
+            )
+
         else:
             #advOutputPath = f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.txt"
 
@@ -318,9 +331,9 @@ import matplotlib.pyplot as plt
 #AllAttckTypes = ["BSA", "BSA\nFLAT", "BSA\nLAN", "BSA VIS", "DRA", "FDA", "SSPA", "CE", "EGA", "SSPMA"]
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "CE", "EGA", "SSPMA"]
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "SSPMA"]
-#AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA-E", "SSPMA-L", "SSPMA-EL"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
 
-AllAttckTypes = ["BSA", "SSPMA-EL"]
+#AllAttckTypes = ["BSA", "SSPMA-EL"]
 
 save_dir = "qwen/AllPlots/comparision"
 os.makedirs(save_dir, exist_ok=True)  # create folder if it doesn't exist
