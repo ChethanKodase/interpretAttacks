@@ -1,13 +1,16 @@
 
 '''
+
+
 export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 8 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_l2C.py --attck_type grill_l2C --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
 
 export CUDA_VISIBLE_DEVICES=3
 conda deactivate
@@ -15,47 +18,28 @@ cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_GRILL_l2C.py --attck_type grill_l2C --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --vision_weight 2 --last_k 4
 done
 
+first try
+--vision_weight 2 --last_k 4
+then try
+--vision_weight 1 --last_k 8
 
 
 
-
-export CUDA_VISIBLE_DEVICES=0
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 14 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-------------------------------------------------------------------------------------------------------------------------
-
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 5000 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_GRILL_l2C.py --attck_type grill_l2C --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --vision_weight 2 --last_k 4 --vision_weight 1 --last_k 8
 done
-
-
 '''
+
+
+
 
 #!/usr/bin/env python
 import os
@@ -67,14 +51,10 @@ import numpy as np
 from PIL import Image
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
 
-# ----------------------------
-# Reproducibility
-# ----------------------------
 def set_seed(seed: int = 42):
     random.seed(seed)
     np.random.seed(seed)
@@ -103,64 +83,73 @@ if torch.cuda.is_available():
     torch.backends.cuda.enable_math_sdp(True)
 
 
-criterion = nn.MSELoss()
-
-
 # ----------------------------
-# Loss utilities
+# Loss: GRILL-L2 best version
 # ----------------------------
-def cos(a, b):
-    a = a.reshape(-1)
-    b = b.reshape(-1)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
-    return (a * b).sum()
+def mse(a, b):
+    return F.mse_loss(a.float(), b.float(), reduction="mean")
 
 
-def cosVis(a, b):
-    a = torch.flatten(a)
-    b = torch.flatten(b)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
-    return (a * b).sum()
+def getGrillL2_best_try(
+    acts,
+    actsN,
+    outputs,
+    outputsN,
+    vision_start=8,
+    vision_end=28,
+    lang_start=10,
+    last_k=4,
+    vision_weight=5.0,
+):
+    """
+    GRILL-style VLM objective:
 
+        objective = log(1 + final_proxy * layer_sum)
 
-def wasserstein_distance(tensor_a, tensor_b):
-    a = torch.flatten(tensor_a)
-    b = torch.flatten(tensor_b)
-    a_sorted, _ = torch.sort(a)
-    b_sorted, _ = torch.sort(b)
-    return torch.mean(torch.abs(a_sorted - b_sorted))
+    where:
+        final_proxy = mean L2 distance over last-K language hidden states
+        layer_sum   = weighted vision intermediate distortion + language distortion
 
+    This avoids logits because last hidden states worked better in your experiments.
+    """
 
-def get_bsa_loss(outputs, outputsN):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
-        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
-        loss = loss + cos_per_token.sum()
-    return loss
+    vision_layers_adv = acts[vision_start:vision_end]
+    vision_layers_clean = actsN[vision_start:vision_end]
 
+    lang_layers_adv = outputs.hidden_states[lang_start:]
+    lang_layers_clean = outputsN.hidden_states[lang_start:]
 
-def get_bsa_flat_loss(outputs, outputsN):
-    loss = 0.0
-    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
-        loss = loss + (1.0 - cos(h, hn)) ** 2
-    return -1.0 * loss
+    vis_sum = None
+    for h, hn in zip(vision_layers_adv, vision_layers_clean):
+        val = mse(h, hn)
+        vis_sum = val if vis_sum is None else vis_sum + val
 
+    lan_sum = None
+    for h, hn in zip(lang_layers_adv, lang_layers_clean):
+        val = mse(h, hn)
+        lan_sum = val if lan_sum is None else lan_sum + val
 
-def get_bsa_vision_loss(acts, actsN):
-    loss = 0.0
-    for h, hn in zip(acts, actsN):
-        cos_per_token = F.cosine_similarity(h, hn, dim=-1)
-        loss = loss + cos_per_token.sum()
-    return loss
+    final_proxy = None
+    for h, hn in zip(outputs.hidden_states[-last_k:], outputsN.hidden_states[-last_k:]):
+        val = mse(h, hn)
+        final_proxy = val if final_proxy is None else final_proxy + val
 
+    if vis_sum is None:
+        vis_sum = torch.tensor(0.0, device=outputs.hidden_states[0].device)
 
-def get_bsa_flat_vision_loss(acts, actsN):
-    loss = 0.0
-    for h, hn in zip(acts, actsN):
-        loss = loss + (1.0 - cosVis(h, hn)) ** 2
-    return -1.0 * loss
+    if lan_sum is None:
+        lan_sum = torch.tensor(0.0, device=outputs.hidden_states[0].device)
+
+    if final_proxy is None:
+        final_proxy = mse(outputs.hidden_states[-1], outputsN.hidden_states[-1])
+    else:
+        final_proxy = final_proxy / float(last_k)
+
+    layer_sum = vision_weight * vis_sum + lan_sum
+
+    objective = torch.log1p(final_proxy * layer_sum)
+
+    return objective, final_proxy.detach(), vis_sum.detach(), lan_sum.detach()
 
 
 # ----------------------------
@@ -340,7 +329,7 @@ def run_generation_with_pixel_values(
 
 
 # ----------------------------
-# Vision hooks: this is the important part
+# Vision hooks
 # ----------------------------
 def run_get_image_features_with_vision_hooks(model, pixel_values, image_grid_thw):
     acts = []
@@ -377,7 +366,7 @@ def run_get_image_features_with_vision_hooks(model, pixel_values, image_grid_thw
 
 
 # ----------------------------
-# ORIGINAL-image-space BSA attack
+# Attack
 # ----------------------------
 def adam_attack_original_space(
     model,
@@ -390,6 +379,11 @@ def adam_attack_original_space(
     epsilon,
     device,
     save_conv_path,
+    vision_weight=5.0,
+    last_k=4,
+    vision_start=8,
+    vision_end=28,
+    lang_start=10,
 ):
     x_orig01 = x_orig01.detach().to(device)
 
@@ -398,11 +392,17 @@ def adam_attack_original_space(
 
     optimizer = torch.optim.Adam([delta], lr=lr)
 
-    losses_list = [0.0]
-    best_loss = 1e18
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+        optimizer,
+        T_max=num_steps,
+        eta_min=1e-5,
+    )
+
+    scores_list = [0.0]
+    best_score = -1e18
     best_delta = delta.detach().clone()
 
-    model.train()
+    model.eval()
     model.config.use_cache = False
     model.config.output_hidden_states = True
     model.config.return_dict = True
@@ -467,39 +467,48 @@ def adam_attack_original_space(
             grid_adv,
         )
 
-        if attck_type == "bsa":
-            loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
-        elif attck_type == "bsa_flat":
-            loss = get_bsa_flat_loss(outputs, outputsN) + get_bsa_flat_vision_loss(acts, actsN)
-        elif attck_type == "bsa_flat_lan":
-            loss = get_bsa_flat_loss(outputs, outputsN)
-        elif attck_type == "bsa_flat_vis":
-            loss = get_bsa_flat_vision_loss(acts, actsN)
-        else:
-            raise ValueError(
-                f"Unknown attck_type={attck_type}. "
-                "Use bsa | bsa_flat | bsa_flat_lan | bsa_flat_vis"
-            )
+        objective, final_proxy, vis_sum, lan_sum = getGrillL2_best_try(
+            acts=acts,
+            actsN=actsN,
+            outputs=outputs,
+            outputsN=outputsN,
+            vision_start=vision_start,
+            vision_end=vision_end,
+            lang_start=lang_start,
+            last_k=last_k,
+            vision_weight=vision_weight,
+        )
+
+        loss = -objective
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
+        scheduler.step()
 
         with torch.no_grad():
             delta.data.clamp_(-epsilon, epsilon)
 
-        lv = float(loss.item())
+        score = float(objective.item())
 
         if step == 0 or (step + 1) % 10 == 0:
-            print(f"[Adam step {step + 1}/{num_steps}] loss={lv:.6f}")
+            print(
+                f"[Adam step {step + 1}/{num_steps}] "
+                f"loss={float(loss.item()):.6f} "
+                f"score={score:.6f} "
+                f"final_proxy={float(final_proxy.item()):.6f} "
+                f"vis_sum={float(vis_sum.item()):.6f} "
+                f"lan_sum={float(lan_sum.item()):.6f} "
+                f"lr={scheduler.get_last_lr()[0]:.8f}"
+            )
 
-        if lv < best_loss:
-            best_loss = lv
+        if score > best_score:
+            best_score = score
             best_delta = delta.detach().clone()
-            losses_list.append(lv)
-            np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
+            scores_list.append(score)
+            np.save(save_conv_path, np.array(scores_list, dtype=np.float32))
 
-        del outputs, acts, loss, pv_adv, grid_adv
+        del outputs, acts, loss, objective, pv_adv, grid_adv
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
@@ -507,6 +516,8 @@ def adam_attack_original_space(
             torch.min(x_adv01_final, x_orig01 + epsilon),
             x_orig01 - epsilon,
         ).clamp(0.0, 1.0)
+
+    print(f"Best GRILL score: {best_score:.6f}")
 
     return x_adv01_final, best_delta
 
@@ -516,15 +527,21 @@ def adam_attack_original_space(
 # ----------------------------
 def main():
     parser = argparse.ArgumentParser(
-        description="Qwen2.5-VL original-image-space BSA attack"
+        description="Qwen2.5-VL original-image-space GRILL-L2 attack"
     )
 
-    parser.add_argument("--attck_type", type=str, default="bsa")
+    parser.add_argument("--attck_type", type=str, default="grill_l2_best")
     parser.add_argument("--desired_norm_l_inf", type=float, default=0.005)
     parser.add_argument("--learningRate", type=float, default=0.001)
-    parser.add_argument("--num_steps", type=int, default=100)
+    parser.add_argument("--num_steps", type=int, default=1000)
     parser.add_argument("--numSteps", type=int, default=None)
     parser.add_argument("--attackSample", type=str, default="nature")
+
+    parser.add_argument("--vision_weight", type=float, default=5.0)
+    parser.add_argument("--last_k", type=int, default=4)
+    parser.add_argument("--vision_start", type=int, default=8)
+    parser.add_argument("--vision_end", type=int, default=28)
+    parser.add_argument("--lang_start", type=int, default=10)
 
     args = parser.parse_args()
 
@@ -546,17 +563,23 @@ def main():
 
     conv_path = (
         f"qwen/outputsStorageImagenet/convergence/{attackSample}/"
-        f"qwen_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.npy"
+        f"qwen_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}"
+        f"_vw_{args.vision_weight}_lastk_{args.last_k}"
+        f"_vs_{args.vision_start}_ve_{args.vision_end}_ls_{args.lang_start}.npy"
     )
 
     adv_img_path = (
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
-        f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.png"
+        f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}"
+        f"_vw_{args.vision_weight}_lastk_{args.last_k}"
+        f"_vs_{args.vision_start}_ve_{args.vision_end}_ls_{args.lang_start}.png"
     )
 
     adv_noise_path = (
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
-        f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.pt"
+        f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}"
+        f"_vw_{args.vision_weight}_lastk_{args.last_k}"
+        f"_vs_{args.vision_start}_ve_{args.vision_end}_ls_{args.lang_start}.pt"
     )
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -603,7 +626,7 @@ def main():
     if device.type == "cuda":
         torch.cuda.empty_cache()
 
-    print("\nRunning BSA attack...")
+    print("\nRunning GRILL-L2 best attack...")
     x_adv01, best_pert = adam_attack_original_space(
         model=model,
         processor=processor,
@@ -615,6 +638,11 @@ def main():
         epsilon=epsilon,
         device=device,
         save_conv_path=conv_path,
+        vision_weight=args.vision_weight,
+        last_k=args.last_k,
+        vision_start=args.vision_start,
+        vision_end=args.vision_end,
+        lang_start=args.lang_start,
     )
 
     tensor01_to_pil(x_adv01).save(adv_img_path)
@@ -645,7 +673,9 @@ def main():
 
     advOutTxt = (
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
-        f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.txt"
+        f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}"
+        f"_vw_{args.vision_weight}_lastk_{args.last_k}"
+        f"_vs_{args.vision_start}_ve_{args.vision_end}_ls_{args.lang_start}.txt"
     )
 
     with open(advOutTxt, "w") as f:

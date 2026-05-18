@@ -1,49 +1,13 @@
 
 '''
-export CUDA_VISIBLE_DEVICES=2
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 8 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-export CUDA_VISIBLE_DEVICES=3
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-
-
-
-
 export CUDA_VISIBLE_DEVICES=0
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 14 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_GRILL_cos2.py --attck_type grill_cos2 --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-------------------------------------------------------------------------------------------------------------------------
 
 export CUDA_VISIBLE_DEVICES=1
 conda deactivate
@@ -51,8 +15,34 @@ cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 5000 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_GRILL_cos2.py --attck_type grill_cos2 --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
+
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_cos2.py --attck_type grill_cos2 --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_cos2.py --attck_type grill_cos2 --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_cos2.py --attck_type grill_cos2 --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 5000 --attackSample $ATTACK_SAMPLE
+done
+
 
 
 '''
@@ -112,17 +102,18 @@ criterion = nn.MSELoss()
 def cos(a, b):
     a = a.reshape(-1)
     b = b.reshape(-1)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
+    a = F.normalize(a, dim=0, eps=1e-8)
+    b = F.normalize(b, dim=0, eps=1e-8)
     return (a * b).sum()
 
 
 def cosVis(a, b):
     a = torch.flatten(a)
     b = torch.flatten(b)
-    a = F.normalize(a, dim=0)
-    b = F.normalize(b, dim=0)
+    a = F.normalize(a, dim=0, eps=1e-8)
+    b = F.normalize(b, dim=0, eps=1e-8)
     return (a * b).sum()
+
 
 
 def wasserstein_distance(tensor_a, tensor_b):
@@ -138,7 +129,7 @@ def get_bsa_loss(outputs, outputsN):
     for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
         cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
         loss = loss + cos_per_token.sum()
-    return loss
+    return loss * cos_per_token.sum()
 
 
 def get_bsa_flat_loss(outputs, outputsN):
@@ -153,7 +144,39 @@ def get_bsa_vision_loss(acts, actsN):
     for h, hn in zip(acts, actsN):
         cos_per_token = F.cosine_similarity(h, hn, dim=-1)
         loss = loss + cos_per_token.sum()
-    return loss
+    return loss * cos_per_token.sum()
+
+
+def get_bsaVisLanCompb_loss(outputs, outputsN, acts, actsN):
+    loss = 0.0
+    for h, hn in zip(acts, actsN):
+        cos_per_token = F.cosine_similarity(h, hn, dim=-1)
+        loss = loss + cos_per_token.sum()
+    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
+        loss = loss + cos_per_token.sum()
+    return loss * cos_per_token.sum()
+
+
+def get_bsaVisLanCompb_loss1(outputs, outputsN, acts, actsN):
+
+    loss = 0.0
+
+    # Vision
+    for h, hn in zip(acts, actsN):
+        cos_sim = F.cosine_similarity(h, hn, dim=-1)
+        loss += (1.0 - cos_sim.mean())
+
+    # Language
+    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+        cos_sim = F.cosine_similarity(
+            h.squeeze(0),
+            hn.squeeze(0),
+            dim=1
+        )
+        loss += (1.0 - cos_sim.mean())
+
+    return loss * (1.0 - cos_sim.mean())
 
 
 def get_bsa_flat_vision_loss(acts, actsN):
@@ -161,6 +184,55 @@ def get_bsa_flat_vision_loss(acts, actsN):
     for h, hn in zip(acts, actsN):
         loss = loss + (1.0 - cosVis(h, hn)) ** 2
     return -1.0 * loss
+
+
+def cosine_distance_mean(a, b):
+    a = a.float()
+    b = b.float()
+
+    a = a.reshape(a.shape[0], -1) if a.dim() > 2 else a
+    b = b.reshape(b.shape[0], -1) if b.dim() > 2 else b
+
+    cos_sim = F.cosine_similarity(a, b, dim=-1, eps=1e-8)
+    return (1.0 - cos_sim).mean()
+
+
+def get_grill_cos_lossNew(outputs_adv, outputs_clean, acts_adv, acts_clean):
+    """
+    Implements GRILL for VLMs:
+
+        L_GRILL = delta_output * sum_k delta_k
+
+    where delta_output is output/logit distortion,
+    and delta_k are intermediate hidden/vision activation distortions.
+
+    Return negative value because torch.optim minimizes.
+    """
+
+    # Output-space distortion: logits
+    '''delta_star = cosine_distance_mean(
+        outputs_adv.logits,
+        outputs_clean.logits
+    )'''
+
+    layer_sum = 0.0
+
+    # Language hidden-state distortions
+    for h_adv, h_clean in zip(
+        outputs_adv.hidden_states,
+        outputs_clean.hidden_states
+    ):
+        layer_sum = layer_sum + cosine_distance_mean(h_adv, h_clean)
+
+    # Vision hidden-state distortions
+    for v_adv, v_clean in zip(acts_adv, acts_clean):
+        delta_star = cosine_distance_mean(v_adv, v_clean)
+        layer_sum = layer_sum + delta_star
+
+    grill_objective = delta_star * layer_sum
+
+    # maximize GRILL objective by minimizing negative objective
+    return grill_objective
 
 
 # ----------------------------
@@ -402,7 +474,7 @@ def adam_attack_original_space(
     best_loss = 1e18
     best_delta = delta.detach().clone()
 
-    model.train()
+    model.eval()
     model.config.use_cache = False
     model.config.output_hidden_states = True
     model.config.return_dict = True
@@ -467,19 +539,13 @@ def adam_attack_original_space(
             grid_adv,
         )
 
-        if attck_type == "bsa":
-            loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
-        elif attck_type == "bsa_flat":
-            loss = get_bsa_flat_loss(outputs, outputsN) + get_bsa_flat_vision_loss(acts, actsN)
-        elif attck_type == "bsa_flat_lan":
-            loss = get_bsa_flat_loss(outputs, outputsN)
-        elif attck_type == "bsa_flat_vis":
-            loss = get_bsa_flat_vision_loss(acts, actsN)
-        else:
-            raise ValueError(
-                f"Unknown attck_type={attck_type}. "
-                "Use bsa | bsa_flat | bsa_flat_lan | bsa_flat_vis"
-            )
+
+        #loss =  get_bsa_vision_loss(acts, actsN)
+        #loss = get_bsaVisLanCompb_loss1(outputs, outputsN, acts, actsN)
+
+        loss = -1 * get_grill_cos_lossNew(outputs, outputsN, acts, actsN)
+
+        
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()

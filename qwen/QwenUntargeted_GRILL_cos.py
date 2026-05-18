@@ -1,15 +1,8 @@
 
 '''
-export CUDA_VISIBLE_DEVICES=2
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 8 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
 
-export CUDA_VISIBLE_DEVICES=0
+
+export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
@@ -17,10 +10,58 @@ export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
     python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
     python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 5000 --attackSample $ATTACK_SAMPLE
+done
+
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=0
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 2 50); do
+    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 2 50); do
     python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
@@ -30,40 +71,19 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 2 50); do
+    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
-
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=3
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 14 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 2 50); do
+    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_cos.py --attck_type grill_cos --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 100 --attackSample $ATTACK_SAMPLE
-done
-
 
 '''
 
@@ -175,7 +195,7 @@ def get_bsa_flat_vision_loss(acts, actsN):
 
 def getGrillCosLoss(outputs,outputsN):
     loss = 0
-    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
+    for hiddenState, hiddenStateN in zip(outputs.hidden_states[:13],outputsN.hidden_states[:13]):
         loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
     return loss * (1.0-cos(hiddenState, hiddenStateN))**2
 
@@ -184,6 +204,19 @@ def getGrillCosLossVis(outputs,outputsN):
     for hiddenState, hiddenStateN in zip(outputs, outputsN):
         loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
     return loss * (1.0-cos(hiddenState, hiddenStateN))**2
+
+
+def getGrillCosLossLanVisComb(acts, actsN, outputs,outputsN):
+    loss = 0
+    for hiddenState, hiddenStateN in zip(acts, actsN):
+        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
+
+    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
+        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
+
+    return loss * (1.0-cos(hiddenState, hiddenStateN))**2
+
+
 
 # ----------------------------
 # PIL / tensor helpers
@@ -424,7 +457,7 @@ def adam_attack_original_space(
     best_loss = 1e18
     best_delta = delta.detach().clone()
 
-    model.train()
+    model.eval()
     model.config.use_cache = False
     model.config.output_hidden_states = True
     model.config.return_dict = True
@@ -490,15 +523,15 @@ def adam_attack_original_space(
         )
 
 
-        loss = -1 * ( getGrillCosLoss(outputs, outputsN) + getGrillCosLossVis(acts, actsN))
+        #loss = -1 *  (getGrillCosLoss(outputs, outputsN) + getGrillCosLossVis(acts, actsN) )
+
+        loss = -1 *  getGrillCosLossLanVisComb(acts, actsN, outputs, outputsN)
+
 
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
-        optimizer.step()
 
-        with torch.no_grad():
-            delta.data.clamp_(-epsilon, epsilon)
 
         lv = float(loss.item())
 
@@ -510,6 +543,11 @@ def adam_attack_original_space(
             best_delta = delta.detach().clone()
             losses_list.append(lv)
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
+
+        optimizer.step()
+
+        with torch.no_grad():
+            delta.data.clamp_(-epsilon, epsilon)
 
         del outputs, acts, loss, pv_adv, grid_adv
 

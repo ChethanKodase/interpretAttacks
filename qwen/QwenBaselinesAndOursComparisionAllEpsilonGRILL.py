@@ -18,6 +18,7 @@ python qwen/QwenBaselinesAndOursComparisionAllEpsilonGRILL.py \
     --numSamplesConsidered 38
 
 '''
+
 from bert_score import score
 import argparse
 import matplotlib as mpl
@@ -97,7 +98,7 @@ ega_ratio = 0.2
 
 #allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
 
-allEpsilons = [0.002, 0.005]
+allEpsilons = [0.001, 0.002, 0.004, 0.005]
 
 
 all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "grill_cos"]
