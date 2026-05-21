@@ -4,31 +4,16 @@
 export CUDA_VISIBLE_DEVICES=0
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
+python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilonAblation.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
 
 
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=4
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50 --perturbationScale tinyTiny
-
-export CUDA_VISIBLE_DEVICES=1
-conda activate gemma3
-cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50 --perturbationScale tiny
+python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilonAblation.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
 
 
-export CUDA_VISIBLE_DEVICES=2
-conda activate gemma3
-cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50 --perturbationScale moderate
-
-
-export CUDA_VISIBLE_DEVICES=3
-conda activate gemma3
-cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilon.py --learningRate 0.001 --num_steps 100 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50 --perturbationScale tiny
 '''
 
 
@@ -137,19 +122,21 @@ ega_ratio = 0.2
 #allEpsilons = [0.01, 0.02, 0.03, 0.04, 0.05]
 
 #epsilonTypes = "tiny"
-#epsilonTypes = "tinyTiny"
+epsilonTypes = "tinyTiny"
 #epsilonTypes = "moderate"
-epsilonTypes = perturbationScale
+
 
 if epsilonTypes == "tiny":
     allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
-    all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
+    #all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saav", "saa", "saa_loop"]
+    all_attck_types = ["saav", "saa", "saa_loop"]
+
 elif epsilonTypes == "tinyTiny":
     allEpsilons = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
-    all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
+    all_attck_types = ["saav", "saa", "saa_loop"]
 else:
     allEpsilons = [0.01, 0.02, 0.03, 0.04, 0.05]
-    all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
+    all_attck_types = ["saav", "saa", "saa_loop"]
 
 precisionMeanForAttacksSeries = []
 precisionStdForAttacksSeries = []
@@ -277,16 +264,19 @@ f1StdForAttacksSeries = np.array(f1StdForAttacksSeries)
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "SSPMA"]
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "SSPMA-E", "SSPMA-L"]
 if epsilonTypes == "tiny":
-    AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
+    #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA-E", "SSPMA-L", "SSPMA-EL"]
+    AllAttckTypes = ["SSPMA-Vis", "SSPMA-Text", "SSPMA"]
+
 else:
-    AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
+    #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA-E", "SSPMA-L", "SSPMA-EL"]
+    AllAttckTypes = ["SSPMA-Vis", "SSPMA-Text", "SSPMA"]
 
 
 #---------------------------------------------------------------------------------------------------------------------------------------------------
 means = precisionMeanForAttacksSeries
 stds = precisionStdForAttacksSeries
 time_points = allEpsilons #np.arange(means.shape[0])  # [0, 1, 2]
-save_dir = "gemma_attack/AllPlots/comparisionSeries"
+save_dir = "gemma_attack/AllPlots/comparisionSeriesAblation"
 os.makedirs(save_dir, exist_ok=True)
 plt.figure()
 for i in range(means.shape[1]):  # 5 objects
@@ -339,7 +329,7 @@ print("stds", stds)
 means = recallMeanForAttacksSeries
 stds = recallStdForAttacksSeries
 time_points = allEpsilons #np.arange(means.shape[0])  # [0, 1, 2]
-save_dir = "gemma_attack/AllPlots/comparisionSeries"
+#save_dir = "gemma_attack/AllPlots/comparisionSeriesAblation"
 os.makedirs(save_dir, exist_ok=True)
 plt.figure()
 for i in range(means.shape[1]):  # 5 objects
@@ -392,7 +382,7 @@ print("stds", stds)
 means = f1MeanForAttacksSeries
 stds = f1StdForAttacksSeries
 time_points = allEpsilons #np.arange(means.shape[0])  # [0, 1, 2]
-save_dir = "gemma_attack/AllPlots/comparisionSeries"
+#save_dir = "gemma_attack/AllPlots/comparisionSeries"
 os.makedirs(save_dir, exist_ok=True)
 plt.figure()
 for i in range(means.shape[1]):  # 5 objects
