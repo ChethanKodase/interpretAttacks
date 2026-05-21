@@ -13,6 +13,10 @@ for ATTACK_SAMPLE in $(seq 2 50); do
     python qwen/QwenUntargeted_GRILL_cos_flops.py --attck_type grill_cos --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
+
+
+17943893878625
+
 '''
 
 #!/usr/bin/env python
