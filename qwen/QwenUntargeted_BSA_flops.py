@@ -1,36 +1,13 @@
 
 '''
-
-
-export CUDA_VISIBLE_DEVICES=1
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 10 50); do
-    python qwen/QwenUntargeted_GRILL_wass.py --attck_type grill_wass --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-
 export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 10 50); do
-    python qwen/QwenUntargeted_GRILL_wass.py --attck_type grill_wass --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_BSA_flops.py --attck_type bsa --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
-
-export CUDA_VISIBLE_DEVICES=0
-conda deactivate
-cd interpretAttacks/
-conda activate vlmAttack
-export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 9 50); do
-    python qwen/QwenUntargeted_GRILL_wass.py --attck_type grill_wass --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
 
 export CUDA_VISIBLE_DEVICES=3
 conda deactivate
@@ -38,13 +15,11 @@ cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_wass.py --attck_type grill_wass --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_BSA_flops.py --attck_type bsa --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILL_wass.py --attck_type grill_wass --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 5000 --attackSample $ATTACK_SAMPLE
-done
+
 
 
 
@@ -64,7 +39,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
-
+from torch.profiler import profile, ProfilerActivity
 # ----------------------------
 # Reproducibility
 # ----------------------------
@@ -155,44 +130,6 @@ def get_bsa_flat_vision_loss(acts, actsN):
         loss = loss + (1.0 - cosVis(h, hn)) ** 2
     return -1.0 * loss
 
-
-def getGrillCosLoss(outputs,outputsN):
-    loss = 0
-    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
-        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
-    return loss * (1.0-cos(hiddenState, hiddenStateN))**2
-
-def getGrillCosLossVis(outputs,outputsN):
-    loss = 0
-    for hiddenState, hiddenStateN in zip(outputs, outputsN):
-        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
-    return loss * (1.0-cos(hiddenState, hiddenStateN))**2
-
-
-def getGrillWassLoss(outputs,outputsN):
-    loss = 0
-    #for hiddenState, hiddenStateN in zip(outputs.hidden_states[:13],outputsN.hidden_states[:13]):
-    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
-        loss = loss + wasserstein_distance(hiddenState, hiddenStateN)
-    return loss * wasserstein_distance(hiddenState, hiddenStateN)
-
-
-def getGrillWassLossVis(outputs,outputsN):
-    loss = 0
-    for hiddenState, hiddenStateN in zip(outputs[14:],outputsN[14:]):
-        loss = loss + wasserstein_distance(hiddenState, hiddenStateN)
-    return loss * wasserstein_distance(hiddenState, hiddenStateN)
-
-
-def getGrillWassLossLanVisComb(acts, actsN, outputs,outputsN):
-    loss = 0
-    for hiddenState, hiddenStateN in zip(acts, actsN):
-        loss = loss + wasserstein_distance(hiddenState, hiddenStateN)
-
-    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
-        loss = loss + wasserstein_distance(hiddenState, hiddenStateN)
-
-    return loss * wasserstein_distance(hiddenState, hiddenStateN)
 
 # ----------------------------
 # PIL / tensor helpers
@@ -433,7 +370,7 @@ def adam_attack_original_space(
     best_loss = 1e18
     best_delta = delta.detach().clone()
 
-    model.eval()
+    model.train()
     model.config.use_cache = False
     model.config.output_hidden_states = True
     model.config.return_dict = True
@@ -475,56 +412,126 @@ def adam_attack_original_space(
     adv_inputs["use_cache"] = False
 
     for step in range(num_steps):
-        x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
-        x_adv01 = torch.max(
-            torch.min(x_adv01, x_orig01 + epsilon),
-            x_orig01 - epsilon,
-        ).clamp(0.0, 1.0)
 
-        pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
+        if step == 0:
+            print("entered zero ?")
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                torch.cuda.reset_peak_memory_stats()
+            with profile(
+                activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+                with_flops=True,
+                record_shapes=True
+            ) as prof:
 
-        adv_inputs["pixel_values"] = pv_adv
-        adv_inputs["image_grid_thw"] = grid_adv
+                x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
+                x_adv01 = torch.max(
+                    torch.min(x_adv01, x_orig01 + epsilon),
+                    x_orig01 - epsilon,
+                ).clamp(0.0, 1.0)
 
-        outputs = model(
-            **adv_inputs,
-            output_hidden_states=True,
-            return_dict=True,
-        )
+                pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
 
-        _, acts = run_get_image_features_with_vision_hooks(
-            model,
-            pv_adv,
-            grid_adv,
-        )
+                adv_inputs["pixel_values"] = pv_adv
+                adv_inputs["image_grid_thw"] = grid_adv
+
+                outputs = model(
+                    **adv_inputs,
+                    output_hidden_states=True,
+                    return_dict=True,
+                )
+
+                _, acts = run_get_image_features_with_vision_hooks(
+                    model,
+                    pv_adv,
+                    grid_adv,
+                )
+
+                
+                loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
 
 
-        #loss = -1 * ( getGrillCosLoss(outputs, outputsN) + getGrillCosLossVis(acts, actsN))
+                optimizer.zero_grad(set_to_none=True)
+                loss.backward()
+                optimizer.step()
 
-        #loss = -1 * (getGrillWassLoss(outputs, outputsN) + getGrillWassLossVis(acts, actsN))
+                with torch.no_grad():
+                    delta.data.clamp_(-epsilon, epsilon)
 
-        loss = -1 *  getGrillWassLossLanVisComb(acts, actsN, outputs,outputsN)
+                lv = float(loss.item())
+
+                if step == 0 or (step + 1) % 10 == 0:
+                    print(f"[Adam step {step + 1}/{num_steps}] loss={lv:.6f}")
+
+                if lv < best_loss:
+                    best_loss = lv
+                    best_delta = delta.detach().clone()
+                    losses_list.append(lv)
+                    #np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
+
+                del outputs, acts, loss, pv_adv, grid_adv
+
+            print(prof.key_averages().table(sort_by="flops", row_limit=20))
+
+            total_flops_step0 = sum(
+                evt.flops for evt in prof.key_averages() if evt.flops is not None
+            )
+            print(f"FLOPs for profiled attack step: {total_flops_step0}")
+            print(f"Estimated FLOPs for all {num_steps} steps: {total_flops_step0 * num_steps}")
+            if torch.cuda.is_available():
+                print(f"Peak GPU allocated: {torch.cuda.max_memory_allocated() / 1024**2:.2f} MB")
+                print(f"Peak GPU reserved:  {torch.cuda.max_memory_reserved() / 1024**2:.2f} MB")
+
+        else:
+
+            x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
+            x_adv01 = torch.max(
+                torch.min(x_adv01, x_orig01 + epsilon),
+                x_orig01 - epsilon,
+            ).clamp(0.0, 1.0)
+
+            pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
+
+            adv_inputs["pixel_values"] = pv_adv
+            adv_inputs["image_grid_thw"] = grid_adv
+
+            outputs = model(
+                **adv_inputs,
+                output_hidden_states=True,
+                return_dict=True,
+            )
+
+            _, acts = run_get_image_features_with_vision_hooks(
+                model,
+                pv_adv,
+                grid_adv,
+            )
 
 
-        optimizer.zero_grad(set_to_none=True)
-        loss.backward()
-        optimizer.step()
+            loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
 
-        with torch.no_grad():
-            delta.data.clamp_(-epsilon, epsilon)
 
-        lv = float(loss.item())
+            optimizer.zero_grad(set_to_none=True)
+            loss.backward()
+            optimizer.step()
 
-        if step == 0 or (step + 1) % 10 == 0:
-            print(f"[Adam step {step + 1}/{num_steps}] loss={lv:.6f}")
+            with torch.no_grad():
+                delta.data.clamp_(-epsilon, epsilon)
 
-        if lv < best_loss:
-            best_loss = lv
-            best_delta = delta.detach().clone()
-            losses_list.append(lv)
-            np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
+            lv = float(loss.item())
 
-        del outputs, acts, loss, pv_adv, grid_adv
+            if step == 0 or (step + 1) % 10 == 0:
+                print(f"[Adam step {step + 1}/{num_steps}] loss={lv:.6f}")
+
+            if lv < best_loss:
+                best_loss = lv
+                best_delta = delta.detach().clone()
+                losses_list.append(lv)
+                #np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
+
+            del outputs, acts, loss, pv_adv, grid_adv
+
+
 
     with torch.no_grad():
         x_adv01_final = (x_orig01 + best_delta).clamp(0.0, 1.0)
@@ -642,42 +649,7 @@ def main():
         save_conv_path=conv_path,
     )
 
-    tensor01_to_pil(x_adv01).save(adv_img_path)
-    torch.save(best_pert.detach().cpu(), adv_noise_path)
 
-    print(f"\nSaved ORIGINAL-resolution adversarial image to: {adv_img_path}")
-    print(f"Saved perturbation to: {adv_noise_path}")
-
-    pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
-
-    print("\n=== ADVERSARIAL OUTPUT ===")
-    adv_text = run_generation_with_pixel_values(
-        model,
-        processor,
-        template_inputs,
-        pv_adv,
-        grid_adv,
-        max_new_tokens=MAX_NEW_TOKENS,
-    )
-    print(adv_text)
-
-    cleanOutTxt = (
-        f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/cleanOutput.txt"
-    )
-
-    with open(cleanOutTxt, "w") as f:
-        f.write(clean_text + "\n\n")
-
-    advOutTxt = (
-        f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
-        f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_num_steps_{num_steps}_.txt"
-    )
-
-    with open(advOutTxt, "w") as f:
-        f.write(adv_text + "\n")
-
-    print(f"\nSaved outputs to: {advOutTxt}")
-    print(f"Saved convergence to: {conv_path}")
 
 
 if __name__ == "__main__":

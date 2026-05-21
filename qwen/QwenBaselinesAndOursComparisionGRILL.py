@@ -11,6 +11,14 @@ python qwen/QwenBaselinesAndOursComparisionGRILL.py --desired_norm_l_inf 0.004 -
 
 
 
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate gemma3
+python qwen/QwenBaselinesAndOursComparisionGRILL.py --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers  0 1 2 4 5 6 7 8 9 14 24 --numSamplesConsidered 50
+
+
+
 '''
 
 
@@ -126,6 +134,7 @@ towardsNull = 0.5
 #all_attck_types = ["bsa", "dra", "ega", "fdam", "saa_loop"]
 
 all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "grill_cos", "grill_cos2", "grill_l2C"]
+all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "grill_cos"]
 
 #all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "grill_cos", "grill_wass"]
 vision_weight = 1.0 # 2.0
@@ -262,6 +271,8 @@ import matplotlib.pyplot as plt
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "CE", "EGA", "SSPMA"]
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "SSPMA"]
 AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "GRILL-cos", "GRILL-cos2", "GRILL-L2C"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "GRILL-cos"]
+
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "GRILL-cos", "GRILL-wass"]
 #AllAttckTypes = ["BSA", "SSPMA-EL"]
 

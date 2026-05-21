@@ -195,7 +195,7 @@ def get_bsa_flat_vision_loss(acts, actsN):
 
 def getGrillCosLoss(outputs,outputsN):
     loss = 0
-    for hiddenState, hiddenStateN in zip(outputs.hidden_states[:13],outputsN.hidden_states[:13]):
+    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
         loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
     return loss * (1.0-cos(hiddenState, hiddenStateN))**2
 
@@ -523,9 +523,9 @@ def adam_attack_original_space(
         )
 
 
-        #loss = -1 *  (getGrillCosLoss(outputs, outputsN) + getGrillCosLossVis(acts, actsN) )
+        loss = -1 *  (getGrillCosLoss(outputs, outputsN) + getGrillCosLossVis(acts, actsN) )
 
-        loss = -1 *  getGrillCosLossLanVisComb(acts, actsN, outputs, outputsN)
+        #loss = -1 *  getGrillCosLossLanVisComb(acts, actsN, outputs, outputsN)
 
 
 
