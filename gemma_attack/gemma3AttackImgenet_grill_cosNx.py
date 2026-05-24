@@ -12,24 +12,36 @@
 export CUDA_VISIBLE_DEVICES=1
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_grill_cos.py --attck_type grill_cos --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_grill_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_grill_cos.py --attck_type grill_cos --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+export CUDA_VISIBLE_DEVICES=2
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_grill_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_grill_cos.py --attck_type grill_cos --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+export CUDA_VISIBLE_DEVICES=3
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_grill_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_grill_cos.py --attck_type grill_cos --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+export CUDA_VISIBLE_DEVICES=4
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_grill_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_grill_cos.py --attck_type grill_cos --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_grill_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
@@ -118,17 +130,46 @@ def get_grill_wass(outputs, outputsN):
 
 def get_grill_cos(outputs, outputsN):
     loss = 0.0
+    losses = []
     for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
         loss = loss + (1.0 - cos(h, hn)) ** 2
-    #return loss * (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
-    return loss * (1.0 - cos(h, hn)) ** 2
+        losses.append(loss)
+    losses_tensor = torch.stack(losses)   
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2
+    return agg
 
 def get_grill_cosVis(outputs, outputsN):
     loss = 0.0
+    losses = []
     for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
         loss = loss + (1.0 - cosVis(h, hn)) ** 2
-    #return loss * (1.0 - cos(outputs.logits, outputsN.logits)) ** 2
-    return loss * (1.0 - cosVis(h, hn)) ** 2
+        losses.append(loss)
+    losses_tensor = torch.stack(losses)   
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2
+    return agg
+
+
+'''def getGrillCosLoss(outputs,outputsN):
+    loss = 0
+    losses = []
+    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
+        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
+        losses.append(loss)
+        #print("loss", loss)
+    losses_tensor = torch.stack(losses)   # shape: [13, ...]
+    #print("losses_tensor.shape", losses_tensor.shape)
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2
+    return agg
+
+def getGrillCosLossVis(outputs,outputsN):
+    loss = 0
+    losses = []
+    for hiddenState, hiddenStateN in zip(outputs, outputsN):
+        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
+        losses.append(loss)
+    losses_tensor = torch.stack(losses)   # shape: [13, ...]
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2
+    return agg'''
 
 def get_oa_l2(outputs, outputsN):
     return criterion(outputs.logits, outputsN.logits)
