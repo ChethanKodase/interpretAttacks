@@ -7,9 +7,39 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 1 50); do
+for ATTACK_SAMPLE in $(seq 1 10); do
     python qwen/QwenUntargeted_GRILL_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 11 20); do
+    python qwen/QwenUntargeted_GRILL_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 21 30); do
+    python qwen/QwenUntargeted_GRILL_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 31 40); do
+    python qwen/QwenUntargeted_GRILL_cosNx.py --attck_type grill_cosNx --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 export CUDA_VISIBLE_DEVICES=1
 conda deactivate
@@ -223,7 +253,7 @@ def getGrillCosLoss(outputs,outputsN):
         #print("loss", loss)
     losses_tensor = torch.stack(losses)   # shape: [13, ...]
     #print("losses_tensor.shape", losses_tensor.shape)
-    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2 # equivalent to summation of pairwise loss products. It is suitable for QWEN
     return agg
 
 def getGrillCosLossVis(outputs,outputsN):
@@ -233,7 +263,7 @@ def getGrillCosLossVis(outputs,outputsN):
         loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
         losses.append(loss)
     losses_tensor = torch.stack(losses)   # shape: [13, ...]
-    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2  # equivalent to summation of pairwise loss products. It is suitable for QWEN
     return agg
 
 
