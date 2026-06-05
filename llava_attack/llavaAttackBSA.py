@@ -13,8 +13,8 @@ python llava_attack/llava_attack_imagenet.py --attck_type bsa --desired_norm_l_i
 export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
 conda activate llava15
-for ATTACK_SAMPLE in $(seq 9 50); do
-    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
@@ -32,6 +32,7 @@ done
 for ATTACK_SAMPLE in $(seq 1 50); do
     python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
 
 '''
 
@@ -365,6 +366,10 @@ def adam_attack_original_space(
     model.config.use_cache = False
     model.config.output_hidden_states = True
     model.config.return_dict = True
+
+    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########
+    for name, param in model.named_parameters():
+        print(f"{name:60s} {tuple(param.shape)}")
 
     # Clean outputs and clean vision activations are fixed targets.
     with torch.no_grad():
