@@ -274,10 +274,10 @@ python llava_attack/llava_attack_imagenet_KSA_loop.py --attck_type saa_loop --de
 
 
 
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
+python llava_attack/llava_attack_imagenet_KSA_loopAdvG.py --attck_type saa_loopAdvG --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 0 1 2 3 4 5 --chosenVisLayers 3 4 7 9 10 11 13 16 18 20
 
 '''
 
@@ -424,32 +424,6 @@ def llava_preprocess_differentiable(x01: torch.Tensor, image_processor) -> torch
     x = center_crop(x, th, tw)
     x = normalize_like_processor(x, image_processor)
     return x
-
-
-def get_bsa_loss(outputs, outputsN):
-    """
-    Token-wise cosine similarity over LLaVA language hidden states.
-    The attack minimizes this value, matching your Qwen BSA implementation.
-    """
-    hidden_states = outputs.hidden_states
-    clean_hidden_states = outputsN.hidden_states
-
-    loss = 0.0
-    for h, hn in zip(hidden_states, clean_hidden_states):
-        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
-        loss = loss + cos_per_token.sum()
-    return loss
-
-
-def get_bsa_vision_loss(acts, actsN):
-    """
-    Token-wise cosine similarity over CLIP vision tower hidden states.
-    """
-    loss = 0.0
-    for h, hn in zip(acts, actsN):
-        cos_per_token = F.cosine_similarity(h, hn, dim=-1)
-        loss = loss + cos_per_token.sum()
-    return loss
 
 
 # ----------------------------
@@ -679,62 +653,6 @@ def getMeanAlignmentLossWithBottomSubspace(InputToLayer, bottomRightSingularVect
     loss = -per_token_energy.mean()
     return loss'''
 
-# ----------------------------
-# Vision hooks for LLaVA CLIP tower
-# ----------------------------
-def get_llava_vision_layers(model):
-    """
-    Supports the common HuggingFace LLaVA structure:
-      model.vision_tower.vision_model.encoder.layers
-    plus a few common wrappers.
-    """
-    if hasattr(model, "vision_tower"):
-        vt = model.vision_tower
-        if hasattr(vt, "vision_model") and hasattr(vt.vision_model, "encoder"):
-            enc = vt.vision_model.encoder
-            if hasattr(enc, "layers"):
-                return enc.layers
-        if hasattr(vt, "encoder") and hasattr(vt.encoder, "layers"):
-            return vt.encoder.layers
-
-    if hasattr(model, "model") and hasattr(model.model, "vision_tower"):
-        vt = model.model.vision_tower
-        if hasattr(vt, "vision_model") and hasattr(vt.vision_model, "encoder"):
-            enc = vt.vision_model.encoder
-            if hasattr(enc, "layers"):
-                return enc.layers
-
-    raise RuntimeError("Could not find LLaVA vision tower encoder layers.")
-
-
-def run_vision_tower_with_hooks(model, pixel_values):
-    """
-    Runs only the vision tower and records activations from each CLIP encoder layer.
-    These activations are differentiable w.r.t. pixel_values.
-    """
-    acts = []
-    handles = []
-    layers = get_llava_vision_layers(model)
-
-    def hook_fn(module, inp, out):
-        if isinstance(out, tuple):
-            out = out[0]
-        if torch.is_tensor(out):
-            acts.append(out)
-
-    for layer in layers:
-        handles.append(layer.register_forward_hook(hook_fn))
-
-    vision_outputs = model.vision_tower(
-        pixel_values,
-        output_hidden_states=True,
-        return_dict=True,
-    )
-
-    for h in handles:
-        h.remove()
-
-    return vision_outputs, acts
 
 
 def build_target_specs_with_subspaces(
@@ -913,14 +831,7 @@ def adam_attack_original_space(
             return_dict=True,
         )
 
-        _, actsN = run_vision_tower_with_hooks(model, pv_clean_fixed)
-
-        #print("Number of language hidden states:", len(outputsN.hidden_states))
-
-        hidden_len = len(outputsN.hidden_states)
-        vision_len = len(actsN)
-        print("Number of language hidden states:", hidden_len)
-        print("Number of vision hidden states:", vision_len)
+        print("Number of language hidden states:", len(outputsN.hidden_states))
 
     adv_inputs = {
         k: v.clone() if torch.is_tensor(v) else v
@@ -954,9 +865,6 @@ def adam_attack_original_space(
             target_specs,
             device=device,
         )
-        _, acts = run_vision_tower_with_hooks(model, pv_adv)
-
-        loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
 
         if total_used == 0:
             raise RuntimeError("No hooked target modules were used in the forward pass.")

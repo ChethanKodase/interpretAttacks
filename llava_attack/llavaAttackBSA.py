@@ -368,8 +368,8 @@ def adam_attack_original_space(
     model.config.return_dict = True
 
     ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########    ########
-    for name, param in model.named_parameters():
-        print(f"{name:60s} {tuple(param.shape)}")
+    '''for name, param in model.named_parameters():
+        print(f"{name:60s} {tuple(param.shape)}")'''
 
     # Clean outputs and clean vision activations are fixed targets.
     with torch.no_grad():

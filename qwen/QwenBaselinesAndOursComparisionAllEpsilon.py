@@ -224,6 +224,60 @@ recallStdForAttacksSeries = np.array(recallStdForAttacksSeries)
 f1MeanForAttacksSeries = np.array(f1MeanForAttacksSeries)
 f1StdForAttacksSeries = np.array(f1StdForAttacksSeries)
 
+def save_results_to_txt():
+    save_dir = "qwen/AllPlots/comparisionSeries"
+    os.makedirs(save_dir, exist_ok=True)
+
+    txt_path = os.path.join(
+        save_dir,
+        f"BERTScoreResults_num_steps_{num_steps}_"
+        f"AttackStartLayer_{AttackStartLayer}_"
+        f"towardsNull_{towardsNull}_"
+        f"numSamplesConsidered_{numSamplesConsidered}_"
+        f"{whichMLP}_{whichMLPVis}_"
+        f"{chosenLanLayers}_{chosenVisLayers}_"
+        f"eps_0001_0002_0003.txt"
+    )
+
+    with open(txt_path, "w") as f:
+        f.write("Attack Methods:\n")
+        f.write(str(AllAttckTypes) + "\n\n")
+
+        for eps_idx, epsilon in enumerate(allEpsilons):
+            f.write(f"================ EPSILON = {epsilon} ================\n\n")
+
+            f.write("Precision Mean\n")
+            for i, attack in enumerate(AllAttckTypes):
+                f.write(f"{attack:<20}: {precisionMeanForAttacksSeries[eps_idx, i]:.6f}\n")
+            f.write("\n")
+
+            f.write("Precision Std\n")
+            for i, attack in enumerate(AllAttckTypes):
+                f.write(f"{attack:<20}: {precisionStdForAttacksSeries[eps_idx, i]:.6f}\n")
+            f.write("\n")
+
+            f.write("Recall Mean\n")
+            for i, attack in enumerate(AllAttckTypes):
+                f.write(f"{attack:<20}: {recallMeanForAttacksSeries[eps_idx, i]:.6f}\n")
+            f.write("\n")
+
+            f.write("Recall Std\n")
+            for i, attack in enumerate(AllAttckTypes):
+                f.write(f"{attack:<20}: {recallStdForAttacksSeries[eps_idx, i]:.6f}\n")
+            f.write("\n")
+
+            f.write("F1 Mean\n")
+            for i, attack in enumerate(AllAttckTypes):
+                f.write(f"{attack:<20}: {f1MeanForAttacksSeries[eps_idx, i]:.6f}\n")
+            f.write("\n")
+
+            f.write("F1 Std\n")
+            for i, attack in enumerate(AllAttckTypes):
+                f.write(f"{attack:<20}: {f1StdForAttacksSeries[eps_idx, i]:.6f}\n")
+            f.write("\n\n")
+
+    print(f"Saved text results: {txt_path}")
+save_results_to_txt()
 
 # ============================================================
 # Scientific notation formatter

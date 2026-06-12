@@ -270,14 +270,16 @@ down_proj out_proj
 export CUDA_VISIBLE_DEVICES=1
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
+python llava_attack/llava_attack_imagenet_KSA_loopW.py --attck_type saa_loop --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
 
 
 
-export CUDA_VISIBLE_DEVICES=1
+export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
+python llava_attack/llava_attack_imagenet_KSA_loopW.py --attck_type saa_loopW --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 0 1 2 3 4 5 --chosenVisLayers 3 4 7 9 10 11 13 16 18 20
+
+
 
 '''
 
@@ -424,32 +426,6 @@ def llava_preprocess_differentiable(x01: torch.Tensor, image_processor) -> torch
     x = center_crop(x, th, tw)
     x = normalize_like_processor(x, image_processor)
     return x
-
-
-def get_bsa_loss(outputs, outputsN):
-    """
-    Token-wise cosine similarity over LLaVA language hidden states.
-    The attack minimizes this value, matching your Qwen BSA implementation.
-    """
-    hidden_states = outputs.hidden_states
-    clean_hidden_states = outputsN.hidden_states
-
-    loss = 0.0
-    for h, hn in zip(hidden_states, clean_hidden_states):
-        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
-        loss = loss + cos_per_token.sum()
-    return loss
-
-
-def get_bsa_vision_loss(acts, actsN):
-    """
-    Token-wise cosine similarity over CLIP vision tower hidden states.
-    """
-    loss = 0.0
-    for h, hn in zip(acts, actsN):
-        cos_per_token = F.cosine_similarity(h, hn, dim=-1)
-        loss = loss + cos_per_token.sum()
-    return loss
 
 
 # ----------------------------
@@ -679,62 +655,6 @@ def getMeanAlignmentLossWithBottomSubspace(InputToLayer, bottomRightSingularVect
     loss = -per_token_energy.mean()
     return loss'''
 
-# ----------------------------
-# Vision hooks for LLaVA CLIP tower
-# ----------------------------
-def get_llava_vision_layers(model):
-    """
-    Supports the common HuggingFace LLaVA structure:
-      model.vision_tower.vision_model.encoder.layers
-    plus a few common wrappers.
-    """
-    if hasattr(model, "vision_tower"):
-        vt = model.vision_tower
-        if hasattr(vt, "vision_model") and hasattr(vt.vision_model, "encoder"):
-            enc = vt.vision_model.encoder
-            if hasattr(enc, "layers"):
-                return enc.layers
-        if hasattr(vt, "encoder") and hasattr(vt.encoder, "layers"):
-            return vt.encoder.layers
-
-    if hasattr(model, "model") and hasattr(model.model, "vision_tower"):
-        vt = model.model.vision_tower
-        if hasattr(vt, "vision_model") and hasattr(vt.vision_model, "encoder"):
-            enc = vt.vision_model.encoder
-            if hasattr(enc, "layers"):
-                return enc.layers
-
-    raise RuntimeError("Could not find LLaVA vision tower encoder layers.")
-
-
-def run_vision_tower_with_hooks(model, pixel_values):
-    """
-    Runs only the vision tower and records activations from each CLIP encoder layer.
-    These activations are differentiable w.r.t. pixel_values.
-    """
-    acts = []
-    handles = []
-    layers = get_llava_vision_layers(model)
-
-    def hook_fn(module, inp, out):
-        if isinstance(out, tuple):
-            out = out[0]
-        if torch.is_tensor(out):
-            acts.append(out)
-
-    for layer in layers:
-        handles.append(layer.register_forward_hook(hook_fn))
-
-    vision_outputs = model.vision_tower(
-        pixel_values,
-        output_hidden_states=True,
-        return_dict=True,
-    )
-
-    for h in handles:
-        h.remove()
-
-    return vision_outputs, acts
 
 
 def build_target_specs_with_subspaces(
@@ -807,7 +727,7 @@ def register_all_hooks(target_specs):
     return handles
 
 
-def aggregated_bottom_subspace_loss(target_specs, device):
+def aggregated_bottom_subspace_lossBackup(target_specs, device):
     lang_losses = []
     vis_losses = []
 
@@ -839,6 +759,696 @@ def aggregated_bottom_subspace_loss(target_specs, device):
     total_used = len(lang_losses) + len(vis_losses)
 
     return language_loss, vision_loss, total_used
+
+
+# Paste-ready version:
+# I can provide the full script, but it is very long for one message.
+# The key complete replacement you need is below.
+
+def aggregated_bottom_subspace_lossBackUp2(
+    target_specs,
+    device,
+    step: int,
+    weight_start_step: int = 100,
+    ema_beta: float = 0.9,
+    progress_power: float = 4.0,
+    progress_threshold: float = 0.01,
+    eps: float = 1e-8,
+):
+    per_layer = []
+
+    for spec in target_specs:
+        name = spec["name"]
+
+        if name not in layer_inputs:
+            continue
+
+        loss_i = getMeanAlignmentLossWithBottomSubspace(
+            layer_inputs[name],
+            spec["bottom_vectors"],
+        )
+
+        loss_detached = float(loss_i.detach().item())
+
+        if "loss_initial" not in spec:
+            spec["loss_initial"] = loss_detached
+            spec["loss_ema"] = loss_detached
+            spec["adaptive_weight"] = 1.0
+        else:
+            spec["loss_ema"] = (
+                ema_beta * spec["loss_ema"]
+                + (1.0 - ema_beta) * loss_detached
+            )
+
+        per_layer.append((spec, loss_i))
+
+    total_used = len(per_layer)
+
+    if total_used == 0:
+        zero = torch.tensor(0.0, device=device)
+        return zero, zero, zero, total_used
+
+    if step < weight_start_step:
+        weights = torch.ones(total_used, device=device)
+    else:
+        raw_weights = []
+
+        for spec, _ in per_layer:
+            initial = spec["loss_initial"]
+            current = spec["loss_ema"]
+
+            relative_decrease = (initial - current) / (abs(initial) + eps)
+
+            progress = max(relative_decrease - progress_threshold, 0.0)
+
+            raw_w = progress ** progress_power
+            raw_weights.append(raw_w)
+
+        weights = torch.tensor(raw_weights, device=device, dtype=torch.float32)
+
+        if torch.sum(weights) <= eps:
+            weights = torch.ones(total_used, device=device)
+
+    weights = weights / (weights.mean() + eps)
+
+    language_terms = []
+    vision_terms = []
+
+    for idx, (spec, loss_i) in enumerate(per_layer):
+        w = weights[idx].to(dtype=loss_i.dtype)
+
+        spec["adaptive_weight"] = float(weights[idx].detach().item())
+
+        weighted_loss_i = w * loss_i
+
+        if spec["kind"] == "language":
+            language_terms.append(weighted_loss_i)
+        elif spec["kind"] == "vision":
+            vision_terms.append(weighted_loss_i)
+
+    language_loss = torch.tensor(0.0, device=device)
+    vision_loss = torch.tensor(0.0, device=device)
+
+    if len(language_terms) > 0:
+        language_loss = torch.stack(language_terms).mean()
+
+    if len(vision_terms) > 0:
+        vision_loss = torch.stack(vision_terms).mean()
+
+    total_loss = language_loss + vision_loss
+
+    return total_loss, language_loss, vision_loss, total_used
+
+
+def aggregated_bottom_subspace_lossBackUp3(
+    target_specs,
+    device,
+    step: int,
+    weight_start_step: int = 100,
+    ema_beta: float = 0.9,
+    eps: float = 1e-8,
+):
+    lang_items = []
+    vis_items = []
+
+    for spec in target_specs:
+        name = spec["name"]
+
+        if name not in layer_inputs:
+            continue
+
+        loss_i = getMeanAlignmentLossWithBottomSubspace(
+            layer_inputs[name],
+            spec["bottom_vectors"],
+        )
+
+        loss_detached = float(loss_i.detach().item())
+
+        if "loss_initial" not in spec:
+            spec["loss_initial"] = loss_detached
+            spec["loss_ema"] = loss_detached
+            spec["adaptive_weight"] = 1.0
+        else:
+            spec["loss_ema"] = (
+                ema_beta * spec["loss_ema"]
+                + (1.0 - ema_beta) * loss_detached
+            )
+
+        if spec["kind"] == "language":
+            lang_items.append((spec, loss_i))
+        elif spec["kind"] == "vision":
+            vis_items.append((spec, loss_i))
+
+    total_used = len(lang_items) + len(vis_items)
+
+    if total_used == 0:
+        zero = torch.tensor(0.0, device=device)
+        return zero, zero, zero, total_used
+
+    def assign_winner_weights(items):
+        if len(items) == 0:
+            return []
+
+        # Before step 100, use all selected layers equally.
+        if step < weight_start_step:
+            for spec, _ in items:
+                spec["adaptive_weight"] = 1.0
+            return [1.0 for _ in items]
+
+        decreases = []
+
+        for spec, _ in items:
+            initial = spec["loss_initial"]
+            current = spec["loss_ema"]
+
+            relative_decrease = (initial - current) / (abs(initial) + eps)
+            decreases.append(relative_decrease)
+
+        winner_idx = int(np.argmax(decreases))
+
+        weights = []
+
+        for idx, (spec, _) in enumerate(items):
+            if idx == winner_idx:
+                spec["adaptive_weight"] = 1.0
+                weights.append(1.0)
+            else:
+                spec["adaptive_weight"] = 0.0
+                weights.append(0.0)
+
+        return weights
+
+    lang_weights = assign_winner_weights(lang_items)
+    vis_weights = assign_winner_weights(vis_items)
+
+    language_terms = []
+    vision_terms = []
+
+    for (spec, loss_i), w in zip(lang_items, lang_weights):
+        if w != 0.0:
+            language_terms.append(loss_i * torch.tensor(w, device=device, dtype=loss_i.dtype))
+
+    for (spec, loss_i), w in zip(vis_items, vis_weights):
+        if w != 0.0:
+            vision_terms.append(loss_i * torch.tensor(w, device=device, dtype=loss_i.dtype))
+
+    language_loss = torch.tensor(0.0, device=device)
+    vision_loss = torch.tensor(0.0, device=device)
+
+    if len(language_terms) > 0:
+        language_loss = torch.stack(language_terms).sum()
+
+    if len(vision_terms) > 0:
+        vision_loss = torch.stack(vision_terms).sum()
+
+    total_loss = language_loss + vision_loss
+
+    return total_loss, language_loss, vision_loss, total_used
+
+
+def aggregated_bottom_subspace_lossBackupN(
+    target_specs,
+    device,
+    step: int,
+    weight_start_step: int = 100,
+    ema_beta: float = 0.9,
+    eps: float = 1e-8,
+):
+    lang_items = []
+    vis_items = []
+
+    for spec in target_specs:
+        name = spec["name"]
+
+        if name not in layer_inputs:
+            continue
+
+        loss_i = getMeanAlignmentLossWithBottomSubspace(
+            layer_inputs[name],
+            spec["bottom_vectors"],
+        )
+
+        loss_detached = float(loss_i.detach().item())
+
+        if "loss_initial" not in spec:
+            spec["loss_initial"] = loss_detached
+            spec["loss_ema"] = loss_detached
+            spec["adaptive_weight"] = 1.0
+        else:
+            spec["loss_ema"] = (
+                ema_beta * spec["loss_ema"]
+                + (1.0 - ema_beta) * loss_detached
+            )
+
+        if spec["kind"] == "language":
+            lang_items.append((spec, loss_i))
+        else:
+            vis_items.append((spec, loss_i))
+
+    total_used = len(lang_items) + len(vis_items)
+
+    if total_used == 0:
+        zero = torch.tensor(0.0, device=device)
+        return zero, zero, zero, total_used
+
+    # ---------------------------------------------------------
+    # Select winners ONCE at step 100
+    # ---------------------------------------------------------
+    if step == weight_start_step:
+
+        if len(lang_items) > 0:
+
+            decreases = []
+
+            for spec, _ in lang_items:
+                initial = spec["loss_initial"]
+                current = spec["loss_ema"]
+
+                decrease = (
+                    initial - current
+                ) / (abs(initial) + eps)
+
+                decreases.append(decrease)
+
+            winner = int(np.argmax(decreases))
+
+            for idx, (spec, _) in enumerate(lang_items):
+                spec["fixed_weight"] = 1.0 if idx == winner else 0.0
+
+            print(
+                f"[LANG WINNER] layer={lang_items[winner][0]['layer_idx']}"
+            )
+
+        if len(vis_items) > 0:
+
+            decreases = []
+
+            for spec, _ in vis_items:
+                initial = spec["loss_initial"]
+                current = spec["loss_ema"]
+
+                decrease = (
+                    initial - current
+                ) / (abs(initial) + eps)
+
+                decreases.append(decrease)
+
+            winner = int(np.argmax(decreases))
+
+            for idx, (spec, _) in enumerate(vis_items):
+                spec["fixed_weight"] = 1.0 if idx == winner else 0.0
+
+            print(
+                f"[VIS WINNER] layer={vis_items[winner][0]['layer_idx']}"
+            )
+
+    language_terms = []
+    vision_terms = []
+
+    for spec, loss_i in lang_items:
+
+        if step < weight_start_step:
+            w = 1.0
+        else:
+            w = spec.get("fixed_weight", 1.0)
+
+        spec["adaptive_weight"] = w
+
+        if w > 0:
+            language_terms.append(loss_i * w)
+
+    for spec, loss_i in vis_items:
+
+        if step < weight_start_step:
+            w = 1.0
+        else:
+            w = spec.get("fixed_weight", 1.0)
+
+        spec["adaptive_weight"] = w
+
+        if w > 0:
+            vision_terms.append(loss_i * w)
+
+    language_loss = torch.tensor(0.0, device=device)
+    vision_loss = torch.tensor(0.0, device=device)
+
+    if len(language_terms) > 0:
+        language_loss = torch.stack(language_terms).sum()
+
+    if len(vision_terms) > 0:
+        vision_loss = torch.stack(vision_terms).sum()
+
+    total_loss = language_loss + vision_loss
+
+    return total_loss, language_loss, vision_loss, total_used
+
+def aggregated_bottom_subspace_lossGradBack(
+    target_specs,
+    device,
+    step: int,
+    delta: torch.Tensor,
+    weight_start_step: int = 100,
+):
+    lang_items = []
+    vis_items = []
+
+    for spec in target_specs:
+        name = spec["name"]
+
+        if name not in layer_inputs:
+            continue
+
+        loss_i = getMeanAlignmentLossWithBottomSubspace(
+            layer_inputs[name],
+            spec["bottom_vectors"],
+        )
+
+        if "adaptive_weight" not in spec:
+            spec["adaptive_weight"] = 1.0
+
+        if spec["kind"] == "language":
+            lang_items.append((spec, loss_i))
+        elif spec["kind"] == "vision":
+            vis_items.append((spec, loss_i))
+
+    total_used = len(lang_items) + len(vis_items)
+
+    if total_used == 0:
+        zero = torch.tensor(0.0, device=device)
+        return zero, zero, zero, total_used
+
+    def select_gradient_winner_once(items, group_name):
+        if len(items) == 0:
+            return
+
+        if "fixed_weight" in items[0][0]:
+            return
+
+        grad_scores = []
+
+        for spec, loss_i in items:
+            grad_i = torch.autograd.grad(
+                loss_i,
+                delta,
+                retain_graph=True,
+                create_graph=False,
+                allow_unused=True,
+            )[0]
+
+            if grad_i is None:
+                score = 0.0
+            else:
+                score = float(grad_i.detach().norm(p=2).item())
+
+            spec["grad_score_at_selection"] = score
+            grad_scores.append(score)
+
+        winner_idx = int(np.argmax(grad_scores))
+
+        for idx, (spec, _) in enumerate(items):
+            spec["fixed_weight"] = 1.0 if idx == winner_idx else 0.0
+
+        winner_spec = items[winner_idx][0]
+
+        print(
+            f"[{group_name} GRAD WINNER] "
+            f"layer={winner_spec['layer_idx']} "
+            f"score={grad_scores[winner_idx]:.6e} "
+            f"name={winner_spec['name']}"
+        )
+
+    if step == weight_start_step:
+        select_gradient_winner_once(lang_items, "LANG")
+        select_gradient_winner_once(vis_items, "VIS")
+
+    language_terms = []
+    vision_terms = []
+
+    for spec, loss_i in lang_items:
+        if step < weight_start_step:
+            w = 1.0
+        else:
+            w = spec.get("fixed_weight", 1.0)
+
+        spec["adaptive_weight"] = w
+
+        if w > 0.0:
+            language_terms.append(loss_i * w)
+
+    for spec, loss_i in vis_items:
+        if step < weight_start_step:
+            w = 1.0
+        else:
+            w = spec.get("fixed_weight", 1.0)
+
+        spec["adaptive_weight"] = w
+
+        if w > 0.0:
+            vision_terms.append(loss_i * w)
+
+    language_loss = torch.tensor(0.0, device=device)
+    vision_loss = torch.tensor(0.0, device=device)
+
+    if len(language_terms) > 0:
+        language_loss = torch.stack(language_terms).sum()
+
+    if len(vision_terms) > 0:
+        vision_loss = torch.stack(vision_terms).sum()
+
+    total_loss = language_loss + vision_loss
+
+    return total_loss, language_loss, vision_loss, total_used
+
+
+def aggregated_bottom_subspace_lossGrad1(
+    target_specs,
+    device,
+    step: int,
+    delta: torch.Tensor,
+    weight_start_step: int = 100,
+    temperature: float = 0.5,
+    eps: float = 1e-12,
+):
+    lang_items = []
+    vis_items = []
+
+    for spec in target_specs:
+        name = spec["name"]
+
+        if name not in layer_inputs:
+            continue
+
+        loss_i = getMeanAlignmentLossWithBottomSubspace(
+            layer_inputs[name],
+            spec["bottom_vectors"],
+        )
+
+        if "adaptive_weight" not in spec:
+            spec["adaptive_weight"] = 1.0
+
+        if spec["kind"] == "language":
+            lang_items.append((spec, loss_i))
+        elif spec["kind"] == "vision":
+            vis_items.append((spec, loss_i))
+
+    total_used = len(lang_items) + len(vis_items)
+
+    if total_used == 0:
+        zero = torch.tensor(0.0, device=device)
+        return zero, zero, zero, total_used
+
+    def assign_fractional_gradient_weights_once(items, group_name):
+        if len(items) == 0:
+            return
+
+        if all("fixed_weight" in spec for spec, _ in items):
+            return
+
+        grad_scores = []
+
+        for spec, loss_i in items:
+            grad_i = torch.autograd.grad(
+                loss_i,
+                delta,
+                retain_graph=True,
+                create_graph=False,
+                allow_unused=True,
+            )[0]
+
+            if grad_i is None:
+                score = 0.0
+            else:
+                score = float(grad_i.detach().norm(p=2).item())
+
+            spec["grad_score_at_selection"] = score
+            grad_scores.append(score)
+
+        scores = torch.tensor(grad_scores, device=device, dtype=torch.float32)
+
+        if torch.sum(scores) <= eps:
+            weights = torch.ones_like(scores) / scores.numel()
+        else:
+            weights = torch.softmax(scores / temperature, dim=0)
+
+        for idx, (spec, _) in enumerate(items):
+            spec["fixed_weight"] = float(weights[idx].detach().item())
+            spec["adaptive_weight"] = spec["fixed_weight"]
+
+        print(f"[{group_name} FRACTIONAL GRAD WEIGHTS]")
+
+        for idx, (spec, _) in enumerate(items):
+            print(
+                f"  layer={spec['layer_idx']:3d} "
+                f"weight={spec['fixed_weight']:.6f} "
+                f"grad_score={spec['grad_score_at_selection']:.6e} "
+                f"name={spec['name']}"
+            )
+
+    if step == weight_start_step:
+        assign_fractional_gradient_weights_once(lang_items, "LANG")
+        assign_fractional_gradient_weights_once(vis_items, "VIS")
+
+    language_terms = []
+    vision_terms = []
+
+    for spec, loss_i in lang_items:
+        if step < weight_start_step:
+            w = 1.0
+        else:
+            w = spec.get("fixed_weight", 1.0)
+
+        spec["adaptive_weight"] = w
+
+        if w > 0.0:
+            language_terms.append(loss_i * w)
+
+    for spec, loss_i in vis_items:
+        if step < weight_start_step:
+            w = 1.0
+        else:
+            w = spec.get("fixed_weight", 1.0)
+
+        spec["adaptive_weight"] = w
+
+        if w > 0.0:
+            vision_terms.append(loss_i * w)
+
+    language_loss = torch.tensor(0.0, device=device)
+    vision_loss = torch.tensor(0.0, device=device)
+
+    if len(language_terms) > 0:
+        language_loss = torch.stack(language_terms).sum()
+
+    if len(vision_terms) > 0:
+        vision_loss = torch.stack(vision_terms).sum()
+
+    total_loss = language_loss + vision_loss
+
+    return total_loss, language_loss, vision_loss, total_used
+
+def aggregated_bottom_subspace_loss(
+    target_specs,
+    device,
+    step: int,
+    delta: torch.Tensor,
+    weight_start_step: int = 0,
+    temperature: float = 50.0,
+    eps: float = 1e-12,
+):
+    lang_items = []
+    vis_items = []
+
+    for spec in target_specs:
+        name = spec["name"]
+
+        if name not in layer_inputs:
+            continue
+
+        loss_i = getMeanAlignmentLossWithBottomSubspace(
+            layer_inputs[name],
+            spec["bottom_vectors"],
+        )
+
+        if "adaptive_weight" not in spec:
+            spec["adaptive_weight"] = 1.0
+
+        if spec["kind"] == "language":
+            lang_items.append((spec, loss_i))
+        elif spec["kind"] == "vision":
+            vis_items.append((spec, loss_i))
+
+    total_used = len(lang_items) + len(vis_items)
+
+    if total_used == 0:
+        zero = torch.tensor(0.0, device=device)
+        return zero, zero, zero, total_used
+
+    def compute_fractional_gradient_weights(items, group_name):
+        if len(items) == 0:
+            return []
+
+        if step < weight_start_step:
+            weights = torch.ones(len(items), device=device, dtype=torch.float32)
+            weights = weights / weights.sum()
+            return weights
+
+        grad_scores = []
+
+        for spec, loss_i in items:
+            grad_i = torch.autograd.grad(
+                loss_i,
+                delta,
+                retain_graph=True,
+                create_graph=False,
+                allow_unused=True,
+            )[0]
+
+            if grad_i is None:
+                score = 0.0
+            else:
+                score = float(grad_i.detach().norm(p=2).item())
+
+            spec["grad_score_current"] = score
+            grad_scores.append(score)
+
+        scores = torch.tensor(grad_scores, device=device, dtype=torch.float32)
+
+        if torch.sum(scores) <= eps:
+            weights = torch.ones_like(scores) / scores.numel()
+        else:
+            weights = torch.softmax(scores / temperature, dim=0)
+
+        for idx, (spec, _) in enumerate(items):
+            spec["adaptive_weight"] = float(weights[idx].detach().item())
+
+        return weights
+
+    lang_weights = compute_fractional_gradient_weights(lang_items, "LANG")
+    vis_weights = compute_fractional_gradient_weights(vis_items, "VIS")
+
+    language_terms = []
+    vision_terms = []
+
+    for (spec, loss_i), w in zip(lang_items, lang_weights):
+        if float(w.detach().item()) > 0.0:
+            language_terms.append(loss_i * w.to(dtype=loss_i.dtype))
+
+    for (spec, loss_i), w in zip(vis_items, vis_weights):
+        if float(w.detach().item()) > 0.0:
+            vision_terms.append(loss_i * w.to(dtype=loss_i.dtype))
+
+    language_loss = torch.tensor(0.0, device=device)
+    vision_loss = torch.tensor(0.0, device=device)
+
+    if len(language_terms) > 0:
+        language_loss = torch.stack(language_terms).sum()
+
+    if len(vision_terms) > 0:
+        vision_loss = torch.stack(vision_terms).sum()
+
+    total_loss = language_loss + vision_loss
+
+    return total_loss, language_loss, vision_loss, total_used
 
 
 # ----------------------------
@@ -913,14 +1523,7 @@ def adam_attack_original_space(
             return_dict=True,
         )
 
-        _, actsN = run_vision_tower_with_hooks(model, pv_clean_fixed)
-
-        #print("Number of language hidden states:", len(outputsN.hidden_states))
-
-        hidden_len = len(outputsN.hidden_states)
-        vision_len = len(actsN)
-        print("Number of language hidden states:", hidden_len)
-        print("Number of vision hidden states:", vision_len)
+        print("Number of language hidden states:", len(outputsN.hidden_states))
 
     adv_inputs = {
         k: v.clone() if torch.is_tensor(v) else v
@@ -950,18 +1553,19 @@ def adam_attack_original_space(
             return_dict=True,
         )
 
-        language_loss, vision_loss, total_used = aggregated_bottom_subspace_loss(
+        loss, language_loss, vision_loss, total_used = aggregated_bottom_subspace_loss(
             target_specs,
             device=device,
+            step=step,
+            delta=delta,
+            weight_start_step=0,
+            temperature=50.0,
         )
-        _, acts = run_vision_tower_with_hooks(model, pv_adv)
-
-        loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
 
         if total_used == 0:
             raise RuntimeError("No hooked target modules were used in the forward pass.")
 
-        loss = language_loss + vision_loss
+        #loss = language_loss + vision_loss
         attack_loss = loss
 
         opt.zero_grad(set_to_none=True)
@@ -982,6 +1586,17 @@ def adam_attack_original_space(
                 f"vision_loss={float(vision_loss.item()):.6f} "
                 f"used_modules={total_used}"
             )
+
+            print("  adaptive weights:")
+            for spec in target_specs:
+                if "adaptive_weight" in spec:
+                    print(
+                        f"    {spec['kind']:8s} "
+                        f"layer={spec['layer_idx']:3d} "
+                        f"weight={spec['adaptive_weight']:.6f} "
+                        f"grad_score={spec.get('grad_score_current', 0.0):.6e} "
+                        f"name={spec['name']}"
+                    )
 
         if lv < best_loss:
             best_loss = lv

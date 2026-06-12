@@ -37,7 +37,7 @@ FILE NAME: advOutput_attackType_saa_lr_0.001_eps_0.02_num_steps_1000_AlignLayer_
 import os
 from pathlib import Path
 
-which_sample = 2
+which_sample = 4
 # Input directory containing the .txt files
 input_dir = Path("/home/luser/interpretAttacks/llava_attack/outputsStorage/advOutputsN/"+str(which_sample)+"")
 

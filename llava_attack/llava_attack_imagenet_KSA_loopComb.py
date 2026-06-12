@@ -270,14 +270,211 @@ down_proj out_proj
 export CUDA_VISIBLE_DEVICES=1
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
+python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
 
 
 
 export CUDA_VISIBLE_DEVICES=1
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet_KSA_loop.py --attck_type saa_loop --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 --chosenVisLayers 8
+python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.5 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+
+
+export CUDA_VISIBLE_DEVICES=2
+cd interpretAttacks/
+conda activate llava15
+python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 1.0 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+
+
+export CUDA_VISIBLE_DEVICES=0
+cd interpretAttacks/
+conda activate llava15
+python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=0
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+export CUDA_VISIBLE_DEVICES=1
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+--------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=2
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.01 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.05 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+
+-----------------------------
+----------------------------
+export CUDA_VISIBLE_DEVICES=0
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.02 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+
+export CUDA_VISIBLE_DEVICES=1
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.03 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+
+export CUDA_VISIBLE_DEVICES=2
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.04 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
 
 '''
 
@@ -843,6 +1040,8 @@ def aggregated_bottom_subspace_loss(target_specs, device):
 
 # ----------------------------
 # ORIGINAL-space Adam attack
+
+#BalAlpha = 1
 # ----------------------------
 def adam_attack_original_space(
     model,
@@ -859,10 +1058,11 @@ def adam_attack_original_space(
     AttackStartLayer: int,
     numLayerstAtAtime: int,
     towardsNull: float,
+    BalAlpha: float,
     whichMLP: str,
     whichMLPVis: str,
     chosenLanLayers=None,
-    chosenVisLayers=None,
+    chosenVisLayers=None
 ):
     x_orig01 = x_orig01.detach().to(device)
 
@@ -956,13 +1156,13 @@ def adam_attack_original_space(
         )
         _, acts = run_vision_tower_with_hooks(model, pv_adv)
 
-        loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
+        BSALoss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
 
         if total_used == 0:
             raise RuntimeError("No hooked target modules were used in the forward pass.")
 
-        loss = language_loss + vision_loss
-        attack_loss = loss
+        SSloss = language_loss + vision_loss
+        attack_loss = BSALoss * BalAlpha + SSloss * (1-BalAlpha)
 
         opt.zero_grad(set_to_none=True)
         attack_loss.backward()
@@ -971,7 +1171,7 @@ def adam_attack_original_space(
         with torch.no_grad():
             delta.data.clamp_(-epsilon, epsilon)
 
-        lv = float(loss.item())
+        lv = float(attack_loss.item())
         losses_list.append(lv)
 
         if step == 0 or (step + 1) % 10 == 0:
@@ -988,7 +1188,7 @@ def adam_attack_original_space(
             best_delta = delta.detach().clone()
             np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
 
-        del outputs, loss, attack_loss, pv_adv
+        del outputs, attack_loss, pv_adv
 
     for h in hook_handles:
         h.remove()
@@ -1024,6 +1224,8 @@ def main():
     parser.add_argument("--numLayerstAtAtime", type=int, default=1)
 
     parser.add_argument("--towardsNull", type=float, default=0.5)
+
+    parser.add_argument("--BalAlpha", type=float, default=0.5)
 
     parser.add_argument(
         "--whichMLP",
@@ -1074,6 +1276,7 @@ def main():
     numLayerstAtAtime = int(args.numLayerstAtAtime)
 
     towardsNull = float(args.towardsNull)
+    BalAlpha = float(args.BalAlpha)
     whichMLP = str(args.whichMLP)
     whichMLPVis = str(args.whichMLPVis)
 
@@ -1142,7 +1345,7 @@ def main():
         f"llava_ORIG_attack_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
-        f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.npy"
+        f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}_{BalAlpha}.npy"
     )
 
     x_adv01, best_pert = adam_attack_original_space(
@@ -1160,6 +1363,7 @@ def main():
         AttackStartLayer=AttackStartLayer,
         numLayerstAtAtime=numLayerstAtAtime,
         towardsNull=towardsNull,
+        BalAlpha = BalAlpha,
         whichMLP=whichMLP,
         whichMLPVis=whichMLPVis,
         chosenLanLayers=chosenLanLayers,
@@ -1171,7 +1375,7 @@ def main():
         f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
-        f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.png"
+        f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}_{BalAlpha}.png"
     )
 
     adv_noise_path = adv_img_path.replace(".png", ".pt")
@@ -1203,7 +1407,7 @@ def main():
         f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
-        f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.txt"
+        f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}_{BalAlpha}.txt"
     )
 
     with open(advOutTxt, "w") as f:
