@@ -3,26 +3,26 @@
 '''
 
 
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
+for ATTACK_SAMPLE in $(seq 1 50); do
     python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
+for ATTACK_SAMPLE in $(seq 1 50); do
     python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 

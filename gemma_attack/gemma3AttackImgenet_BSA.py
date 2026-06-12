@@ -9,27 +9,68 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------
 
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+export CUDA_VISIBLE_DEVICES=2
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+export CUDA_VISIBLE_DEVICES=3
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
 export CUDA_VISIBLE_DEVICES=0
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+
+export CUDA_VISIBLE_DEVICES=0
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_BSA.py --attck_type bsa --desired_norm_l_inf 0.01 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
@@ -317,7 +358,7 @@ def adam_attack_original_space(
     best_loss = 1e18
     best_delta = delta.detach().clone()
 
-    model.train()
+    model.eval()
 
     if attck_type=="bsa":
         def get_bsa_loss(outputs, outputsN):

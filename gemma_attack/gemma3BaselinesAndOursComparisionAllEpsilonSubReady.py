@@ -17,6 +17,29 @@ export CUDA_VISIBLE_DEVICES=3
 conda activate gemma3
 cd interpretAttacks
 python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilonSubReady.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50 --perturbationScale moderate
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+export CUDA_VISIBLE_DEVICES=3
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilonSubReady.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis out_proj --numSamplesConsidered 50 --perturbationScale tiny
+
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilonSubReady.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP down_proj --whichMLP_vis out_proj --numSamplesConsidered 50 --perturbationScale tiny
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3BaselinesAndOursComparisionAllEpsilonSubReady.py --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --numLayerstAtAtime 1 --AttackStartLayer_vis 11 --whichMLP gate_proj --whichMLP_vis out_proj --numSamplesConsidered 2 --perturbationScale tiny
+
+
+
 '''
 
 
@@ -77,10 +100,31 @@ whichMLP_vis = str(args.whichMLP_vis)
 numSamplesConsidered = int(args.numSamplesConsidered)
 perturbationScale = str(args.perturbationScale)
 
-chosenLanLayers = [0]
-chosenVisLayers = [11]
+"""chosenLanLayers = [0]
+chosenVisLayers = [26]
+towardsNull = 0.5"""
 
-towardsNull = 0.1
+
+'''chosenLanLayers = [2]
+chosenVisLayers = [23]
+towardsNull = 0.1'''
+
+
+chosenLanLayers = [0, 1, 2, 3, 4]
+
+chosenVisLayers = [
+
+    0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+
+    10, 11, 12, 13, 14, 15, 16, 17,
+
+    18, 19, 20, 21, 22, 23, 24, 25, 26
+
+]
+towardsNull = 0.5
+
+
+
 ega_ratio = 0.2
 
 # ============================================================
@@ -90,6 +134,7 @@ ega_ratio = 0.2
 epsilonTypes = perturbationScale
 
 if epsilonTypes == "tiny":
+    #allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
     allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
     all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
 
@@ -173,7 +218,30 @@ for epsilon in allEpsilons:
 
             elif attck_type == "saa_loop":
 
-                advOutputPath = (
+                numLayerstAtAtimeNew = 2
+
+                if len(chosenVisLayers) > 20:
+                    advOutputPath = (
+                        f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/"
+                        f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
+                        f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtimeNew}_"
+                        f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
+                        f"lanMLP_{whichMLP}_visMLP_{whichMLP_vis}_"
+                        f"lanLayers_upto4_visLayers_all.txt"
+                    )
+                else:
+                    advOutputPath = (
+                        f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/"
+                        f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
+                        f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtimeNew}_"
+                        f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
+                        f"lanMLP_{whichMLP}_visMLP_{whichMLP_vis}_"
+                        f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}.txt"
+                    )
+
+
+
+                '''advOutputPath = (
                     f"gemma_attack/outputsStorageImagenet/advOutputs/"
                     f"{attackSample}/"
                     f"advOutput_attackType_{attck_type}_lr_{lr}_"
@@ -181,7 +249,7 @@ for epsilon in allEpsilons:
                     f"numLayerstAtAtime_{numLayerstAtAtime}_"
                     f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
                     f"{whichMLP}_{chosenLanLayers}_{chosenVisLayers}.txt"
-                )
+                )'''
 
             else:
 
@@ -354,15 +422,27 @@ def plot_metric(means, stds, ylabel, save_name):
 save_dir = "gemma_attack/AllPlots/comparisionSeries"
 os.makedirs(save_dir, exist_ok=True)
 
-base_name = (
-    f"num_steps_{num_steps}_"
-    f"AttackStartLayer_{AttackStartLayer}_"
-    f"towardsNull_{towardsNull}_"
-    f"numSamplesConsidered_{numSamplesConsidered}_"
-    f"{whichMLP}_{whichMLP_vis}_"
-    f"{chosenLanLayers}_{chosenVisLayers}_"
-    f"{epsilonTypes}"
-)
+
+if len(chosenVisLayers) > 20:
+    base_name = (
+        f"num_steps_{num_steps}_"
+        f"AttackStartLayer_{AttackStartLayer}_"
+        f"towardsNull_{towardsNull}_"
+        f"numSamplesConsidered_{numSamplesConsidered}_"
+        f"{whichMLP}_{whichMLP_vis}_"
+        f"lanLayers_upto4_visLayers_all_"
+        f"{epsilonTypes}"
+    )
+else:
+    base_name = (
+        f"num_steps_{num_steps}_"
+        f"AttackStartLayer_{AttackStartLayer}_"
+        f"towardsNull_{towardsNull}_"
+        f"numSamplesConsidered_{numSamplesConsidered}_"
+        f"{whichMLP}_{whichMLP_vis}_"
+        f"{chosenLanLayers}_{chosenVisLayers}_"
+        f"{epsilonTypes}"
+    )
 
 # ============================================================
 # Precision Plot

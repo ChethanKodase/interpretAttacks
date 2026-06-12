@@ -5,24 +5,31 @@
 '''
 
 
+# t0o be run 
 
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
 export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 300); do
-    python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 300); do
+for ATTACK_SAMPLE in $(seq 1 50); do
     python gemma_attack/gemma3AttackImgenet_SSP.py --attck_type ssp --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 

@@ -4,26 +4,146 @@
 
 '''
 
-##########
-DOWN -FC2
-############
 
-export CUDA_VISIBLE_DEVICES=3
+Try
+export CUDA_VISIBLE_DEVICES=1
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
-    --chosenLanLayers 3 4 5 \
-    --chosenVisLayers 1 3 5 10 11 12 15 17 21 23
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
 done
 
 
-####################
-advOutput_attackType_saa_loopR_lr_0.001_eps_0.002_AttackStartLayer_0_numLayerstAtAtime_2_num_steps_1000_towardsNull_0.1_lanMLP_down_proj_visMLP_out_proj_lanLayers_[3, 4, 5]_visLayers_[1, 3, 5, 10, 11, 12, 15, 17, 21, 23]
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
 
 
-##########
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.01 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
 
+
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.05 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+
+export CUDA_VISIBLE_DEVICES=0
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+
+
+
+elif epsilonTypes == "tinyTiny":
+    allEpsilons = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
+    all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "grill_cos"]
+
+    
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
+
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
 '''
 
 
@@ -539,6 +659,20 @@ def aggregated_bottom_subspace_loss(target_specs, device):
     return language_loss, vision_loss, total_used
 
 
+def get_bsa_loss(outputs, outputsN):
+    loss = 0.0
+    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
+        total_cosine = cos_per_token.sum()
+        loss = loss + total_cosine
+    return loss #* wasserstein_distance(h, hn)
+def get_bsaVis_loss(outputs, outputsN):
+    loss = 0.0
+    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
+        total_cosine = cos_per_token.sum()
+        loss = loss + total_cosine
+    return loss #* wasserstein_distance(h, hn)
 # ----------------------------
 # ORIGINAL-SPACE Adam attack
 # ----------------------------
@@ -556,6 +690,7 @@ def adam_attack_original_space(
     AttackStartLayer: int,
     numLayerstAtAtime: int,
     towardsNull: float,
+    balancingAlpha: float,
     whichMLP: str,
     whichMLPvis: str,
     chosenLanLayers=None,
@@ -573,6 +708,23 @@ def adam_attack_original_space(
     best_delta = delta.detach().clone()
 
     model.eval()
+
+    with torch.no_grad():
+        pv_clean_fixed = gemma_preprocess_differentiable(x_orig01, processor)
+
+        clean_inputs = {k: (v.clone() if torch.is_tensor(v) else v) for k, v in template_inputs.items()}
+        clean_inputs["pixel_values"] = pv_clean_fixed
+        clean_inputs["labels"] = template_inputs["input_ids"]
+        clean_inputs["use_cache"] = False
+        outputsN = model(**clean_inputs, output_hidden_states=True, return_dict=True)
+        hiddStateLen = len(outputsN.hidden_states)
+        print(" Number of hidden states is: ", hiddStateLen)
+
+        vision_model = model.vision_tower.vision_model
+        vision_outN = vision_model(pixel_values=clean_inputs["pixel_values"], output_hidden_states=True, return_dict=True,)
+
+        hiddStateLenVis = len(vision_outN.hidden_states)
+        print(" Number of vision hidden states is: ", hiddStateLenVis)
 
     target_specs = build_target_specs_with_subspaces(
         model,
@@ -595,7 +747,7 @@ def adam_attack_original_space(
     adv_inputs["labels"] = template_inputs["input_ids"]
     adv_inputs["use_cache"] = False
 
-    nllAlpha = 0.01
+    #balancingAlpha = 1.0
     try:
         for step in range(num_steps):
             layer_inputs.clear()
@@ -609,11 +761,10 @@ def adam_attack_original_space(
             pv_adv = gemma_preprocess_differentiable(x_adv01, processor)
             adv_inputs["pixel_values"] = pv_adv
 
-            outputs = model(
-                **adv_inputs,
-                output_hidden_states=False,
-                return_dict=True,
-            )
+            outputs = model(**adv_inputs, output_hidden_states=True, return_dict=True)
+            vision_out = vision_model(pixel_values=adv_inputs["pixel_values"], output_hidden_states=True, return_dict=True)
+
+            BSALoss = get_bsa_loss(outputs, outputsN) + get_bsaVis_loss(vision_out, vision_outN)
 
             language_loss, vision_loss, total_used = aggregated_bottom_subspace_loss(
                 target_specs,
@@ -623,9 +774,10 @@ def adam_attack_original_space(
             if total_used == 0:
                 raise RuntimeError("No hooked target modules were used in the forward pass.")
 
-            loss = language_loss + vision_loss
-            attack_loss = loss #- nllAlpha * outputs.loss.float()
+            AlignmentLoss = language_loss + vision_loss
+            loss = AlignmentLoss * (1 - balancingAlpha) + BSALoss * balancingAlpha
 
+            attack_loss = loss
             opt.zero_grad(set_to_none=True)
             attack_loss.backward()
             opt.step()
@@ -692,6 +844,13 @@ def main():
         "--learningRate",
         type=float,
         default=1e-3,
+        help="Adam learning rate",
+    )
+
+    parser.add_argument(
+        "--balancingAlpha",
+        type=float,
+        default=1.0,
         help="Adam learning rate",
     )
 
@@ -774,6 +933,7 @@ def main():
     AttackStartLayer = int(args.AttackStartLayer)
     numLayerstAtAtime = int(args.numLayerstAtAtime)
     towardsNull = float(args.towardsNull)
+    balancingAlpha = float(args.balancingAlpha)
     whichMLP = str(args.whichMLP)
     whichMLPvis = str(args.whichMLPvis)
 
@@ -842,7 +1002,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_upto4_visLayers_all.npy"
+            f"lanLayers_upto4_visLayers_all_balancingAlpha_{balancingAlpha}.npy"
         )
     else:
         conv_path = (
@@ -851,7 +1011,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}.npy"
+            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}_balancingAlpha_{balancingAlpha}.npy"
         )
 
 
@@ -870,6 +1030,7 @@ def main():
         AttackStartLayer=AttackStartLayer,
         numLayerstAtAtime=numLayerstAtAtime,
         towardsNull=towardsNull,
+        balancingAlpha = balancingAlpha,
         whichMLP=whichMLP,
         whichMLPvis=whichMLPvis,
         chosenLanLayers=chosenLanLayers,
@@ -884,7 +1045,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_upto4_visLayers_all.png"
+            f"lanLayers_upto4_visLayers_all_balancingAlpha_{balancingAlpha}.png"
         )
 
         adv_noise_path = (
@@ -893,7 +1054,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_upto4_visLayers_all.pt"
+            f"lanLayers_upto4_visLayers_all_balancingAlpha_{balancingAlpha}.pt"
         )
 
     else:
@@ -903,7 +1064,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}.png"
+            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}_balancingAlpha_{balancingAlpha}.png"
         )
 
         adv_noise_path = (
@@ -912,7 +1073,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}.pt"
+            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}_balancingAlpha_{balancingAlpha}.pt"
         )
 
 
@@ -945,7 +1106,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_upto4_visLayers_all.txt"
+            f"lanLayers_upto4_visLayers_all_balancingAlpha_{balancingAlpha}.txt"
         )
     else:
         advOutTxt = (
@@ -954,7 +1115,7 @@ def main():
             f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
             f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
             f"lanMLP_{whichMLP}_visMLP_{whichMLPvis}_"
-            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}.txt"
+            f"lanLayers_{chosenLanLayers}_visLayers_{chosenVisLayers}_balancingAlpha_{balancingAlpha}.txt"
         )
 
 

@@ -24,14 +24,14 @@ which_mlps = ["gate_proj", "up_proj", "down_proj"]
 which_vis_mlps = ["fc1", "fc2", "out_proj"]
 towards_nulls = [0.1, 0.5]
 
-attck_type = "saa_loop"
+attck_type = "saa_loopR"
 lr = 0.001
 epsilon = 0.005
 num_steps = 100
 AttackStartLayer = 0
 numLayerstAtAtime = 2
 
-output_file = "gemma_attack/outputsStorageImagenet/bert_score_all_configurations.txt"
+output_file = "gemma_attack/outputsStorageImagenet/bert_score_all_configurationsR.txt"
 
 
 def adv_path(sample, towards_null, which_mlp, which_mlpvis, lan_layer, vis_layer):
