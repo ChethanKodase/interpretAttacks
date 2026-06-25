@@ -4,7 +4,7 @@
 export CUDA_VISIBLE_DEVICES=3
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet.py --attck_type bsa --desired_norm_l_inf 0.01 --learningRate 0.001 --num_steps 1000 -attackSample 0 --AttackStartLayer 0 --numLayerstAtAtime 1
+python llava_attack/llava_attack_imagenet.py --attck_type bsa --desired_norm_l_inf 0.09 --learningRate 0.001 --num_steps 1000 -attackSample 0 --AttackStartLayer 0 --numLayerstAtAtime 1
 
 
 
@@ -14,24 +14,20 @@ export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
 conda activate llava15
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.9 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
 
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
 
 
 '''
