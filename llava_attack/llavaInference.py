@@ -1,3 +1,12 @@
+'''
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+python llava_attack/llavaInference.py
+
+'''
+
 import argparse
 import torch
 from PIL import Image
@@ -34,6 +43,11 @@ def main():
     model.eval()
     if device == "cpu":
         model = model.to(device)
+
+
+    for name, module in model.named_modules():
+
+        print(name, "->", module.__class__.__name__)
 
     image = Image.open(args.image).convert("RGB")
     prompt = f"USER: <image>\n{args.question}\nASSISTANT:"

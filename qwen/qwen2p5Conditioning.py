@@ -9,6 +9,14 @@ cd interpretAttacks/
 conda activate vlmAttack
 python qwen/qwen2p5Conditioning.py 
 
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+python qwen/qwen2p5Conditioning.py 
+
 '''
 
 #!/usr/bin/env python
@@ -89,7 +97,7 @@ def main():
     for name, param in model.named_parameters():
         print(f"{name:60s} {tuple(param.shape)}")
 
-        if 'weight' in name and len(param.shape)>1:
+        if 'weight' in name and len(param.shape)>1 and "qkv" not in name and "q_proj" not in name and "k_proj" not in name and "v_proj" not in name :
             print("param.shape", param.shape)
             print("len(param.shape)", len(param.shape))
             W_matrix = param.view(param.shape[0], -1)  # Flatten kernels into a 2D matrix
@@ -268,6 +276,106 @@ def main():
     fig.tight_layout()
     fig.savefig("qwen/conditionAnalysis/CondNumCC.png", dpi=300)
     plt.show()
+
+
+
+    allSmallSingvalsCheck = np.array(allSmallSingvals, dtype=float)
+    alllargestSingValCheck = np.array(alllargestSingVal, dtype=float)
+    allCondNumsCheck = np.array(allCondNums, dtype=float)
+
+    total_num_nonAttn_layers = len(allSmallSingvalsCheck)
+
+    # ----- helper -----
+    def count_and_pct(values, threshold, mode):
+        if mode == "gt":
+            count = np.sum(values > threshold)
+        elif mode == "lt":
+            count = np.sum(values < threshold)
+        else:
+            raise ValueError("mode must be 'gt' or 'lt'")
+
+        pct = 100.0 * count / total_num_nonAttn_layers
+        return int(count), pct
+
+
+    # ----- sigma_max thresholds -----
+    sigma_max_thresholds = [1.5, 10, 100, 1000, 10000]
+    sigma_max_stats = {
+        thr: count_and_pct(alllargestSingValCheck, thr, "gt")
+        for thr in sigma_max_thresholds
+    }
+
+    # ----- sigma_min thresholds -----
+    sigma_min_thresholds = [1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7]
+    sigma_min_stats = {
+        thr: count_and_pct(allSmallSingvalsCheck, thr, "lt")
+        for thr in sigma_min_thresholds
+    }
+
+
+    # ----- console output -----
+    print("=== Spectral Threshold Statistics ===")
+    print(f"Total non-attention layers: {total_num_nonAttn_layers}\n")
+
+    for thr, (count, pct) in sigma_max_stats.items():
+        print(
+            f"sigma_max > {thr:g} : "
+            f"{count}/{total_num_nonAttn_layers} ({pct:.2f}%)"
+        )
+
+    print()
+
+    for thr, (count, pct) in sigma_min_stats.items():
+        print(
+            f"sigma_min < {thr:g} : "
+            f"{count}/{total_num_nonAttn_layers} ({pct:.2f}%)"
+        )
+
+
+    # ----- save report -----
+    report_path = "qwen/conditionAnalysis/spectral_stats_report.txt"
+
+    with open(report_path, "w") as f:
+        f.write("=== Spectral Statistics Report ===\n\n")
+
+        f.write(f"Total non-attention layers: {total_num_nonAttn_layers}\n\n")
+
+        f.write("----- Sigma Max Threshold Counts -----\n")
+        for thr, (count, pct) in sigma_max_stats.items():
+            f.write(
+                f"Layers with sigma_max > {thr:g} : "
+                f"{count}/{total_num_nonAttn_layers} "
+                f"({pct:.2f}%)\n"
+            )
+
+        f.write("\n----- Sigma Min Threshold Counts -----\n")
+        for thr, (count, pct) in sigma_min_stats.items():
+            f.write(
+                f"Layers with sigma_min < {thr:g} : "
+                f"{count}/{total_num_nonAttn_layers} "
+                f"({pct:.2f}%)\n"
+            )
+
+        f.write("\n----- Sigma Max Statistics -----\n")
+        f.write(f"Median sigma_max : {np.median(alllargestSingValCheck):.6f}\n")
+        f.write(f"Mean sigma_max   : {np.mean(alllargestSingValCheck):.6f}\n")
+        f.write(f"Min sigma_max    : {np.min(alllargestSingValCheck):.6f}\n")
+        f.write(f"Max sigma_max    : {np.max(alllargestSingValCheck):.6f}\n\n")
+
+        f.write("----- Sigma Min Statistics -----\n")
+        f.write(f"Median sigma_min : {np.median(allSmallSingvalsCheck):.6e}\n")
+        f.write(f"Mean sigma_min   : {np.mean(allSmallSingvalsCheck):.6e}\n")
+        f.write(f"Min sigma_min    : {np.min(allSmallSingvalsCheck):.6e}\n")
+        f.write(f"Max sigma_min    : {np.max(allSmallSingvalsCheck):.6e}\n\n")
+
+        f.write("----- Condition Number Statistics -----\n")
+        f.write(f"Median kappa     : {np.median(allCondNumsCheck):.6f}\n")
+        f.write(f"Mean kappa       : {np.mean(allCondNumsCheck):.6f}\n")
+        f.write(f"Min kappa        : {np.min(allCondNumsCheck):.6f}\n")
+        f.write(f"Max kappa        : {np.max(allCondNumsCheck):.6f}\n")
+
+    print(f"\nReport saved to: {report_path}")
+
 
 
 if __name__ == "__main__":

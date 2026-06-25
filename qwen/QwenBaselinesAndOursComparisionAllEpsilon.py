@@ -2,7 +2,7 @@
 '''
 
 
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate gemma3
@@ -99,11 +99,14 @@ ega_ratio = 0.2
 #allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
 
 allEpsilons = [0.002, 0.003, 0.004, 0.005]
+#allEpsilons = [0.002, 0.003, 0.004]
+
+all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "saa_loopC"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA", "SSGRA"]
 
 
 all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
 AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
-
 
 precisionMeanForAttacksSeries = []
 precisionStdForAttacksSeries = []
@@ -146,6 +149,13 @@ for epsilon in allEpsilons:
                     f"num_steps_{num_steps}_towardsNull_{towardsNull}_"
                     f"{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.txt"
                 )
+            elif attck_type == "saa_loopC":
+                advOutputPath = (
+                    f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
+                    f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
+                    f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
+                    f"num_steps_{num_steps}_towardsNull_{towardsNull}_{whichMLP}_{whichMLPVis}_{chosenLanLayers}_{chosenVisLayers}.txt"
+                    )
 
             elif attck_type == "ega":
                 advOutputPath = (
@@ -185,7 +195,7 @@ for epsilon in allEpsilons:
                 cleanOutput,
                 lang="en",
                 model_type="roberta-large",
-                rescale_with_baseline=True
+                rescale_with_baseline=False
             )
 
             sampleAggP.append(P.item())
