@@ -17,4 +17,5 @@ qwen/outputsStorageImagenet/
 llava_attack/dataSamplesForQuant.tar.gz
 llava_attack/extras/
 qwen/AllPlots/
-llava_attack/conditionAnalysis
+llava_attack/conditionAnalysis/
+qwen/conditionAnalysis/
