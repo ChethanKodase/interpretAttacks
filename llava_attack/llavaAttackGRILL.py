@@ -33,6 +33,17 @@ for ATTACK_SAMPLE in $(seq 1 50); do
     python llava_attack/llavaAttackGRILL.py --attck_type grill --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
+
+def getGrillCosLoss(outputs,outputsN):
+    loss = 0
+    losses = []
+    for hiddenState, hiddenStateN in zip(outputs.hidden_states,outputsN.hidden_states):
+        loss = loss + (1.0-cos(hiddenState, hiddenStateN))**2
+        losses.append(loss)
+    losses_tensor = torch.stack(losses)   
+    agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2 
+    return agg
+    
 '''
 
 
