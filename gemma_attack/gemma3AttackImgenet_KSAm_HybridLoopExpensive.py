@@ -69,7 +69,7 @@ for ATTACK_SAMPLE in $(seq 1 50); do
 done
 
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=2
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
@@ -93,7 +93,15 @@ for ATTACK_SAMPLE in $(seq 1 50); do
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
 done
 
-
+export CUDA_VISIBLE_DEVICES=2
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    --balancingAlpha 0.5\
+    --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
+    --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
+done
 
 
 elif epsilonTypes == "tinyTiny":
@@ -1077,10 +1085,10 @@ def main():
         )
 
 
-    # tensor01_to_pil(x_adv01).save(adv_img_path) # this should be uncommented later
+    tensor01_to_pil(x_adv01).save(adv_img_path) # this should be uncommented later
     print(f"\nSaved ORIGINAL-resolution adversarial image to: {adv_img_path}")
 
-    #torch.save(best_pert.detach().cpu(), adv_noise_path) # this should be uncommented later
+    torch.save(best_pert.detach().cpu(), adv_noise_path) # this should be uncommented later
     print(f"Saved perturbation tensor to: {adv_noise_path}")
 
     pv_adv = gemma_preprocess_differentiable(x_adv01, processor)

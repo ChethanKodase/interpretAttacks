@@ -28,81 +28,30 @@ python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos -
 
 python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 1 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec -1
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-550, 1, 2, 3, 4, 5
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export CUDA_VISIBLE_DEVICES=2
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export CUDA_VISIBLE_DEVICES=4
 conda activate gemma3
 cd interpretAttacks
 for LayerTrackNum in $(seq 0 26); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
 done
 
 for LayerTrackNum in $(seq 26 33); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
 done
 
 for LayerTrackNum in $(seq 0 26); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
 done
 
 for LayerTrackNum in $(seq 26 33); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1VisionLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
 done
-
-for LayerTrackNum in $(seq 0 26); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-for LayerTrackNum in $(seq 26 33); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 4 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-for LayerTrackNum in $(seq 0 26); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 5 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 5 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-for LayerTrackNum in $(seq 26 33); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 5 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 5 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-export CUDA_VISIBLE_DEVICES=2
-conda activate gemma3
-cd interpretAttacks
-for LayerTrackNum in $(seq 0 26); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-for LayerTrackNum in $(seq 26 33); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-for LayerTrackNum in $(seq 0 26); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-for LayerTrackNum in $(seq 26 33); do
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
-done
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # can be good results
 for LayerTrackNum in $(seq 0 20); do
@@ -199,12 +148,12 @@ RightAlignMentTrackerPath = (
 
 test = np.load(RightAlignMentTrackerPath)
 
-test = test[:,7:]
+test = test[:,:6]
 steps, n_points = test.shape
 
 print(" test.shape",  test.shape)
 
-save_dir = f"/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentPlots/textLayers_AttackStartLayer_{AttackStartLayer}"
+save_dir = f"/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentPlots/visionLayers_AttackStartLayer_{AttackStartLayer}"
 os.makedirs(save_dir, exist_ok=True)
 save_path = os.path.join(
     save_dir,
@@ -228,13 +177,13 @@ drop_start = True
 drop_end = True
 
 point_labels = [
-    "query (vis)", "key (vis)", "value (vis)", "att output (vis)",
-    "MLP exp (vis)", "MLP out (vis)", "Vis-to-lan", "query",
-    "key", "value", "MLP gate", "MLP up",
-    "MLP down"
+    "query proj (vis)", "key proj (vis)", "value proj (vis)", "att output proj (vis)",
+    "MLP exp (vis)", "MLP out proj (vis)", "Vis-to-lan proj", "query proj",
+    "key proj", "value proj", "MLP gate proj", "MLP up proj",
+    "MLP down proj"
 ]
 
-point_labels = point_labels[7:]
+point_labels = point_labels[:6]
 #print("point_labels", point_labels)
 
 
@@ -242,11 +191,6 @@ plt.style.use("default")
 #fig = plt.figure(figsize=(18, 13))
 fig = plt.figure(figsize=(10, 6))
 ax = fig.add_subplot(111, projection="3d")
-
-#------------------------------------------------------------------------------------
-ax.tick_params(labelsize=16)
-
-#----------------------------------------------------------------------------------------------------------------
 
 #x = np.arange(steps)*20
 x = np.linspace(0, 1000, steps)
@@ -280,13 +224,9 @@ for j in range(n_points):
     ax.scatter([x[0], x[-1]], [j, j], [z[0], z[-1]], color=c, s=22, alpha=0.9)
 
 #ax.set_title("3D Waterfall with drops to BACK XZ plane and to XY floor", pad=18)
-'''ax.set_xlabel("Step")
+ax.set_xlabel("Step")
 ax.set_ylabel("Layer type", labelpad=20)
-ax.set_zlabel("Alignment")'''
-
-ax.set_xlabel("Step", fontsize=16, labelpad=10)
-#ax.set_ylabel("Layer Type", fontsize=14, labelpad=40)
-ax.set_zlabel("Alignment", fontsize=16, labelpad=10)
+ax.set_zlabel("Alignment")
 
 ax.set_zlim(0, 0.7)
 # Extend axis so the back plane is in view
@@ -309,7 +249,7 @@ z_label = z_plane                              # on the floor plane
 for j, lab in enumerate(point_labels):
     ax.text(
         x_label, j, z_label, lab,
-        ha="left", va="center", fontsize=16
+        ha="left", va="center", fontsize=9
     )
 
 # View

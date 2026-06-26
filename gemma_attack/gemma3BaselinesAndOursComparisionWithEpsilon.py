@@ -82,7 +82,7 @@ numSamplesConsidered = int(args.numSamplesConsidered)
 # Fixed settings from your comparison code
 # ============================================================
 
-allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045]
+allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
 #allEpsilons = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
 #allEpsilons = [0.002, 0.003, 0.004]
 towardsNull = 0.1
@@ -94,29 +94,25 @@ chosenVisLayers = [11]
 #     Spectral-Subspace-Guided Representation Similarity Attack (SSGRA)
 # Spectral Subspace Projection Attack (SSPA)
 all_attck_types = [
-    "saa_BSAexpTN_P15_BAp05",
-    "saa_loopR",
     "bsa",
     "dra",
     "fdam",
     "ssp",
     "ega",
     "nllm",
-    #"grill_cos",
-    #"grill_cosNx"
+    "saa_loopR",
+    "saa_BSAexpTN_P15_BAp05"
 ]
 
 AllAttckTypes = [
-    "SSGRA",
-    "SSPMA",
     "BSA",
     "DRA",
     "FDA",
     "SSPA",
     "EGA",
     "CE",
-    #"GRILL-cos",
-    #"grill_cos-PI"
+    "SSPMA",
+    "SSGRA"
 ]
 
 # ============================================================
@@ -303,7 +299,7 @@ for epsilon in allEpsilons:
                 cleanOutput,
                 lang="en",
                 model_type="roberta-large",
-                rescale_with_baseline=True
+                rescale_with_baseline=False
             )
 
             sampleAggP.append(P.item())

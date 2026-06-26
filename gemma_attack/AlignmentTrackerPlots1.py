@@ -6,8 +6,8 @@ conda activate gemma3
 cd interpretAttacks
 
 
-
-export CUDA_VISIBLE_DEVICES=6
+# works very well
+export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
 for LayerTrackNum in $(seq 0 20); do
@@ -15,6 +15,79 @@ for LayerTrackNum in $(seq 0 20); do
     python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
 done
 
+# no
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 20); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 33 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 33 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+done
+
+python gemma_attack/AlignmentTrackerPlots1TextLayers.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 10000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+
+
+for LayerTrackNum in $(seq 0 20); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+done
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export CUDA_VISIBLE_DEVICES=4
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 26); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
+
+export CUDA_VISIBLE_DEVICES=4
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 26 33); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 20); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type bsaTrack --desired_norm_l_inf 0.005 --learningRate 0.0001 --num_steps 1000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type bsaTrack --desired_norm_l_inf 0.005 --learningRate 0.0001 --num_steps 1000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+done
+
+
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 20); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type bsaTrack --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type bsaTrack --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+done
+
+
+
+
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 33); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type bsaTrack --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type bsaTrack --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+done
+
+-------------------
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 20); do
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python gemma_attack/AlignmentTrackerPlots1.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+done
+
+python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 16 --numLayerstAtAtime 1 --VisionLayerTrack 16 --LanLayerTrack 16 --kthSingVec -1
 
 '''
 
@@ -70,7 +143,7 @@ RightAlignMentTrackerPath = (
 test = np.load(RightAlignMentTrackerPath)
 steps, n_points = test.shape
 
-save_dir = "/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentPlots"
+save_dir = f"/data1/chethan/interpretAttacks/gemma_attack/AllPlots/AlignmentPlots/VisLayers_AttackStartLayer_{AttackStartLayer}"
 os.makedirs(save_dir, exist_ok=True)
 save_path = os.path.join(
     save_dir,

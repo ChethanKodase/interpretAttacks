@@ -7,141 +7,67 @@
 
 ##########################################################################################################################################################################################################################################################################################
 
+
+
+python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_Cos.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 1 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec -1
+
+python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_Cos.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 2 --LanLayerTrack 2 --kthSingVec -1
+
+python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_Cos.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer 0 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1
+
 export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1
+for LayerTrackNum in $(seq 0 26); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack -1 --LanLayerTrack -1 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack -1 --LanLayerTrack -1 --kthSingVec -1
-
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack -2 --LanLayerTrack -2 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 1000 --attackSample 551 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack -2 --LanLayerTrack -2 --kthSingVec -1
+for LayerTrackNum in $(seq 26 33); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
 
-
-
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type track_wass --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 551 --AttackStartLayer 2 --numLayerstAtAtime 1 --VisionLayerTrack 2 --LanLayerTrack 2 --kthSingVec -1
-
-
-# primary importance configurations: 
-Which layer to attack ? Language last layer
-Which singular vectors to examine : Top and the bottom
-what perturbation budget 0.02
-which samples : samples after 550
-number of steps : 10000
-
-How many VisionLayerTrack : 26
-
-How many LanLayerTrack : 33
-
-
-export CUDA_VISIBLE_DEVICES=4
+export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 2 --LanLayerTrack 2 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 3 --LanLayerTrack 3 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 4 --LanLayerTrack 4 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 5 --LanLayerTrack 5 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 6 --LanLayerTrack 6 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 7 --LanLayerTrack 7 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 8 --LanLayerTrack 8 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 9 --LanLayerTrack 9 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 10 --LanLayerTrack 10 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 11 --LanLayerTrack 11 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 12 --LanLayerTrack 12 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 13 --LanLayerTrack 13 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 14 --LanLayerTrack 14 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 15 --LanLayerTrack 15 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 16 --LanLayerTrack 16 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 17 --LanLayerTrack 17 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 18 --LanLayerTrack 18 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 19 --LanLayerTrack 19 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 20 --LanLayerTrack 20 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 21 --LanLayerTrack 21 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 22 --LanLayerTrack 22 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 23 --LanLayerTrack 23 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 24 --LanLayerTrack 24 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 25 --LanLayerTrack 25 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 26 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 27 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 28 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 29 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 30 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 31 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 32 --kthSingVec 0
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 33 --kthSingVec 0
+for LayerTrackNum in $(seq 0 26); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
-
+for LayerTrackNum in $(seq 26 33); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
 
 export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 0 --LanLayerTrack 0 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 1 --LanLayerTrack 1 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 2 --LanLayerTrack 2 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 3 --LanLayerTrack 3 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 4 --LanLayerTrack 4 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 5 --LanLayerTrack 5 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 6 --LanLayerTrack 6 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 7 --LanLayerTrack 7 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 8 --LanLayerTrack 8 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 9 --LanLayerTrack 9 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 10 --LanLayerTrack 10 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 11 --LanLayerTrack 11 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 12 --LanLayerTrack 12 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 13 --LanLayerTrack 13 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 14 --LanLayerTrack 14 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 15 --LanLayerTrack 15 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 16 --LanLayerTrack 16 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 17 --LanLayerTrack 17 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 18 --LanLayerTrack 18 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 19 --LanLayerTrack 19 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 20 --LanLayerTrack 20 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 21 --LanLayerTrack 21 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 22 --LanLayerTrack 22 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 23 --LanLayerTrack 23 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 24 --LanLayerTrack 24 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 25 --LanLayerTrack 25 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 26 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 27 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 28 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 29 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 30 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 31 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 32 --kthSingVec -1
-python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker.py --attck_type grill_wass --desired_norm_l_inf 0.02 --learningRate 0.0001 --num_steps 10000 --attackSample 550 --AttackStartLayer 15 --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack 33 --kthSingVec -1
+for LayerTrackNum in $(seq 0 26); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
+for LayerTrackNum in $(seq 26 33); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 2 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
+export CUDA_VISIBLE_DEVICES=4
+conda activate gemma3
+cd interpretAttacks
+for LayerTrackNum in $(seq 0 26); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
-chmod +x run_gemma_attacks_gpu0.sh
-chmod +x run_gemma_attacks_gpu1.sh
-chmod +x run_gemma_attacks_gpu2.sh
-chmod +x run_gemma_attacks_gpu3.sh
-
-chmod +x run_gemma_attacks_gpu4.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu0.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu1.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu2.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu3.sh
-
-cd interpretAttacks/gemma_attack
-bash run_gemma_attacks_gpu4.sh
+for LayerTrackNum in $(seq 26 33); do
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python gemma_attack/gemma3SingularValAttackImgenetAlignmentTracker_CosSq.py --attck_type track_cosSq --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 3 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 26 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+done
 
 '''
 
@@ -211,7 +137,9 @@ def get_grill_l2(outputs, outputsN):
 def get_grill_wass(outputs, outputsN, startPos, endPos):
     loss = 0.0
     for h, hn in zip(outputs.hidden_states[startPos:endPos], outputsN.hidden_states[startPos:endPos]):
-        loss = loss + wasserstein_distance(h, hn)
+        #loss = loss + wasserstein_distance(h, hn)
+        loss = loss + cos(h, hn)
+
     return loss #* wasserstein_distance(h, hn)
 
 
@@ -384,8 +312,11 @@ def getMeanAlignmentWithTopRightSingularVector(InputToLayer, topRightSingularVec
     v_hat = v / v.norm()
     h_hat = InputToLayer[0] / InputToLayer[0].norm(dim=-1, keepdim=True)
     dots = h_hat @ v_hat
+
     dots = dots.squeeze(0)
-    mean_abs_value = dots.abs().mean().item()
+    #mean_abs_value = (dots**2).mean().item()
+    #mean_abs_value = (dots ** 2).sum(dim=1).mean().item()
+    mean_abs_value = (dots**2).mean().item()
     return mean_abs_value
 
 def getMeanAlignmentWithTopLeftSingularVector(InputToLayer, topRightSingularVector):
@@ -394,7 +325,7 @@ def getMeanAlignmentWithTopLeftSingularVector(InputToLayer, topRightSingularVect
     h_hat = InputToLayer[0] / InputToLayer[0].norm(dim=-1, keepdim=True)
     dots = h_hat @ v_hat
     dots = dots.squeeze(0)
-    mean_abs_value = dots.abs().mean().item()
+    mean_abs_value = (dots**2).mean().item()
     return mean_abs_value
 
 
@@ -409,7 +340,8 @@ def getMeanAlignmentWithAttentionHeadTopRightSingularVector(InputToLayer, topRig
     #print("H_hat.shape", H_hat.shape)
     #print("V_hat.shape", V_hat.shape)
     dots = H_hat @ V_hat.T               # (4096, 16)
-    mean_abs_value = dots.abs().mean().item()
+    mean_abs_value = (dots**2).mean().item()
+    
 
     return mean_abs_value
 
@@ -430,7 +362,7 @@ def getMeanAlignmentWithAttentionHeadTopLeftSingularVector(OutputOfLayer, num_he
     #print("H_hat.shape", H_hat.shape)
     #print("V_hat.shape", V_hat.shape)
     dots = H_hat @ V_hat.T               # (4096, 16)
-    mean_abs_value = dots.abs().mean().item()
+    mean_abs_value = (dots**2).mean().item()
 
     return mean_abs_value
 
@@ -445,7 +377,7 @@ def getMeanAlignmentWithLanAttentionHeadTopRightSingularVector(InputToLayer, top
     #print("V_hat.shape", V_hat.shape)
     #print("H_hat.shape", H_hat.shape)
     dots = H_hat @ V_hat.T               # (4096, 16)
-    mean_abs_value = dots.abs().mean().item()
+    mean_abs_value = (dots**2).mean().item()
 
     return mean_abs_value
 
@@ -801,7 +733,7 @@ def adam_attack_original_space(
 
         loss = get_grill_wass(outputs, outputsN, startPos, endPos)
 
-        attack_loss = -loss  # maximize loss
+        attack_loss = loss  # maximize loss
 
         opt.zero_grad(set_to_none=True)
         attack_loss.backward()
@@ -817,7 +749,7 @@ def adam_attack_original_space(
 
             #print("dots.shape", dots.shape)
             #print("dots mean", torch.mean()dots)
-            #mean_abs_value = dots.abs().mean().item()
+            #mean_abs_value = (dots**2).mean().item()
             #print("mean_abs_value", mean_abs_value)
         if lv > best_loss:
             best_loss = lv

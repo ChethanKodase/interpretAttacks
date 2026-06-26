@@ -8,11 +8,47 @@
 DOWN -FC2
 ############
 
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 10); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
+    --chosenLanLayers 3 4 5 \
+    --chosenVisLayers 1 3 5 10 11 12 15 17 21 23
+done
+
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 11 20); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
+    --chosenLanLayers 3 4 5 \
+    --chosenVisLayers 1 3 5 10 11 12 15 17 21 23
+done
+
+export CUDA_VISIBLE_DEVICES=5
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 21 30); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
+    --chosenLanLayers 3 4 5 \
+    --chosenVisLayers 1 3 5 10 11 12 15 17 21 23
+done
+
+export CUDA_VISIBLE_DEVICES=4
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 31 40); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
+    --chosenLanLayers 3 4 5 \
+    --chosenVisLayers 1 3 5 10 11 12 15 17 21 23
+done
+
 export CUDA_VISIBLE_DEVICES=3
 conda activate gemma3
 cd interpretAttacks
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
+for ATTACK_SAMPLE in $(seq 41 50); do
+    python gemma_attack/gemma3AttackImgenet_KSAm_loop1.py --attck_type saa_loopR --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.1 --whichMLP down_proj --whichMLPvis out_proj \
     --chosenLanLayers 3 4 5 \
     --chosenVisLayers 1 3 5 10 11 12 15 17 21 23
 done
