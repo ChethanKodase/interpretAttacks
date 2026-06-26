@@ -8,7 +8,7 @@
 
 
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
