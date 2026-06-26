@@ -15,11 +15,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-whichPlot = "Precision"
+#whichPlot = "Precision"
 #whichPlot = "Recall"
-#whichPlot = "F1"
+whichPlot = "F1"
 
-methods = ["BSA", "DRA", "EGA", "FDA", "SSP", "NLL", "SSPMA"]
+methods = ["BSA", "DRA", "EGA", "FDA", "SSP", "NLL", "SSPMA", "SSGRA"]
 
 flops = np.array([
     29423739941824,
@@ -28,7 +28,8 @@ flops = np.array([
     6139307805634,
     6139183765772,
     26851063319698,
-    13090508399113
+    13090508399113,
+    29463755433581
 ], dtype=float)
 
 
@@ -39,6 +40,7 @@ bertPrecisionScores = np.array([
     0.922527,
     0.922393,
     0.848488,
+    0.695064,
     0.695064
 ])
 
@@ -49,6 +51,7 @@ bertRecallScores = np.array([
     0.913500,
     0.909861,
     0.864439,
+    0.756444,
     0.756444
 ])
 
@@ -59,6 +62,7 @@ bertF1Scores = np.array([
     0.917936,
     0.916014,
     0.855937,
+    0.724179,
     0.724179
 ])
 
@@ -108,6 +112,7 @@ if whichPlot == "Precision":
         "SSP": (3, -10),
         "NLL": (-13, 6),
         "SSPMA": (3, 4),
+        "SSGRA": (3, 4)
     }
 if whichPlot == "Recall":
     offsets = {
@@ -118,6 +123,7 @@ if whichPlot == "Recall":
         "SSP": (3, -10),
         "NLL": (-13, -12),
         "SSPMA": (3, 4),
+        "SSGRA": (3, 4)
     }
 if whichPlot == "F1":
     offsets = {
@@ -128,6 +134,7 @@ if whichPlot == "F1":
         "SSP": (3, -10),
         "NLL": (-13, -12),
         "SSPMA": (3, 4),
+        "SSGRA": (3, 4)
     }
 
 
