@@ -101,12 +101,13 @@ ega_ratio = 0.2
 allEpsilons = [0.002, 0.003, 0.004, 0.005]
 #allEpsilons = [0.002, 0.003, 0.004]
 
-all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "saa_loopC"]
-AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA", "SSGRA"]
+#all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "saa_loopC"]
+#all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "saa_loop"]
+#AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA", "SSGRA"]
 
 
 all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
-AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
 
 precisionMeanForAttacksSeries = []
 precisionStdForAttacksSeries = []

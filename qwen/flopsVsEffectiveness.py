@@ -16,8 +16,8 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
 whichPlot = "Precision"
-whichPlot = "Recall"
-whichPlot = "F1"
+#whichPlot = "Recall"
+#whichPlot = "F1"
 
 methods = ["BSA", "DRA", "EGA", "FDA", "SSP", "NLL", "SSPMA"]
 
@@ -31,37 +31,36 @@ flops = np.array([
     13090508399113
 ], dtype=float)
 
+
 bertPrecisionScores = np.array([
-    0.205270,
-    0.611677,
-    0.193518,
-    0.558698,
-    0.524780,
-    0.216357,
-    -0.627923
-], dtype=float)
+    0.846908,
+    0.930871,
+    0.852240,
+    0.922527,
+    0.922393,
+    0.848488,
+    0.695064
+])
 
 bertRecallScores = np.array([
-    0.143267,
-    0.616609,
-    0.297238,
-    0.511168,
-    0.488341,
-    0.249979,
-    -0.249979
-], dtype=float)
+    0.842977,
+    0.930515,
+    0.879130,
+    0.913500,
+    0.909861,
+    0.864439,
+    0.756444
+])
 
 bertF1Scores = np.array([
-    0.174908,
-    0.614432,
-    0.244249,
-    0.535178,
-    0.506837,
-    0.233364,
-    -0.457617
-], dtype=float)
-
-
+    0.844749,
+    0.930628,
+    0.865149,
+    0.917936,
+    0.916014,
+    0.855937,
+    0.724179
+])
 
 
 if whichPlot == "Precision":
@@ -150,19 +149,36 @@ ax.set_xlabel(r"FLOPs ($\times 10^{12}$)")
 
 if whichPlot == "Precision":
     ax.set_ylabel("BERT Precision")
+
+    ax.set_xlim(5.8, 30.8)
+    ax.set_ylim(0.65, 1.0)
+
+    ax.set_xticks([5, 10, 15, 20, 25, 30])
+    ax.set_yticks([0.7, 0.7 + 0.3/4, 0.7 + 2 * 0.3/4, 0.7 + 3* 0.3/4, 0.7 + 4* 0.3/4])
+
 if whichPlot == "Recall":
     ax.set_ylabel("BERT Recall")
+
+    ax.set_xlim(5.8, 30.8)
+    ax.set_ylim(0.7, 1.0)
+
+    ax.set_xticks([5, 10, 15, 20, 25, 30])
+    ax.set_yticks([0.7, 0.7 + 0.3/4, 0.7 + 2 * 0.3/4, 0.7 + 3* 0.3/4, 0.7 + 4* 0.3/4])
+
 if whichPlot == "F1":
     ax.set_ylabel("BERT F1 Score")
+
+    ax.set_xlim(5.8, 30.8)
+    ax.set_ylim(0.7, 1.0)
+
+    ax.set_xticks([5, 10, 15, 20, 25, 30])
+    ax.set_yticks([0.7, 0.7 + 0.3/4, 0.7 + 2 * 0.3/4, 0.7 + 3* 0.3/4, 0.7 + 4* 0.3/4])
+
 
 
 
 # Tight axis limits
-ax.set_xlim(5.8, 30.8)
-ax.set_ylim(-0.86, 0.8)
 
-ax.set_xticks([6, 10, 15, 20, 25, 30])
-ax.set_yticks([-0.8, -0.4, 0.0, 0.4])
 
 ax.grid(True, linestyle="--", linewidth=0.35, alpha=0.35, zorder=0)
 
