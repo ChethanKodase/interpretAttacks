@@ -14,14 +14,14 @@ python qwen/AlignmentTrackerPlots.py
 '''
 # Vision + language layers together (VisionLayerTrack == LanLayerTrack)
 for LayerTrackNum in $(seq 0 31); do
-    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack $LayerTrackNum --LanLayerTrack $LayerTrackNum --kthSingVec 0
 done
 
 # Language-only layers (fix VisionLayerTrack=31)
 for LayerTrackNum in $(seq 32 35); do
-    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 31 --LanLayerTrack $LayerTrackNum --kthSingVec -1
-    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 550 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 31 --LanLayerTrack $LayerTrackNum --kthSingVec 0
+    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 31 --LanLayerTrack $LayerTrackNum --kthSingVec -1
+    python qwen/AlignmentTrackerPlots.py --attck_type track_cos --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample 1 --AttackStartLayer $LayerTrackNum --numLayerstAtAtime 1 --VisionLayerTrack 31 --LanLayerTrack $LayerTrackNum --kthSingVec 0
 done
 '''
 
