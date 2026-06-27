@@ -1,12 +1,11 @@
-
 '''
 
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=0
 conda deactivate
 cd interpretAttacks/
 conda activate gemma3
-python qwen/QwenBaselinesAndOursComparisionAllEpsilonAblation.py \
+python qwen/QwenBaselinesAndOursComparisionAllEpsilonRouge.py \
     --learningRate 0.001 \
     --num_steps 1000 \
     --AttackStartLayer 0 \
@@ -19,7 +18,7 @@ python qwen/QwenBaselinesAndOursComparisionAllEpsilonAblation.py \
 
 '''
 
-from bert_score import score
+from rouge_score import rouge_scorer
 import argparse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -49,7 +48,7 @@ mpl.rcParams.update({
 
 
 parser = argparse.ArgumentParser(
-    description="Qwen BERTScore comparison across perturbation budgets"
+    description="Qwen ROUGE-L comparison across perturbation budgets"
 )
 
 parser.add_argument("--learningRate", type=float, default=1e-3)
@@ -96,21 +95,13 @@ chosenVisLayers = args.chosenVisLayers
 towardsNull = 0.5
 ega_ratio = 0.2
 
-#allEpsilons = [0.001, 0.002, 0.003, 0.004, 0.005]
+allEpsilons = [0.002, 0.003, 0.004, 0.005]
 
-allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
-#allEpsilons = [0.002, 0.003, 0.004]
+all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
 
-#all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "saa_loopC"]
-#all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "saa_loop"]
-#AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA", "SSGRA"]
-
-
-#all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
-#AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
-
-all_attck_types = ["bsa", "saa_loop"]
-AllAttckTypes = ["Without Spectral Alignment Loss",  "With Spectral Alignment Loss"]
+# Initialize ROUGE-L scorer
+rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
 
 precisionMeanForAttacksSeries = []
 precisionStdForAttacksSeries = []
@@ -189,22 +180,17 @@ for epsilon in allEpsilons:
                 continue
 
             with open(advOutputPath, "r") as f:
-                advOutput = [f.read().strip()]
+                advOutput = f.read().strip()
 
             with open(cleanOutputPath, "r") as f:
-                cleanOutput = [f.read().strip()]
+                cleanOutput = f.read().strip()
 
-            P, R, F1 = score(
-                advOutput,
-                cleanOutput,
-                lang="en",
-                model_type="roberta-large",
-                rescale_with_baseline=False
-            )
+            # ROUGE-L: score(reference, hypothesis)
+            result = rouge.score(cleanOutput, advOutput)
 
-            sampleAggP.append(P.item())
-            sampleAggR.append(R.item())
-            sampleAggF1.append(F1.item())
+            sampleAggP.append(result['rougeL'].precision)
+            sampleAggR.append(result['rougeL'].recall)
+            sampleAggF1.append(result['rougeL'].fmeasure)
 
         sampleAggP = np.array(sampleAggP)
         sampleAggR = np.array(sampleAggR)
@@ -239,12 +225,12 @@ f1MeanForAttacksSeries = np.array(f1MeanForAttacksSeries)
 f1StdForAttacksSeries = np.array(f1StdForAttacksSeries)
 
 def save_results_to_txt():
-    save_dir = "qwen/AllPlots/comparisionSeriesAblation"
+    save_dir = "qwen/AllPlots/comparisionSeriesRouge"
     os.makedirs(save_dir, exist_ok=True)
 
     txt_path = os.path.join(
         save_dir,
-        f"BERTScoreResults_num_steps_{num_steps}_"
+        f"ROUGELResults_num_steps_{num_steps}_"
         f"AttackStartLayer_{AttackStartLayer}_"
         f"towardsNull_{towardsNull}_"
         f"numSamplesConsidered_{numSamplesConsidered}_"
@@ -260,37 +246,38 @@ def save_results_to_txt():
         for eps_idx, epsilon in enumerate(allEpsilons):
             f.write(f"================ EPSILON = {epsilon} ================\n\n")
 
-            f.write("Precision Mean\n")
+            f.write("ROUGE-L Precision Mean\n")
             for i, attack in enumerate(AllAttckTypes):
                 f.write(f"{attack:<20}: {precisionMeanForAttacksSeries[eps_idx, i]:.6f}\n")
             f.write("\n")
 
-            f.write("Precision Std\n")
+            f.write("ROUGE-L Precision Std\n")
             for i, attack in enumerate(AllAttckTypes):
                 f.write(f"{attack:<20}: {precisionStdForAttacksSeries[eps_idx, i]:.6f}\n")
             f.write("\n")
 
-            f.write("Recall Mean\n")
+            f.write("ROUGE-L Recall Mean\n")
             for i, attack in enumerate(AllAttckTypes):
                 f.write(f"{attack:<20}: {recallMeanForAttacksSeries[eps_idx, i]:.6f}\n")
             f.write("\n")
 
-            f.write("Recall Std\n")
+            f.write("ROUGE-L Recall Std\n")
             for i, attack in enumerate(AllAttckTypes):
                 f.write(f"{attack:<20}: {recallStdForAttacksSeries[eps_idx, i]:.6f}\n")
             f.write("\n")
 
-            f.write("F1 Mean\n")
+            f.write("ROUGE-L F1 Mean\n")
             for i, attack in enumerate(AllAttckTypes):
                 f.write(f"{attack:<20}: {f1MeanForAttacksSeries[eps_idx, i]:.6f}\n")
             f.write("\n")
 
-            f.write("F1 Std\n")
+            f.write("ROUGE-L F1 Std\n")
             for i, attack in enumerate(AllAttckTypes):
                 f.write(f"{attack:<20}: {f1StdForAttacksSeries[eps_idx, i]:.6f}\n")
             f.write("\n\n")
 
     print(f"Saved text results: {txt_path}")
+
 save_results_to_txt()
 
 # ============================================================
@@ -314,7 +301,7 @@ def format_func(x, pos):
 
 def plot_metric(means, stds, ylabel, filename_prefix):
 
-    save_dir = "qwen/AllPlots/comparisionSeriesAblation"
+    save_dir = "qwen/AllPlots/comparisionSeriesRouge"
     os.makedirs(save_dir, exist_ok=True)
 
     fig, ax = plt.subplots(figsize=(4.8, 7.8))
@@ -336,8 +323,8 @@ def plot_metric(means, stds, ylabel, filename_prefix):
 
         ax.fill_between(
             allEpsilons,
-            mean - std,
-            mean + std,
+            np.maximum(mean - 0.5 * std, 0),
+            np.minimum(mean + 0.5 * std, 1),
             alpha=0.16,
             linewidth=0
         )
@@ -368,7 +355,7 @@ def plot_metric(means, stds, ylabel, filename_prefix):
     legend = ax.legend(
         loc="upper center",
         bbox_to_anchor=(0.5, 1.23),
-        ncol=1,
+        ncol=3,
         frameon=False,
         fontsize=14,
         handlelength=2.7,
@@ -415,11 +402,11 @@ def plot_metric(means, stds, ylabel, filename_prefix):
 plot_metric(
     precisionMeanForAttacksSeries,
     precisionStdForAttacksSeries,
-    "BERT Precision",
+    "ROUGE-L Precision",
     "PrecisionComparisionSeries"
 )
 
-print("\nprecision")
+print("\nROUGE-L Precision")
 print("means:", precisionMeanForAttacksSeries)
 print("stds:", precisionStdForAttacksSeries)
 
@@ -427,11 +414,11 @@ print("stds:", precisionStdForAttacksSeries)
 plot_metric(
     recallMeanForAttacksSeries,
     recallStdForAttacksSeries,
-    "BERT Recall",
+    "ROUGE-L Recall",
     "RecallComparisionSeries"
 )
 
-print("\nrecall")
+print("\nROUGE-L Recall")
 print("means:", recallMeanForAttacksSeries)
 print("stds:", recallStdForAttacksSeries)
 
@@ -439,10 +426,10 @@ print("stds:", recallStdForAttacksSeries)
 plot_metric(
     f1MeanForAttacksSeries,
     f1StdForAttacksSeries,
-    "BERT F1 Score",
+    "ROUGE-L F1 Score",
     "F1ComparisionSeries"
 )
 
-print("\nf1 score")
+print("\nROUGE-L F1 Score")
 print("means:", f1MeanForAttacksSeries)
 print("stds:", f1StdForAttacksSeries)

@@ -1,12 +1,10 @@
-
-
 '''
 
 export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate gemma3
-python qwen/ablation.py \
+python qwen/A_ROUGEablationTopBottom.py \
     --learningRate 0.001 \
     --num_steps 1000 \
     --AttackStartLayer 0 \
@@ -19,7 +17,7 @@ python qwen/ablation.py \
 
 '''
 
-from bert_score import score
+from rouge_score import rouge_scorer
 import argparse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -43,7 +41,7 @@ mpl.rcParams.update({
     "axes.linewidth": 1.0,
 })
 
-parser = argparse.ArgumentParser(description="Qwen BERTScore boxplot comparison: saa_loop vs saa_loopTop")
+parser = argparse.ArgumentParser(description="Qwen ROUGE-L boxplot comparison: saa_loop vs saa_loopTop")
 
 parser.add_argument("--learningRate", type=float, default=1e-3)
 parser.add_argument("--num_steps", type=int, default=2000)
@@ -70,6 +68,9 @@ chosenVisLayers = args.chosenVisLayers
 towardsNull = 0.5
 epsilon = 0.002
 
+# Initialize ROUGE-L scorer
+rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+
 # Both methods share the same path template
 def get_adv_path(attck_type, sample):
     return (
@@ -87,7 +88,7 @@ def get_clean_path(sample):
     )
 
 # ============================================================
-# Collect per-sample BERTScores for each method
+# Collect per-sample ROUGE-L scores for each method
 # ============================================================
 
 methods = ["saa_loop", "saa_loopTop"]
@@ -109,21 +110,16 @@ for attck_type in methods:
             continue
 
         with open(adv_path, "r") as f:
-            adv_output = [f.read().strip()]
+            adv_output = f.read().strip()
         with open(clean_path, "r") as f:
-            clean_output = [f.read().strip()]
+            clean_output = f.read().strip()
 
-        P, R, F1 = score(
-            adv_output,
-            clean_output,
-            lang="en",
-            model_type="roberta-large",
-            rescale_with_baseline=False
-        )
+        # ROUGE-L: score(reference, hypothesis)
+        result = rouge.score(clean_output, adv_output)
 
-        results[attck_type]["P"].append(P.item())
-        results[attck_type]["R"].append(R.item())
-        results[attck_type]["F1"].append(F1.item())
+        results[attck_type]["P"].append(result['rougeL'].precision)
+        results[attck_type]["R"].append(result['rougeL'].recall)
+        results[attck_type]["F1"].append(result['rougeL'].fmeasure)
 
     print(f"  Collected {len(results[attck_type]['F1'])} samples")
 
@@ -134,7 +130,7 @@ for attck_type in methods:
 COLORS = ["#4C72B0", "#DD8452"]  # blue, orange
 
 def plot_boxplot(metric_key, ylabel, filename_suffix):
-    save_dir = "qwen/AllPlots/boxplotComparision"
+    save_dir = "qwen/AllPlots/boxplotComparisionRouge"
     os.makedirs(save_dir, exist_ok=True)
 
     data = [results[m][metric_key] for m in methods]
@@ -197,9 +193,9 @@ def plot_boxplot(metric_key, ylabel, filename_suffix):
     print(f"Saved: {save_path}")
 
 
-plot_boxplot("P",  "BERT Precision", "Precision")
-plot_boxplot("R",  "BERT Recall",    "Recall")
-plot_boxplot("F1", "BERT F1 Score",  "F1")
+plot_boxplot("P",  "ROUGE-L Precision", "Precision")
+plot_boxplot("R",  "ROUGE-L Recall",    "Recall")
+plot_boxplot("F1", "ROUGE-L F1 Score",  "F1")
 
 # ============================================================
 # Print summary statistics
