@@ -1,4 +1,3 @@
-
 '''
 
 
@@ -10,10 +9,10 @@ cd interpretAttacks
 python gemma_attack/gemma3BaselinesAndOursComparision.py  --attck_type saa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --AttackStartLayer 0 --AttackStartLayer_vis 11 --numLayerstAtAtime 1 --whichMLP gate_proj --whichMLP_vis fc2 --numSamplesConsidered 50
 
 
-export CUDA_VISIBLE_DEVICES=6
+export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
-python gemma_attack/gemma3BaselinesAndOursComparisionWithEpsilon.py \
+python gemma_attack/gemma3BaselinesAndOursComparisionWithEpsilonRouge.py \
   --learningRate 0.001 \
   --num_steps 1000 \
   --AttackStartLayer 0 \
@@ -25,7 +24,7 @@ python gemma_attack/gemma3BaselinesAndOursComparisionWithEpsilon.py \
 
 '''
 
-from bert_score import score
+from rouge_score import rouge_scorer
 import argparse
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -55,7 +54,7 @@ mpl.rcParams.update({
 # ============================================================
 
 parser = argparse.ArgumentParser(
-    description="Gemma-3 BERT-score comparison across epsilon values"
+    description="Gemma-3 ROUGE-L comparison across epsilon values"
 )
 
 parser.add_argument("--learningRate", type=float, default=1e-3)
@@ -83,16 +82,12 @@ numSamplesConsidered = int(args.numSamplesConsidered)
 # ============================================================
 
 allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
-#allEpsilons = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
-#allEpsilons = [0.002, 0.003, 0.004]
 towardsNull = 0.1
 ega_ratio = 0.2
 
 chosenLanLayers = [0]
 chosenVisLayers = [11]
 
-#     Spectral-Subspace-Guided Representation Similarity Attack (SSGRA)
-# Spectral Subspace Projection Attack (SSPA)
 all_attck_types = [
     "bsa",
     "dra",
@@ -115,6 +110,9 @@ AllAttckTypes = [
     "SSGRA"
 ]
 
+# Initialize ROUGE-L scorer
+rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+
 # ============================================================
 # Path function
 # ============================================================
@@ -132,8 +130,6 @@ def get_adv_output_path(attck_type, attackSample, epsilon):
         )
 
     if attck_type == "saa_loopR":
-        #advOutput_attackType_saa_loopR_lr_0.001_eps_0.002_AttackStartLayer_0_numLayerstAtAtime_2_num_steps_1000_towardsNull_0.1_lanMLP_down_proj_visMLP_out_proj_lanLayers_[3, 4, 5]_visLayers_[1, 3, 5, 10, 11, 12, 15, 17, 21, 23]
-
         whichMLPR = "down_proj"
         whichMLPvisR = "out_proj"
         chosenLanLayersR = [3, 4, 5]
@@ -148,8 +144,6 @@ def get_adv_output_path(attck_type, attackSample, epsilon):
             f"lanMLP_{whichMLPR}_visMLP_{whichMLPvisR}_"
             f"lanLayers_{chosenLanLayersR}_visLayers_{chosenVisLayersR}.txt"
         )
-    
-
 
     elif attck_type == "saav":
         return (
@@ -167,7 +161,6 @@ def get_adv_output_path(attck_type, attackSample, epsilon):
             f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
             f"num_steps_{num_steps}_ratio_{ega_ratio}.txt"
         )
-    
 
     elif attck_type == "saa_BSApo2":
         attck_typeR = "saa_BSA"
@@ -220,8 +213,6 @@ def get_adv_output_path(attck_type, attackSample, epsilon):
 
 # ============================================================
 # Storage
-# Shape after computation:
-# rows = epsilons, columns = attack methods
 # ============================================================
 
 precisionMeanSeries = []
@@ -233,13 +224,13 @@ recallStdSeries = []
 f1MeanSeries = []
 f1StdSeries = []
 
-# ============================================================
-# Compute BERT scores
-# ============================================================
-
 precisionMinimumSeries = []
 recallMinimumSeries = []
 f1MinimumSeries = []
+
+# ============================================================
+# Compute ROUGE-L scores
+# ============================================================
 
 for epsilon in allEpsilons:
 
@@ -247,11 +238,9 @@ for epsilon in allEpsilons:
     precisionStds = []
     MinimumPrecision = []
 
-
     recallMeans = []
     recallStds = []
     MinimumRecall = []
-
 
     f1Means = []
     f1Stds = []
@@ -289,22 +278,17 @@ for epsilon in allEpsilons:
                 continue
 
             with open(advOutputPath, "r") as f:
-                advOutput = [f.read().strip()]
+                advOutput = f.read().strip()
 
             with open(cleanOutputPath, "r") as f:
-                cleanOutput = [f.read().strip()]
+                cleanOutput = f.read().strip()
 
-            P, R, F1 = score(
-                advOutput,
-                cleanOutput,
-                lang="en",
-                model_type="roberta-large",
-                rescale_with_baseline=False
-            )
+            # ROUGE-L: score(reference, hypothesis)
+            result = rouge.score(cleanOutput, advOutput)
 
-            sampleAggP.append(P.item())
-            sampleAggR.append(R.item())
-            sampleAggF1.append(F1.item())
+            sampleAggP.append(result['rougeL'].precision)
+            sampleAggR.append(result['rougeL'].recall)
+            sampleAggF1.append(result['rougeL'].fmeasure)
 
         sampleAggP = np.array(sampleAggP)
         sampleAggR = np.array(sampleAggR)
@@ -325,7 +309,6 @@ for epsilon in allEpsilons:
     precisionMeanSeries.append(np.array(precisionMeans))
     precisionStdSeries.append(np.array(precisionStds))
     precisionMinimumSeries.append(np.array(MinimumPrecision))
-
 
     recallMeanSeries.append(np.array(recallMeans))
     recallStdSeries.append(np.array(recallStds))
@@ -386,8 +369,8 @@ def plot_metric(means, stds, ylabel, save_name):
 
         ax.fill_between(
             allEpsilons,
-            mean - std,
-            mean + std,
+            np.maximum(mean - 0.5 * std, 0),
+            np.minimum(mean + 0.5 * std, 1),
             alpha=0.16,
             linewidth=0,
         )
@@ -442,7 +425,7 @@ def plot_metric(means, stds, ylabel, save_name):
 # Save directory
 # ============================================================
 
-save_dir = "gemma_attack/AllPlots/comparisionFinTestEpsilonSeries"
+save_dir = "gemma_attack/AllPlots/comparisionFinTestEpsilonSeriesRouge"
 os.makedirs(save_dir, exist_ok=True)
 
 base_name = (
@@ -463,21 +446,21 @@ base_name = (
 plot_metric(
     precisionMeanSeries,
     precisionStdSeries,
-    "BERT Precision",
+    "ROUGE-L Precision",
     "PrecisionComparisonSeries_" + base_name,
 )
 
 plot_metric(
     recallMeanSeries,
     recallStdSeries,
-    "BERT Recall",
+    "ROUGE-L Recall",
     "RecallComparisonSeries_" + base_name,
 )
 
 plot_metric(
     f1MeanSeries,
     f1StdSeries,
-    "BERT F1 Score",
+    "ROUGE-L F1 Score",
     "F1ComparisonSeries_" + base_name,
 )
 
@@ -485,39 +468,37 @@ plot_metric(
 # Print results
 # ============================================================
 
-print("\nPrecision Means")
+print("\nROUGE-L Precision Means")
 print(precisionMeanSeries)
 
-print("\nPrecision STDs")
+print("\nROUGE-L Precision STDs")
 print(precisionStdSeries)
 
-print("\nPrecision Minimum")
+print("\nROUGE-L Precision Minimum")
 print(precisionMinimumSeries)
 
-
-print("\nRecall Means")
+print("\nROUGE-L Recall Means")
 print(recallMeanSeries)
 
-print("\nRecall STDs")
+print("\nROUGE-L Recall STDs")
 print(recallStdSeries)
 
-print("\nRecall Minimum")
+print("\nROUGE-L Recall Minimum")
 print(recallMinimumSeries)
 
-print("\nF1 Means")
+print("\nROUGE-L F1 Means")
 print(f1MeanSeries)
 
-print("\nF1 STDs")
+print("\nROUGE-L F1 STDs")
 print(f1StdSeries)
 
-print("\nF1 Minimum")
+print("\nROUGE-L F1 Minimum")
 print(f1MinimumSeries)
 
 results_file = os.path.join(
     save_dir,
-    f"BERTScoreStatistics_{base_name}.txt"
+    f"ROUGELScoreStatistics_{base_name}.txt"
 )
-
 
 with open(results_file, "w") as f:
 
@@ -529,42 +510,38 @@ with open(results_file, "w") as f:
 
         f.write(f"\n================ EPSILON = {eps} ================\n")
 
-        f.write("\nPrecision Mean\n")
+        f.write("\nROUGE-L Precision Mean\n")
         for m, val in zip(AllAttckTypes, precisionMeanSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        f.write("\nPrecision Std\n")
+        f.write("\nROUGE-L Precision Std\n")
         for m, val in zip(AllAttckTypes, precisionStdSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        f.write("\nPrecision Minimum\n")
+        f.write("\nROUGE-L Precision Minimum\n")
         for m, val in zip(AllAttckTypes, precisionMinimumSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        #-------
-
-        f.write("\nRecall Mean\n")
+        f.write("\nROUGE-L Recall Mean\n")
         for m, val in zip(AllAttckTypes, recallMeanSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        f.write("\nRecall Std\n")
+        f.write("\nROUGE-L Recall Std\n")
         for m, val in zip(AllAttckTypes, recallStdSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        f.write("\nRecall Minimum\n")
+        f.write("\nROUGE-L Recall Minimum\n")
         for m, val in zip(AllAttckTypes, recallMinimumSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        #-------
-
-        f.write("\nF1 Mean\n")
+        f.write("\nROUGE-L F1 Mean\n")
         for m, val in zip(AllAttckTypes, f1MeanSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        f.write("\nF1 Std\n")
+        f.write("\nROUGE-L F1 Std\n")
         for m, val in zip(AllAttckTypes, f1StdSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")
 
-        f.write("\nF1 Minimum\n")
+        f.write("\nROUGE-L F1 Minimum\n")
         for m, val in zip(AllAttckTypes, f1MinimumSeries[eps_idx]):
             f.write(f"{m:20s}: {val:.6f}\n")

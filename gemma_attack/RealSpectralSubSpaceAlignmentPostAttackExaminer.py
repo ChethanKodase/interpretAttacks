@@ -1054,7 +1054,7 @@ def main():
     PostAttackAlignments = []
     PreAttackAlignments = []
     AlignmnetIncreases = []
-    for attackSample in range(2,25):
+    for attackSample in range(2,50):
         IMAGE_PATH = f"gemma_attack/dataSamplesForQuant/{attackSample}.JPEG"
         pil = Image.open(IMAGE_PATH).convert("RGB")
         x_orig01 = pil_to_tensor01(pil).to(device)
