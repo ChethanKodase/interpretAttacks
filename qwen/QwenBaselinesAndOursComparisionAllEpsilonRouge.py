@@ -1,7 +1,7 @@
 '''
 
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=1
 conda deactivate
 cd interpretAttacks/
 conda activate gemma3
@@ -95,10 +95,12 @@ chosenVisLayers = args.chosenVisLayers
 towardsNull = 0.5
 ega_ratio = 0.2
 
-allEpsilons = [0.002, 0.003, 0.004, 0.005]
+allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
 
 all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
-AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
+#AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSGRA"]
+
 
 # Initialize ROUGE-L scorer
 rouge = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
@@ -352,7 +354,7 @@ def plot_metric(means, stds, ylabel, filename_prefix):
 
     ax.grid(True, linewidth=0.7, alpha=0.35)
 
-    legend = ax.legend(
+    '''legend = ax.legend(
         loc="upper center",
         bbox_to_anchor=(0.5, 1.23),
         ncol=3,
@@ -361,6 +363,18 @@ def plot_metric(means, stds, ylabel, filename_prefix):
         handlelength=2.7,
         columnspacing=1.2,
         handletextpad=0.5
+    )'''
+
+
+    legend = ax.legend(
+        loc="upper center",
+        bbox_to_anchor=(0.5, 1.25),
+        ncol=3,
+        frameon=False,
+        fontsize=12,
+        handlelength=2.7,
+        columnspacing=1.2,
+        handletextpad=0.5,
     )
 
     for legline in legend.get_lines():

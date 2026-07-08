@@ -2,7 +2,7 @@
 
 
 
-export CUDA_VISIBLE_DEVICES=2
+export CUDA_VISIBLE_DEVICES=0
 conda deactivate
 cd interpretAttacks/
 conda activate gemma3
@@ -89,7 +89,7 @@ all_attck_types = [
     "ssp",
     "ega",
     "nllm",
-    "saa_loopNC",
+    #"saa_loopNC",
     "saa_loopC_p1",
 ]
 
@@ -100,7 +100,7 @@ AllAttckTypes = [
     "SSPA",
     "EGA",
     "CE",
-    "SSPMA",
+    #"SSPMA",
     "SSGRA",
 ]
 
@@ -363,7 +363,7 @@ def plot_metric(means, stds, ylabel, save_name):
             linewidth=0
         )
 
-    ax.set_xlabel(r"$\epsilon$", fontsize=16)
+    ax.set_xlabel(r"$c$", fontsize=16)
     ax.set_ylabel(ylabel, fontsize=16)
 
     ax.set_xticks(allEpsilons)
