@@ -10,7 +10,7 @@ export CUDA_VISIBLE_DEVICES=1
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -21,7 +21,7 @@ export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -32,7 +32,7 @@ export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.01 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.01 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -43,7 +43,7 @@ export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.05 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.05 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -55,14 +55,14 @@ export CUDA_VISIBLE_DEVICES=1
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -73,21 +73,21 @@ export CUDA_VISIBLE_DEVICES=2
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -97,7 +97,7 @@ export CUDA_VISIBLE_DEVICES=2
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -113,7 +113,7 @@ export CUDA_VISIBLE_DEVICES=6
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -121,7 +121,7 @@ done
 
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -132,7 +132,7 @@ export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
@@ -140,14 +140,14 @@ done
 
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  
 done
 
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python gemma_attack/gemma3AttackImgenet_KSAm_HybridLoopExpensive.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
+    python gemma_attack/gemma3AttackImgenet_SSGRA.py --attck_type saa_BSAexp --desired_norm_l_inf 0.0009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --towardsNull 0.15 --whichMLP up_proj --whichMLPvis fc2 \
     --balancingAlpha 0.5\
     --chosenLanLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36\
     --chosenVisLayers 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26  

@@ -1,5 +1,8 @@
 '''
 
+Hyperparameter estimation : layer selection:
+Used to determine which layers to use for for the spectral loss formulation
+
 
 conda activate gemma3
 cd interpretAttacks

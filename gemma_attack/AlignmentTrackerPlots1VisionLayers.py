@@ -1,6 +1,8 @@
 
 '''
 
+Used to plot tracking trajectory spectral subspace alignment in different text layers
+
 export CUDA_VISIBLE_DEVICES=7
 conda activate gemma3
 cd interpretAttacks
