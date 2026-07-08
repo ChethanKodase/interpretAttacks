@@ -1,6 +1,6 @@
 
 '''
-Used to plot tracking trajectory spectral subspace alignment in different text layer
+Used to plot tracking trajectory spectral subspace alignment in different text layers
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
