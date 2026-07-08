@@ -382,14 +382,172 @@ python gemma_attack/RealSpectralSubspaceAlignmentTracker.py \
     --VisionLayerTrack -2 --LanLayerTrack -2 --kthSingVec -1
 ```
 
+
+FOr Gemma 3 quantitative results plotting for BERT score : 
+
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3BaselinesAndOursComparisionWithEpsilon.py \
+  --learningRate 0.001 \
+  --num_steps 1000 \
+  --AttackStartLayer 0 \
+  --AttackStartLayer_vis 11 \
+  --numLayerstAtAtime 1 \
+  --whichMLP gate_proj \
+  --whichMLP_vis fc2 \
+  --numSamplesConsidered 50
+
+
+  FOr Gemma 3 quantitative results plotting for ROUGE-L score : 
+export CUDA_VISIBLE_DEVICES=7
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3BaselinesAndOursComparisionWithEpsilonRouge.py \
+  --learningRate 0.001 \
+  --num_steps 1000 \
+  --AttackStartLayer 0 \
+  --AttackStartLayer_vis 11 \
+  --numLayerstAtAtime 1 \
+  --whichMLP gate_proj \
+  --whichMLP_vis fc2 \
+  --numSamplesConsidered 50
+
 ---
 
 ## Qwen 2.5
 
 _Similar experiments for Qwen 2.5 will be added here._
 
+
 ---
 
 ## LLaVA
 
 _Similar experiments for LLaVA will be added here._
+
+
+For attacking :
+
+using SSGRA , the proposed method:
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopComb.py --attck_type saa_loopC --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+
+
+For BSA : 
+export CUDA_VISIBLE_DEVICES=0
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+for DRA
+export CUDA_VISIBLE_DEVICES=1
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackDRA.py --attck_type dra --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --WhichLayerDRA 16
+done
+
+EGA:
+export CUDA_VISIBLE_DEVICES=2
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackEGA.py --attck_type ega --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --ega_ratio 0.2 --mask_refresh_every 50
+done
+
+For FDA:
+
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
+done
+
+For CE
+export CUDA_VISIBLE_DEVICES=0
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+For SSP:
+export CUDA_VISIBLE_DEVICES=1
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+  python llava_attack/llavaAttackSSP.py --attck_type ssp --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+
+For FLOPS estimation:
+
+export CUDA_VISIBLE_DEVICES=3
+cd interpretAttacks/
+conda activate llava15
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llava_attack_imagenet_KSA_loopCombFlops.py --attck_type saa_loopC_flops --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.1 --BalAlpha 0.06 --whichMLP gate_proj --whichMLPVis fc1 --chosenLanLayers 1 3 --chosenVisLayers 7 8 17 13
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackBSAFlops.py --attck_type llavaAttackBSAFlops --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for LayerDRA in $(seq 0 23); do
+    python llava_attack/llavaAttackDRAFlops.py --attck_type dra_flops --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample 3 --WhichLayerDRA $LayerDRA
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackEGAFlops.py --attck_type ega_flops --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --ega_ratio 0.2 --mask_refresh_every 50
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+  python llava_attack/llavaAttackFDAFlops.py --attck_type fdam_flops --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python llava_attack/llavaAttackNLLFLops.py --attck_type nllm_flops --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+  python llava_attack/llavaAttackSSP_flops.py --attck_type ssp_flops --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+
+To plot BERTscore :
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate gemma3
+python llava_attack/llavaBaselinesAndOursComparisionWithEpsilonActual.py \
+  --learningRate 0.001 \
+  --num_steps 1000 \
+  --AttackStartLayer 0 \
+  --numLayerstAtAtime 1 \
+  --whichMLP gate_proj \
+  --whichMLP_vis fc1 \
+  --numSamplesConsidered 50
+
+To Plot ROUGE-L scores:
+
+python llava_attack/llavaBaselinesAndOursComparisionWithEpsilonActualRouge.py \
+  --learningRate 0.001 \
+  --num_steps 1000 \
+  --AttackStartLayer 0 \
+  --numLayerstAtAtime 1 \
+  --whichMLP gate_proj \
+  --whichMLP_vis fc1 \
+  --numSamplesConsidered 50
+
+
+
+Make it aesthetic. Eliminate redundancies. But do noty make any mistake in code
+
+For flops estimation, you do not have to loop over samples. FIx that . 

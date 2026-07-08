@@ -1,4 +1,5 @@
 '''
+This was used for layer selection as a part fo hyper parameter tuning
 
 export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
