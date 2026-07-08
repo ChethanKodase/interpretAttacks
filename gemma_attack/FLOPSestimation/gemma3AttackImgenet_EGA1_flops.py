@@ -7,23 +7,7 @@ export CUDA_VISIBLE_DEVICES=0
 conda activate gemma3
 cd interpretAttacks
 for ATTACK_SAMPLE in $(seq 50 250); do
-    python gemma_attack/gemma3AttackImgenet_EGA1_flops.py --attck_type ega_flops --desired_norm_l_inf 0.05 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 250); do
-    python gemma_attack/gemma3AttackImgenet_EGA1_flops.py --attck_type ega_flops --desired_norm_l_inf 0.04 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 250); do
-    python gemma_attack/gemma3AttackImgenet_EGA1_flops.py --attck_type ega_flops --desired_norm_l_inf 0.03 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 250); do
-    python gemma_attack/gemma3AttackImgenet_EGA1_flops.py --attck_type ega_flops --desired_norm_l_inf 0.02 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-
-for ATTACK_SAMPLE in $(seq 50 250); do
-    python gemma_attack/gemma3AttackImgenet_EGA1_flops.py --attck_type ega_flops --desired_norm_l_inf 0.01 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python gemma_attack/FLOPSestimation/gemma3AttackImgenet_EGA1_flops.py --attck_type ega_flops --desired_norm_l_inf 0.05 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
 
