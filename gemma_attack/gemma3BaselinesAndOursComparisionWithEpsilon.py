@@ -100,7 +100,7 @@ all_attck_types = [
     "ssp",
     "ega",
     "nllm",
-    "saa_loopR",
+    #"saa_loopR",
     "saa_BSAexpTN_P15_BAp05"
 ]
 
@@ -111,7 +111,7 @@ AllAttckTypes = [
     "SSPA",
     "EGA",
     "CE",
-    "SSPMA",
+    #"SSPMA",
     "SSGRA"
 ]
 
