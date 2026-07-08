@@ -1,22 +1,10 @@
-'''
 
-export CUDA_VISIBLE_DEVICES=2
-conda deactivate
-cd interpretAttacks/
-conda activate gemma3
-python qwen/A_ROUGEablationTopBottom.py \
-    --learningRate 0.001 \
-    --num_steps 1000 \
-    --AttackStartLayer 0 \
-    --numLayerstAtAtime 1 \
-    --whichMLP gate_proj \
-    --whichMLPVis gate_proj \
-    --chosenLanLayers 2 \
-    --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24 \
-    --numSamplesConsidered 22
+
 
 '''
-'''
+
+Ablation plot ROUGE-L
+
 
 export CUDA_VISIBLE_DEVICES=3
 conda deactivate

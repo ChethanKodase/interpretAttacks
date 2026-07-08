@@ -5,17 +5,33 @@
 
 
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=2
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargted_KSA_loop_flops.py --attck_type saa_loop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargted_SSGRATop.py --attck_type saa_loopTop --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --AttackStartLayer 0 --numLayerstAtAtime 1 --towardsNull 0.5 --whichMLP gate_proj --whichMLPVis gate_proj --chosenLanLayers 2 --chosenVisLayers 0 1 2 4 5 6 7 8 9 14 24
 done
 
-
-flops: 13090508399113
 
 
 
@@ -36,7 +52,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from PIL import Image
 from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
-from torch.profiler import profile, ProfilerActivity
 
 
 # ----------------------------
@@ -470,7 +485,7 @@ def compute_bottom_singular_subspace(weight: torch.Tensor, towardsNull: float):
         bottomInd = max(1, bottomInd)
         bottomInd = min(bottomInd, Vh.shape[0])
 
-        V_bottom = Vh[-bottomInd:].contiguous()
+        V_bottom = Vh[:bottomInd].contiguous()
         return V_bottom, S, absorbSize, bottomInd
 
 
@@ -652,121 +667,50 @@ def adam_attack_original_space(
     adv_inputs["use_cache"] = False
 
     for step in range(num_steps):
+        layer_inputs.clear()
 
-        if step == 0:
-            print("entered zero ?")
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-                torch.cuda.reset_peak_memory_stats()
-            with profile(
-                activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
-                with_flops=True,
-                record_shapes=True
-            ) as prof:
+        x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
+        x_adv01 = torch.max(torch.min(x_adv01, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
 
-                layer_inputs.clear()
+        pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
+        adv_inputs["pixel_values"] = pv_adv
+        adv_inputs["image_grid_thw"] = grid_adv
 
-                x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
-                x_adv01 = torch.max(torch.min(x_adv01, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
+        outputs = model(**adv_inputs, output_hidden_states=False, return_dict=True)
 
-                pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
-                adv_inputs["pixel_values"] = pv_adv
-                adv_inputs["image_grid_thw"] = grid_adv
+        language_loss, vision_loss, total_used = aggregated_bottom_subspace_loss(target_specs, device=device)
 
-                outputs = model(**adv_inputs, output_hidden_states=False, return_dict=True)
+        if total_used == 0:
+            raise RuntimeError("No hooked target modules were used in the forward pass.")
 
-                language_loss, vision_loss, total_used = aggregated_bottom_subspace_loss(target_specs, device=device)
+        loss = language_loss + vision_loss
+        attack_loss = loss
 
-                if total_used == 0:
-                    raise RuntimeError("No hooked target modules were used in the forward pass.")
+        opt.zero_grad(set_to_none=True)
+        attack_loss.backward()
+        opt.step()
 
-                loss = language_loss + vision_loss
-                attack_loss = loss
+        with torch.no_grad():
+            delta.data.clamp_(-epsilon, epsilon)
 
-                opt.zero_grad(set_to_none=True)
-                attack_loss.backward()
-                opt.step()
+        lv = float(loss.item())
+        losses_list.append(lv)
 
-                with torch.no_grad():
-                    delta.data.clamp_(-epsilon, epsilon)
-
-                lv = float(loss.item())
-                losses_list.append(lv)
-
-                if (step + 1) % 10 == 0 or step == 0:
-                    print(
-                        f"[step {step+1}/{num_steps}] "
-                        f"total_loss={lv:.6f} "
-                        f"language_loss={float(language_loss.item()):.6f} "
-                        f"vision_loss={float(vision_loss.item()):.6f} "
-                        f"used_modules={total_used}"
-                    )
-
-                if lv < best_loss:
-                    best_loss = lv
-                    best_delta = delta.detach().clone()
-                    np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
-
-                del outputs, loss, attack_loss, pv_adv, grid_adv
-
-            print(prof.key_averages().table(sort_by="flops", row_limit=20))
-            total_flops_step0 = sum(
-                evt.flops for evt in prof.key_averages() if evt.flops is not None
+        if (step + 1) % 10 == 0 or step == 0:
+            print(
+                f"[step {step+1}/{num_steps}] "
+                f"total_loss={lv:.6f} "
+                f"language_loss={float(language_loss.item()):.6f} "
+                f"vision_loss={float(vision_loss.item()):.6f} "
+                f"used_modules={total_used}"
             )
-            print(f"FLOPs for profiled attack step: {total_flops_step0}")
-            print(f"Estimated FLOPs for all {num_steps} steps: {total_flops_step0 * num_steps}")
-            if torch.cuda.is_available():
-                print(f"Peak GPU allocated: {torch.cuda.max_memory_allocated() / 1024**2:.2f} MB")
-                print(f"Peak GPU reserved:  {torch.cuda.max_memory_reserved() / 1024**2:.2f} MB")
 
-        else:
+        if lv < best_loss:
+            best_loss = lv
+            best_delta = delta.detach().clone()
+            np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
 
-            layer_inputs.clear()
-
-            x_adv01 = (x_orig01 + delta).clamp(0.0, 1.0)
-            x_adv01 = torch.max(torch.min(x_adv01, x_orig01 + epsilon), x_orig01 - epsilon).clamp(0.0, 1.0)
-
-            pv_adv, grid_adv = qwen_preprocess_differentiable(x_adv01, processor)
-            adv_inputs["pixel_values"] = pv_adv
-            adv_inputs["image_grid_thw"] = grid_adv
-
-            outputs = model(**adv_inputs, output_hidden_states=False, return_dict=True)
-
-            language_loss, vision_loss, total_used = aggregated_bottom_subspace_loss(target_specs, device=device)
-
-            if total_used == 0:
-                raise RuntimeError("No hooked target modules were used in the forward pass.")
-
-            loss = language_loss + vision_loss
-            attack_loss = loss
-
-            opt.zero_grad(set_to_none=True)
-            attack_loss.backward()
-            opt.step()
-
-            with torch.no_grad():
-                delta.data.clamp_(-epsilon, epsilon)
-
-            lv = float(loss.item())
-            losses_list.append(lv)
-
-            if (step + 1) % 10 == 0 or step == 0:
-                print(
-                    f"[step {step+1}/{num_steps}] "
-                    f"total_loss={lv:.6f} "
-                    f"language_loss={float(language_loss.item()):.6f} "
-                    f"vision_loss={float(vision_loss.item()):.6f} "
-                    f"used_modules={total_used}"
-                )
-
-            if lv < best_loss:
-                best_loss = lv
-                best_delta = delta.detach().clone()
-                np.save(save_conv_path, np.array(losses_list, dtype=np.float32))
-
-            del outputs, loss, attack_loss, pv_adv, grid_adv
-            
-
+        del outputs, loss, attack_loss, pv_adv, grid_adv
         if device.type == "cuda":
             torch.cuda.empty_cache()
 
@@ -922,7 +866,7 @@ def main():
         chosenVisLayers=chosenVisLayers,
     )
 
-    '''adv_img_path = (
+    adv_img_path = (
         f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
         f"adv_ORIG_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
@@ -967,7 +911,7 @@ def main():
         f.write(adv_text + "\n")
 
     print(f"\nSaved outputs to: {advOutTxt}")
-    print(f"Saved convergence to: {conv_path}")'''
+    print(f"Saved convergence to: {conv_path}")
 
 
 if __name__ == "__main__":
