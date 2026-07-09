@@ -82,6 +82,7 @@ numSamplesConsidered = int(args.numSamplesConsidered)
 # ============================================================
 
 allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
+allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045]
 towardsNull = 0.1
 ega_ratio = 0.2
 
@@ -96,7 +97,8 @@ all_attck_types = [
     "ega",
     "nllm",
     #"saa_loopR",
-    "saa_BSAexpTN_P15_BAp05"
+    "saa_BSAexpTN_P15_BAp05",
+    "grill_cosNx"
 ]
 
 AllAttckTypes = [
@@ -107,7 +109,8 @@ AllAttckTypes = [
     "EGA",
     "CE",
     #"SSPMA",
-    "SSGRA"
+    "SSGRA",
+    "grill_cosNx"
 ]
 
 # Initialize ROUGE-L scorer
