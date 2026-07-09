@@ -91,6 +91,7 @@ all_attck_types = [
     "nllm",
     #"saa_loopNC",
     "saa_loopC_p1",
+    "grillAdv"
 ]
 
 AllAttckTypes = [
@@ -102,6 +103,7 @@ AllAttckTypes = [
     "CE",
     #"SSPMA",
     "SSGRA",
+    "NoVanish"
 ]
 
 # Initialize ROUGE-L scorer

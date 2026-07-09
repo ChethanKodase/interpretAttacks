@@ -95,11 +95,13 @@ chosenVisLayers = args.chosenVisLayers
 towardsNull = 0.5
 ega_ratio = 0.2
 
-allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
+#allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
 
-all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop"]
+allEpsilons = [0.002, 0.003, 0.004]
+
+all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "grill_cosNx"]
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
-AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSGRA"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSGRA", "NoVanish"]
 
 
 # Initialize ROUGE-L scorer
@@ -172,6 +174,8 @@ for epsilon in allEpsilons:
                 f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
                 f"cleanOutput.txt"
             )
+
+
 
             if not os.path.exists(advOutputPath):
                 print("Missing adversarial output:", advOutputPath)

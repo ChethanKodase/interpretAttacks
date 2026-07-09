@@ -14,7 +14,7 @@ python llava_attack/llavaBaselinesAndOursComparisionWithEpsilonActual.py \
   --numLayerstAtAtime 1 \
   --whichMLP gate_proj \
   --whichMLP_vis fc1 \
-  --numSamplesConsidered 50
+  --numSamplesConsidered 5
 
 
 all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loopNC",  "saa_loop"]
@@ -98,6 +98,7 @@ all_attck_types = [
 "nllm",
 #"saa_loopNC",
 "saa_loopC_p1",
+"grillAdv"
 ]
 
 AllAttckTypes = [
@@ -109,6 +110,7 @@ AllAttckTypes = [
     "CE",
     #"SSPMA",
     "SSGRA",
+    "NoVanish"
 ]
 
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
@@ -207,6 +209,7 @@ def get_adv_output_path(attck_type, attackSample, epsilon):
         f"AttackStartLayer_{AttackStartLayer}_numLayerstAtAtime_{numLayerstAtAtime}_"
         f"num_steps_{num_steps}_.txt"
         )
+
 
 
 
