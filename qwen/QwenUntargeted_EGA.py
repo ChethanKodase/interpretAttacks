@@ -1,29 +1,32 @@
 '''
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=1
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 1 50); do
+for ATTACK_SAMPLE in $(seq 51 100); do
     python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
+for ATTACK_SAMPLE in $(seq 51 100); do
+    python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 51 100); do
     python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
+for ATTACK_SAMPLE in $(seq 51 100); do
+    python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 51 100); do
     python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-
-for ATTACK_SAMPLE in $(seq 1 50); do
+for ATTACK_SAMPLE in $(seq 51 100); do
+    python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 51 100); do
     python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_EGA.py --attck_type ega --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
 
 
 

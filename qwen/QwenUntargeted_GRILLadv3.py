@@ -1,24 +1,50 @@
 
 '''
-
 export CUDA_VISIBLE_DEVICES=0
 conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILLadv.py --attck_type grill_adv --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILLadv.py --attck_type grill_adv --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILLadv.py --attck_type grill_adv --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python qwen/QwenUntargeted_GRILLadv.py --attck_type grill_adv --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+export CUDA_VISIBLE_DEVICES=2
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+
+
+export CUDA_VISIBLE_DEVICES=3
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+for ATTACK_SAMPLE in $(seq 1 50); do
+    python qwen/QwenUntargeted_GRILLadv3.py --attck_type grill_adv3 --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
 
 
@@ -77,8 +103,8 @@ criterion = nn.MSELoss()
 # Loss utilities
 # ----------------------------
 def cos(a, b):
-    a = a.reshape(-1).float()
-    b = b.reshape(-1).float()
+    a = a.reshape(-1)
+    b = b.reshape(-1)
     a = F.normalize(a, dim=0)
     b = F.normalize(b, dim=0)
     return (a * b).sum()
@@ -148,6 +174,33 @@ def get_grill_cos_lossNew(outputs_adv, outputs_clean, acts_adv, acts_clean):
     losses_tensor = torch.stack(losses)   
     agg = (losses_tensor.sum()**2 - (losses_tensor**2).sum()) / 2 
     return agg
+
+def getAllBSALoss(outputs, outputsN, outputs_vis, outputsN_vis):
+    per_layer = []
+    for h, hn in zip(outputs.hidden_states, outputsN.hidden_states):
+        h = h.float()
+        hn = hn.float()
+        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
+        cos_per_tokenComp = (1-cos_per_token)**2
+        cos_per_tokenPI = (cos_per_tokenComp.sum() ** 2 - (cos_per_tokenComp ** 2).sum()) / 2
+        per_layer.append(cos_per_tokenPI)
+
+
+    #per_layer = []
+    for h, hn in zip(outputs_vis, outputsN_vis):
+        h = h.float()
+        hn = hn.float()
+        cos_per_token = F.cosine_similarity(h.squeeze(0), hn.squeeze(0), dim=1)
+        cos_per_tokenComp = (1-cos_per_token)**2
+        cos_per_tokenPI = (cos_per_tokenComp.sum() ** 2 - (cos_per_tokenComp ** 2).sum()) / 2
+        per_layer.append(cos_per_tokenPI)
+
+    per_layer_stack = torch.stack(per_layer)
+    per_layer_stackPI = (per_layer_stack.sum() ** 2 - (per_layer_stack ** 2).sum()) / 2
+
+    #return torch.stack(per_layer).mean()
+    return per_layer_stackPI
+
 
 # ----------------------------
 # PIL / tensor helpers
@@ -452,10 +505,8 @@ def adam_attack_original_space(
             pv_adv,
             grid_adv,
         )
-
-
-        loss = -1 * get_grill_cos_lossNew(outputs, outputsN, acts, actsN)
-
+        #loss = get_bsa_loss(outputs, outputsN) + get_bsa_vision_loss(acts, actsN)
+        loss = -1 * getAllBSALoss(outputs, outputsN, acts, actsN)
 
         optimizer.zero_grad(set_to_none=True)
         loss.backward()

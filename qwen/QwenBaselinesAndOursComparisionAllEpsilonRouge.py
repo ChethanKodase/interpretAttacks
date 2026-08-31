@@ -99,9 +99,9 @@ ega_ratio = 0.2
 
 allEpsilons = [0.002, 0.003, 0.004]
 
-all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "grill_cosNx"]
+all_attck_types = ["bsa", "dra", "fdam", "ssp", "ega", "nllm", "saa_loop", "grill_cosNx", "grill_adv2", "grill_adv3"]
 #AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA\n\SSGRA"]
-AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSGRA", "NoVanish"]
+AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSGRA", "NoVanish", "grill_adv", "grill_adv3"]
 
 
 # Initialize ROUGE-L scorer
@@ -169,6 +169,8 @@ for epsilon in allEpsilons:
                     f"advOutput_attackType_{attck_type}_lr_{lr}_eps_{epsilon}_"
                     f"num_steps_{num_steps}_.txt"
                 )
+
+
 
             cleanOutputPath = (
                 f"qwen/outputsStorageImagenet/advOutputs/{attackSample}/"
