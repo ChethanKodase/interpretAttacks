@@ -29,3 +29,9 @@ ShareGPT4V/ShareGPT4V-7B/
 ShareGPT4V/outputsStorage/
 ShareGPT4V/scripts/
 ShareGPT4V/share4v.egg-info
+gemma_attack/HistoGrams/
+gemma_attack/HistoGrams2/
+gemma_attack/OverlapDistancesAvg/
+gemma_attack/OverlapHistoGrams2/
+gemma_attack/OverlapHistoGrams2Absolute/
+gemma_attack/OverlapHistoGramsAvgABS/

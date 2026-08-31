@@ -83,16 +83,14 @@ numSamplesConsidered = int(args.numSamplesConsidered)
 # ============================================================
 
 allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045, 0.005]
-#allEpsilons = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
-#allEpsilons = [0.002, 0.003, 0.004]
+allEpsilons = [0.002, 0.0025, 0.003, 0.0035, 0.004, 0.0045]
+allEpsilons = [0.0025, 0.003, 0.0035, 0.004]
 towardsNull = 0.1
 ega_ratio = 0.2
 
 chosenLanLayers = [0]
 chosenVisLayers = [11]
 
-#     Spectral-Subspace-Guided Representation Similarity Attack (SSGRA)
-# Spectral Subspace Projection Attack (SSPA)
 all_attck_types = [
     "bsa",
     "dra",
@@ -101,7 +99,10 @@ all_attck_types = [
     "ega",
     "nllm",
     #"saa_loopR",
-    "saa_BSAexpTN_P15_BAp05"
+    "saa_BSAexpTN_P15_BAp05",
+    "grill_cosNx",
+    "SSGRA2_pairsV4",
+    "SSGRA2"
 ]
 
 AllAttckTypes = [
@@ -112,8 +113,12 @@ AllAttckTypes = [
     "EGA",
     "CE",
     #"SSPMA",
-    "SSGRA"
+    "SSGRA",
+    "grill_cosNx",
+    "SSGRA2_pairsV4",
+    "SSGRA2"
 ]
+
 
 # ============================================================
 # Path function
@@ -193,6 +198,47 @@ def get_adv_output_path(attck_type, attackSample, epsilon):
 
     elif attck_type == "saa_BSAexpTN_P15_BAp05":
         attck_typeR = "saa_BSAexp"
+        towardsNullR = 0.15
+        AttackStartLayerR = 0
+        numLayerstAtAtimeR = 2
+        whichMLPR = "up_proj"
+        whichMLPvisR = "fc2"
+        balancingAlphaR = 0.5
+
+        return (
+            f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/"
+            f"advOutput_attackType_{attck_typeR}_lr_{lr}_eps_{epsilon}_"
+            f"AttackStartLayer_{AttackStartLayerR}_"
+            f"numLayerstAtAtime_{numLayerstAtAtimeR}_"
+            f"num_steps_{num_steps}_towardsNull_{towardsNullR}_"
+            f"lanMLP_{whichMLPR}_visMLP_{whichMLPvisR}_"
+            f"lanLayers_upto4_visLayers_all_"
+            f"balancingAlpha_{balancingAlphaR}.txt"
+        )
+
+    elif attck_type == "SSGRA2_pairsV4":
+        attck_typeR = "SSGRA2_pairsV4"
+        towardsNullR = 0.15
+        AttackStartLayerR = 0
+        numLayerstAtAtimeR = 2
+        whichMLPR = "up_proj"
+        whichMLPvisR = "fc2"
+        balancingAlphaR = 0.5
+
+        return (
+            f"gemma_attack/outputsStorageImagenet/advOutputs/{attackSample}/"
+            f"advOutput_attackType_{attck_typeR}_lr_{lr}_eps_{epsilon}_"
+            f"AttackStartLayer_{AttackStartLayerR}_"
+            f"numLayerstAtAtime_{numLayerstAtAtimeR}_"
+            f"num_steps_{num_steps}_towardsNull_{towardsNullR}_"
+            f"lanMLP_{whichMLPR}_visMLP_{whichMLPvisR}_"
+            f"lanLayers_upto4_visLayers_all_"
+            f"balancingAlpha_{balancingAlphaR}.txt"
+        )
+
+
+    elif attck_type == "SSGRA2":
+        attck_typeR = "SSGRA2"
         towardsNullR = 0.15
         AttackStartLayerR = 0
         numLayerstAtAtimeR = 2
