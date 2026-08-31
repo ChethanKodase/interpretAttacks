@@ -21,3 +21,11 @@ llava_attack/conditionAnalysis/
 qwen/conditionAnalysis/
 llava_attack/AllPlots/
 gemma_attack/NonAttnCondAnalysis/
+ShareGPT4V/checkpoints/
+ShareGPT4V1/
+ShareGPT4V/docs/
+ShareGPT4V/examples/
+ShareGPT4V/ShareGPT4V-7B/
+ShareGPT4V/outputsStorage/
+ShareGPT4V/scripts/
+ShareGPT4V/share4v.egg-info
