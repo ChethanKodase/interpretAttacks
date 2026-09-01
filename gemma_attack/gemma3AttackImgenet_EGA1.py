@@ -27,6 +27,20 @@ for ATTACK_SAMPLE in $(seq 1 50); do
 done
 
 
+
+
+export CUDA_VISIBLE_DEVICES=6
+conda activate gemma3
+cd interpretAttacks
+python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample 1
+python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 1
+python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample 1
+python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample 1
+python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample 1
+python gemma_attack/gemma3AttackImgenet_EGA1.py --attck_type ega --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample 1
+
+
+
 '''
 
 
