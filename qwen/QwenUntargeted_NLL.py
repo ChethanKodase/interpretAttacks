@@ -36,6 +36,24 @@ for ATTACK_SAMPLE in $(seq 51 100); do
     python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 
+
+
+
+export CUDA_VISIBLE_DEVICES=1
+conda deactivate
+cd interpretAttacks/
+conda activate vlmAttack
+export PYTHONNOUSERSITE=1
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample 39
+
+
+
 '''
 
 
@@ -422,7 +440,7 @@ def main():
     parser.add_argument("--learningRate", type=float, default=0.001)
     parser.add_argument("--num_steps", type=int, default=1000)
     parser.add_argument("--numSteps", type=int, default=None)
-    parser.add_argument("--attackSample", type=str, default="1")
+    parser.add_argument("--attackSample", type=int, default="1")
 
     args = parser.parse_args()
 
@@ -430,10 +448,17 @@ def main():
     epsilon = float(args.desired_norm_l_inf)
     lr = float(args.learningRate)
     num_steps = int(args.numSteps) if args.numSteps is not None else int(args.num_steps)
-    attackSample = str(args.attackSample)
+    attackSample = int(args.attackSample)
 
     MODEL_PATH = "../illcond/QwenAttack/Qwen2.5-VL-7B-Instruct"
-    IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
+    #IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
+
+
+    if attackSample == 39:
+        IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}s.JPEG"        
+    else:
+        IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
+
 
     QUESTION = "What is shown in this image?"
     MAX_NEW_TOKENS = 128
