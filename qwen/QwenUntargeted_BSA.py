@@ -41,13 +41,13 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample 39
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample 39
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 39
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample 39
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample 39
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample 39
-python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample 39
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample 58
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample 58
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample 58
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample 58
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample 58
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample 58
+python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample 58
 '''
 
 #!/usr/bin/env python
@@ -529,7 +529,7 @@ def main():
 
     MODEL_PATH = "../illcond/QwenAttack/Qwen2.5-VL-7B-Instruct"
 
-    if attackSample == 39:
+    if attackSample == 39 or attackSample == 58:
         IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}s.JPEG"        
     else:
         IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
