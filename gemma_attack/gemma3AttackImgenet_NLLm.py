@@ -38,6 +38,24 @@ for ATTACK_SAMPLE in $(seq 51 100); do
 done
 
 
+export CUDA_VISIBLE_DEVICES=2
+conda activate gemma3
+cd interpretAttacks
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python gemma_attack/gemma3AttackImgenet_NLLm.py --attck_type nllm --desired_norm_l_inf 0.006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python gemma_attack/gemma3AttackImgenet_NLLm.py --attck_type nllm --desired_norm_l_inf 0.007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python gemma_attack/gemma3AttackImgenet_NLLm.py --attck_type nllm --desired_norm_l_inf 0.008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python gemma_attack/gemma3AttackImgenet_NLLm.py --attck_type nllm --desired_norm_l_inf 0.009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python gemma_attack/gemma3AttackImgenet_NLLm.py --attck_type nllm --desired_norm_l_inf 0.01 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+done
 
 export CUDA_VISIBLE_DEVICES=5
 conda activate gemma3
