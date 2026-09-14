@@ -35,3 +35,5 @@ gemma_attack/OverlapDistancesAvg/
 gemma_attack/OverlapHistoGrams2/
 gemma_attack/OverlapHistoGrams2Absolute/
 gemma_attack/OverlapHistoGramsAvgABS/
+ShareGPT4V/ShareGPT4V-7B.tar.gz
+ShareGPT4V/share4v.yml
