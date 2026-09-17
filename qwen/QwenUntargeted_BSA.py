@@ -14,7 +14,7 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 1 101); do
+for ATTACK_SAMPLE in $(seq 68 101); do
     python qwen/QwenUntargeted_BSA.py --attck_type bsa --desired_norm_l_inf 0.006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 for ATTACK_SAMPLE in $(seq 1 101); do

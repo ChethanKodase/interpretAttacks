@@ -8,10 +8,7 @@ conda deactivate
 cd interpretAttacks/
 conda activate vlmAttack
 export PYTHONNOUSERSITE=1
-for ATTACK_SAMPLE in $(seq 1 100); do
-    python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 100); do
+for ATTACK_SAMPLE in $(seq 25 100); do
     python qwen/QwenUntargeted_NLL.py --attck_type nllm --desired_norm_l_inf 0.007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
 for ATTACK_SAMPLE in $(seq 1 100); do
