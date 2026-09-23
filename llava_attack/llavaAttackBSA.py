@@ -4,8 +4,7 @@
 export CUDA_VISIBLE_DEVICES=3
 cd interpretAttacks/
 conda activate llava15
-python llava_attack/llava_attack_imagenet.py --attck_type bsa --desired_norm_l_inf 0.09 --learningRate 0.001 --num_steps 1000 -attackSample 0 --AttackStartLayer 0 --numLayerstAtAtime 1
-
+python llava_attack/llavaAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.09 --learningRate 0.001 --num_steps 1000 --attackSample 1
 
 
 
@@ -500,8 +499,8 @@ def main():
     AttackStartLayer = int(args.AttackStartLayer)
     numLayerstAtAtime = int(args.numLayerstAtAtime)
 
-    MODEL_PATH = "/home/luser/LLaVA/llava-1.5-7b-hf"
-    IMAGE_PATH = f"llava_attack/dataSamplesForQuant/{attackSample}.JPEG"
+    MODEL_PATH = "../LLaVA/llava-1.5-7b-hf"
+    IMAGE_PATH = f"gemma_attack/dataSamplesForQuant/{attackSample}.JPEG"
     QUESTION = "What is shown in this image?"
     MAX_NEW_TOKENS = 128
 
