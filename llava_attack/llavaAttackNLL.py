@@ -7,56 +7,19 @@
 export CUDA_VISIBLE_DEVICES=3
 cd interpretAttacks/
 conda activate llava15
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackNLL.py.py --attck_type fdam --desired_norm_l_inf 0.5 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-  python llava_attack/llavaAttackFDA.py --attck_type fdam --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE --layer_start 1
-done
-
-
-llavaAttackNLL.py
-
-
-export CUDA_VISIBLE_DEVICES=0
-cd interpretAttacks/
-conda activate llava15
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
+for ATTACK_SAMPLE in $(seq 51 100); do
     python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 51 100); do
+    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 51 100); do
+    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 51 100); do
+    python llava_attack/llavaAttackNLL.py --attck_type nllm --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
+
 
 '''
 
@@ -463,12 +426,8 @@ def main():
 
     attackSample = str(args.attackSample)
 
-    MODEL_PATH = "/home/luser/LLaVA/llava-1.5-7b-hf"
-
-    IMAGE_PATH = (
-        f"llava_attack/dataSamplesForQuant/"
-        f"{attackSample}.JPEG"
-    )
+    MODEL_PATH = "../LLaVA/llava-1.5-7b-hf"
+    IMAGE_PATH = f"gemma_attack/dataSamplesForQuant/{attackSample}.JPEG"
 
     QUESTION = "What is shown in this image?"
     MAX_NEW_TOKENS = 128
