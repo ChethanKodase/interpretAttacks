@@ -10,36 +10,22 @@ python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0
 
 
 
-export CUDA_VISIBLE_DEVICES=3
+export CUDA_VISIBLE_DEVICES=0
 cd interpretAttacks/
 conda activate share4v
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.001 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.006 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.002 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.007 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.003 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.008 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.004 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
+for ATTACK_SAMPLE in $(seq 1 100); do
+    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.009 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
 done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.005 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0015 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0025 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0035 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
-for ATTACK_SAMPLE in $(seq 1 50); do
-    python ShareGPT4V/sharegptAttackBSA.py --attck_type bsa --desired_norm_l_inf 0.0045 --learningRate 0.001 --num_steps 1000 --attackSample $ATTACK_SAMPLE
-done
+
 
 
 AllAttckTypes = ["BSA", "DRA", "FDA", "SSPA", "EGA", "CE", "SSPMA"]
